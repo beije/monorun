@@ -37,7 +37,7 @@ function roland( id, painter ) {
 		this.id = id || this.id;
 		this.painter = painter;
 		this.preAnimator = new preAnimate();
-		this.render( 'assets/greencross.png', 2);
+		this.render( 'assets/roland_60x60.png', 4);
 		this.setupEvents();
 	}
 

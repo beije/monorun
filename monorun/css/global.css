@@ -1,8 +1,8 @@
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 body {
-	color:#fff;
-	background: #161b1d;
+	color:#161b1d;
+	background: #fff;
 	font-family:arial, verdana;
 }
 
@@ -26,7 +26,7 @@ body {
 #message {
 	width:200px;
 	min-height:100px;
-	background:#20afdf;
+	background:#57c5db;
 	line-height:1.5;
 	padding:20px 0 20px 0;
 	border:5px solid #fff;
@@ -37,4 +37,5 @@ body {
 	left:50%;
 	margin-left:-100px;
 	margin-top:-50px;
+	box-shadow:0px 0px 0px 10px #57c5db;
 }
