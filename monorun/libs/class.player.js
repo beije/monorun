@@ -66,6 +66,7 @@ function Player( painter ) {
 	 *
 	 */
 	this.collision = function() {
+		core.end();
 		console.log('death has occured');
 	},
 

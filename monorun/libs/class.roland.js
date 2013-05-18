@@ -18,6 +18,7 @@ function roland( id, painter ) {
 		x: 0,
 		y: 0
 	};
+	this.speed = 50;                          // Int, the speed of rolands animation, lower == faster
 
 	this.id = parseInt( Math.random()*1000 ); // (String/integer), the unique default id of Roland
 	this.positionCounter = 0;                 // Int, current position in calculatedPositions
@@ -64,7 +65,7 @@ function roland( id, painter ) {
 
 		this.preAnimator.setStartPosition( this.currentPositions.x, this.currentPositions.y );
 		this.preAnimator.setEndPosition( newX, newY );
-		this.preAnimator.setSpeed( 100 );
+		this.preAnimator.setSpeed( this.speed );
 		this.calculatedPositions = [];
 		this.calculatedPositions = this.preAnimator.getPositions();
 	}
@@ -151,11 +152,24 @@ function roland( id, painter ) {
 
 	}
 
+	/*
+	 * public function setSpeed()
+	 *
+	 * Sets the animation speed for roland
+	 *
+	 * @param speed (int) Lower == Faster
+	 *
+	 */
+	 this.setSpeed = function( speed ) {
+	 	this.speed = speed;
+	 };
+
 	// Initialize the handler
 	this.initialize( id, painter );
 
 	// Return our outward facing interface.
 	return {
-		render: this.render.bind( this )
+		render: this.render.bind( this ),
+		setSpeed: this.setSpeed.bind( this )
 	}
 }
