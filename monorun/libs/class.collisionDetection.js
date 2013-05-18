@@ -52,9 +52,9 @@ function collisionDetection() {
 		}
 
 		var end = new Date().getTime();
-		
+
 		if( hit == true ){
-			console.log( 'detection took: ' + (end - start) + 'ms' );
+			//console.log( 'detection took: ' + (end - start) + 'ms' );
 		}
 
 		return hit;

@@ -58,8 +58,9 @@ function roland( id, painter ) {
 	 */
 	this.generateNewPosition = function() {
 		this.positionCounter = 0;
-		var newX = parseInt( Math.random()*1000 );
-		var newY = parseInt( Math.random()*1000 );
+		var size = this.painter.getCanvasSize();
+		var newX = parseInt( Math.random() * size.width );
+		var newY = parseInt( Math.random() * size.height );
 
 		this.preAnimator.setStartPosition( this.currentPositions.x, this.currentPositions.y );
 		this.preAnimator.setEndPosition( newX, newY );

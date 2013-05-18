@@ -310,7 +310,22 @@ function painter( canvas ) {
 	 */
 	this.getCanvasSelector = function() {
 		return this.canvasSelector;
-	}
+	};
+	
+	/*
+	 * public function getCanvasSize()
+	 *
+	 * Returns an object with the canvas dimensions
+	 *
+	 * @return object, canvas dimensions
+	 *
+	 */
+	this.getCanvasSize = function() {
+		return {
+			width: this.$canvas.width(),
+			height: this.$canvas.height()
+		}
+	};
 
 	// Initialize the handler
 	this.initialize( canvas );
@@ -323,6 +338,7 @@ function painter( canvas ) {
 		start: this.start.bind( this ),
 		getCanvasSelector: this.getCanvasSelector.bind( this ),
 		getCurrentRenderFrame: this.getCurrentRenderFrame.bind( this ),
+		getCanvasSize: this.getCanvasSize.bind( this ),
 		registerCallback: this.registerCallback.bind( this ),
 		unregisterCallback: this.unregisterCallback.bind( this )
 	};
