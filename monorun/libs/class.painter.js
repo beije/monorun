@@ -86,7 +86,11 @@ function painter( canvas ) {
 		// Loop through the render-que
 		for( var i = 0; i < this.renderQueue.length; i++ ) {
 			// Check that the image exists
-			if( !this.renderQueue[i].image ) continue; 
+			if( !this.renderQueue[i].image ) continue;
+
+			// No use using this item as source if doesn't have
+			// a callback.
+			if( !this.renderQueue[i].collisionCallback ) continue; 
 
 			var item = this.renderQueue[i];
 
@@ -107,8 +111,12 @@ function painter( canvas ) {
 						if( this.pixelCollider.hitTest( item.pixelMap, this.renderQueue[n].pixelMap ) ) {
 							// Fire the collision callback after the function
 							// is done with setTimeout.
-							setTimeout( item.collisionCallback, 0 );
-							setTimeout( this.renderQueue[n].collisionCallback, 0 );
+							if( item.collisionCallback != false ) {
+								setTimeout( item.collisionCallback, 0 );
+							}
+							if( this.renderQueue[n].collisionCallback != false ) {
+								setTimeout( this.renderQueue[n].collisionCallback, 0 );
+							}
 						}
 					}
 				}
@@ -164,7 +172,7 @@ function painter( canvas ) {
 		
 		// Set optional flags
 		var z = z || 0;
-		var collisionCallback = collisionCallback || function() {};
+		var collisionCallback = collisionCallback || false;
 		var pixelMap = pixelMap || null;
 
 		// Check if item already exists in queue
