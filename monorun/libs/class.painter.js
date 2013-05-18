@@ -1,14 +1,25 @@
+/**
+ *
+ * @project        monorun
+ * @file           class.painter.js
+ * @description    Handles painting to a canvas with render queues
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
+
 function painter( canvas ) {
-	this.canvasSelector = '';
-	this.$canvas = null;
-	this.context = null;
-	this.renderQue = [];
-	this.clearCanvas = false;
-	this.raf = null;
-	this.currentRenderFrame = 0;
-	this.finishedFrameCallbacks = [];
-	this.enqueuedImages = {};
-	this.pixelCollider = null;
+	this.canvasSelector = '';         // String, Selector used for finding the canvas
+	this.$canvas = null;              // jQuery object, The canvas
+	this.context = null;              // Context, the canvas 2d context
+	this.renderQueue = [];              // Array, contains the render queue for next frame 
+	this.enqueuedImages = {};         // Array, contains the ID of all the items in the render queue, used for cross reference
+	this.clearCanvas = false;         // Boolean, if the canvas should be cleard
+	this.raf = null;                  // Timer, requestAnimationFrame timer
+	this.currentRenderFrame = 0;      // Integer, current frame ID that is visible
+	this.finishedFrameCallbacks = []; // Array, contains all the callbacks that should fire on frame finish
+	this.pixelCollider = null;        // collisionDetection object, detects collisions on the z-layer (Public object!)
 
 	// Get our prefixed cancelAnimationFrame function
 	var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame ||
@@ -18,47 +29,86 @@ function painter( canvas ) {
 	var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
 		window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
+
+	/*
+	 * private function initialize()
+	 *
+	 * Initializes the object
+	 *
+	 * @param canvas (string), Selector for the canvas
+	 *
+	 */
 	this.initialize = function( canvas ) {
-		console.log( 'Painter initialized' );
 		this.canvasSelector = canvas;
 		this.$canvas = $( canvas );
+
 		if( this.$canvas[0] && this.$canvas[0].getContext && this.$canvas[0].getContext('2d') ) {
 			this.context = this.$canvas[0].getContext( '2d' );
 		} else {
 			throw "This browser doesn't support canvas";
 		}
+
 		this.pixelCollider = new collisionDetection();
+
 		this.start();
 	};
 
-	this.setupEvents = function() {
+	/*
+	 * private function setupEvents()
+	 *
+	 * Sets up our events.
+	 *
+	 */
+	this.setupEvents = function() {};
 
-	};
 
+	/*
+	 * private function main()
+	 *
+	 * Our main render loop which runs on every
+	 * requestAnimationFrame
+	 *
+	 */
 	this.main = function() {
-		//console.log( 'Main loop' );
-		if( this.renderQue.length > 0 ) {
+		
+		// Check if we should clear the context
+		if( this.renderQueue.length > 0 ) {
 			this.clearcontext();
 		}
 
-		for( var i = 0; i < this.renderQue.length; i++ ) {
-			if( !this.renderQue[i].image ) continue; 
-			this.context.drawImage( this.renderQue[i].image, this.renderQue[i].x, this.renderQue[i].y );
+		// Render out the queue
+		for( var i = 0; i < this.renderQueue.length; i++ ) {
+			if( !this.renderQueue[i].image ) continue; 
+			this.context.drawImage( this.renderQueue[i].image, this.renderQueue[i].x, this.renderQueue[i].y );
 		}
 
 		// Collision detection
-		for( var i = 0; i < this.renderQue.length; i++ ) {
-			if( !this.renderQue[i].image ) continue; 
-			var item = this.renderQue[i];
+		// Loop through the render-que
+		for( var i = 0; i < this.renderQueue.length; i++ ) {
+			// Check that the image exists
+			if( !this.renderQueue[i].image ) continue; 
+
+			var item = this.renderQueue[i];
+
+			// Check that we have a pixelmap
 			if( item.pixelMap != null ) {
-				for( var n = 0; n < this.renderQue.length; n++ ) {
+
+				// Go through the queue again
+				for( var n = 0; n < this.renderQueue.length; n++ ) {
+
+					// Check that we're not going against the
+					// same item
 					if( i === n ) continue;
-					if( this.renderQue[n].pixelMap != null && this.renderQue[n].z == item.z ) {
-						if( this.pixelCollider.hitTest( item.pixelMap, this.renderQue[n].pixelMap ) ) {
+
+					// Check that we're on the same z-layer
+					if( this.renderQueue[n].pixelMap != null && this.renderQueue[n].z == item.z ) {
+
+						// Detect collision
+						if( this.pixelCollider.hitTest( item.pixelMap, this.renderQueue[n].pixelMap ) ) {
+							// Fire the collision callback after the function
+							// is done with setTimeout.
 							setTimeout( item.collisionCallback, 0 );
-							setTimeout( this.renderQue[n].collisionCallback, 0 );
-							//setTimeout( item.collisionCallback( item.id, this.renderQue[n].id ), 0 );
-							//setTimeout( this.renderQue[n].collisionCallback( this.renderQue[n].id, item.id ), 0 );
+							setTimeout( this.renderQueue[n].collisionCallback, 0 );
 						}
 					}
 				}
@@ -66,8 +116,8 @@ function painter( canvas ) {
 		}
 
 
-		// Clean render que
-		this.renderQue = [];
+		// Clean render queue
+		this.renderQueue = [];
 
 
 
@@ -76,23 +126,51 @@ function painter( canvas ) {
 			this.finishedFrameCallbacks[i].callback();
 		}
 
+		// Generate a new frame id
 		this.currentRenderFrame = parseInt( Math.random()*1000 );
+
+		// Rebind the requestAnimationFrame
 		this.raf = requestAnimationFrame( this.main.bind( this ) );
 	};
 
+	/*
+	 * private function clearcontext()
+	 *
+	 * Clears the context, aka removes everything in the canvas
+	 *
+	 */
 	this.clearcontext = function() {
 		// TODO, fix height width
 		this.context.clearRect( 0 , 0 , 10000 , 10000 );
 	}
 
-	// Todo: Add width and height for box-collision detection.
+	/*
+	 * public function addToQueue()
+	 *
+	 * Adds item to the render queue, the item will be rendered
+	 * at the next frame-rendering. If two items with the same ID
+	 * is entered into the queue, only the second one will be rendered.
+	 *
+	 * @param id (string) A unique identifier for the item
+	 * @param image (Object) The item which we wish to render out
+	 * @param x (Int) The x position
+	 * @param y (Int) The y position
+	 * @param z (Int) (optional) The z position, on what collision layer
+	 * @param pixelMap (Object) (optional) The pixel map representation of the object
+	 * @param collisionCallback (function) (optional) A callback that fires on collision with other things on the same layer
+	 *
+	 */
 	this.addToQueue = function( id, image, x, y, z, pixelMap, collisionCallback ) {
+		
+		// Set optional flags
 		var z = z || 0;
 		var collisionCallback = collisionCallback || function() {};
 		var pixelMap = pixelMap || null;
-		//console.log( id, pixelMap );
+
+		// Check if item already exists in queue
+		// Add or overwrite to queue.
 		if( this.enqueuedImages[id] === undefined ) {
-			this.renderQue.push({
+			this.renderQueue.push({
 				id: id,
 				x: x,
 				y: y,
@@ -101,9 +179,9 @@ function painter( canvas ) {
 				collisionCallback: collisionCallback,
 				image: image
 			});
-			this.enqueuedImages[id] = this.renderQue.length-1;
+			this.enqueuedImages[id] = this.renderQueue.length-1;
 		} else {
-			this.renderQue[ this.enqueuedImages[id] ] = {
+			this.renderQueue[ this.enqueuedImages[id] ] = {
 				id: id,
 				x: x,
 				y: y,
@@ -114,21 +192,54 @@ function painter( canvas ) {
 			};			
 		}
 	};
+
+	/*
+	 * public function stop()
+	 *
+	 * Stops the painter from rendering frame
+	 *
+	 */
 	this.stop = function() {
 		if( this.raf ) {
 			cancelAnimationFrame( this.raf );
 			this.raf = null;
 		}
 	};
+
+	/*
+	 * public function start()
+	 *
+	 * Starts the painter rendering
+	 *
+	 */
 	this.start = function() {
 		this.main();
 	};
 
-	/* Gives the current frame id (For polling) */
+	/*
+	 * public function getCurrentRenderFrame()
+	 *
+	 * Gives the current unique frame id (For polling)
+	 *
+	 * @return Int, unique frame id
+	 *
+	 */
 	this.getCurrentRenderFrame = function() {
 		return this.currentRenderFrame;
 	}
 
+	/*
+	 * public function registerCallback()
+	 *
+	 * Registers a callback for specific event type
+	 *
+	 * @param id (String), the unique id of the callback (so we can unregister it)
+	 * @param callback (function), the function that should fire on the event
+	 * @param type (string)(optional), the event type, currently only supports finishedFrame
+	 *
+	 * @return boolean
+	 *
+	 */
 	this.registerCallback = function( id, callback, type ) {
 		if( !id || !callback ) {
 			throw "Not all parameters where given";
@@ -150,6 +261,18 @@ function painter( canvas ) {
 		return true;
 	};
 
+	/*
+	 * public function unregisterCallback()
+	 *
+	 * Removes a callback
+	 *
+	 * @param id (String), the unique id of the callback
+	 * @param callback (function), the function that should fire on the event
+	 * @param type (string)(optional), the event type, currently only supports finishedFrame
+	 *
+	 * @return boolean
+	 *
+	 */
 	this.unregisterCallback = function( id, callback, type ) {
 		if( !type ) {
 			type = 'finishedFrame';
@@ -165,12 +288,26 @@ function painter( canvas ) {
 				this.finishedFrameCallbacks = newArr;
 			break;
 		}
+
+		return true;
 	}
+
+	/*
+	 * public function getCanvasSelector()
+	 *
+	 * Returns the canvas selector used to find the canvas
+	 *
+	 * @return String, canvas selector
+	 *
+	 */
 	this.getCanvasSelector = function() {
 		return this.canvasSelector;
 	}
+
+	// Initialize the handler
 	this.initialize( canvas );
 
+	// Return our outward facing interface.
 	return {
 		pixelCollider: this.pixelCollider,
 		addToQueue: this.addToQueue.bind( this ),

@@ -1,15 +1,37 @@
+/**
+ *
+ * @project        monorun
+ * @file           class.preanimate.js
+ * @description    Handles the enemy object, called Roland :)
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
+
 function roland( id, painter ) {
-	this.painter = null;
-	this.rendered = null;
-	this.calculatedPositions = [];
-	this.preAnimator = null;
-	this.currentPositions = {
+	this.painter = null;                      // Painter object, The main painter object that renders to screen
+	this.rendered = null;                     // Object, rendered canvas object
+	this.calculatedPositions = [];            // Array, current precalculated animation path
+	this.preAnimator = null;                  // Preanimator object, the object that precalculates paths
+	this.currentPositions = {                 // Object, current position of Roland
 		x: 0,
 		y: 0
 	};
-	this.id = parseInt( Math.random()*1000 );
-	this.positionCounter = 0;
 
+	this.id = parseInt( Math.random()*1000 ); // (String/integer), the unique default id of Roland
+	this.positionCounter = 0;                 // Int, current position in calculatedPositions
+
+
+	/*
+	 * private function initialize()
+	 *
+	 * Initializes the object
+	 *
+	 * @param id (String/integer) The unique id of this instance
+	 * @param painter (object) the main painter object
+	 *
+	 */
 	this.initialize = function( id, painter ) {
 		this.id = id || this.id;
 		this.painter = painter;
@@ -18,9 +40,22 @@ function roland( id, painter ) {
 		this.setupEvents();
 	}
 
+	/*
+	 * private function setupEvents()
+	 *
+	 * Sets up our events.
+	 *
+	 */
 	this.setupEvents = function() {
 		this.painter.registerCallback( this.id, this.animateCallback.bind( this ) );
 	};
+
+	/*
+	 * private function generateNewPosition()
+	 *
+	 * Generates a new random animation path for this instance
+	 *
+	 */
 	this.generateNewPosition = function() {
 		this.positionCounter = 0;
 		var newX = parseInt( Math.random()*1000 );
@@ -32,6 +67,16 @@ function roland( id, painter ) {
 		this.calculatedPositions = [];
 		this.calculatedPositions = this.preAnimator.getPositions();
 	}
+
+	/*
+	 * private function animateCallback()
+	 *
+	 * The callback that the painter runs on fram completion
+	 * so that we can add a new item in the render queue for 
+	 * the painter. The position is updated to the next position
+	 * int the calculatedPositions array.
+	 *
+	 */	
 	this.animateCallback = function() {
 
 		if( this.rendered === null ) {
@@ -65,8 +110,15 @@ function roland( id, painter ) {
 		this.positionCounter++;
 	};
 
-	this.setPainter = function( painter ) {} 
-
+	/*
+	 * public function render()
+	 *
+	 * Renders out Roland as a canvas element
+	 *
+	 * @param imageUrl (String) The url to the image of Roland
+	 * @param resolution (Int) The resolution used when creating a pixelmap
+	 *
+	 */
 	this.render = function( imageUrl, resolution ) {
 		
 		// Render roland :)
@@ -98,10 +150,11 @@ function roland( id, painter ) {
 
 	}
 
+	// Initialize the handler
 	this.initialize( id, painter );
 
+	// Return our outward facing interface.
 	return {
-		setPainter: this.setPainter.bind( this ),
 		render: this.render.bind( this )
 	}
 }

@@ -1,22 +1,59 @@
+/**
+ *
+ * @project        monorun
+ * @file           class.preanimate.js
+ * @description    Pre-calculates accelerated movement paths.
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
+
 function preAnimate() {
+
+	// Array, Contains the latest calculated path
 	this.positions = [];
+
+	// Object, the start position of the object
 	this.startPosition = {
 		x: 0,
 		y: 150
 	};
+
+	// Object, the end position of the object
 	this.endPosition = {
 		x: 100,
 		y: 45
 	};
+
+	// Int, speed of the object, lower == faster
 	this.speed = 20;
+
+	// Object, the positions used on the latest calculation
 	this.calculatedPositions = {
 		startX: 0,
 		startY: 0,
 		endX: 0,
 		endY: 0
 	};
+
+	/*
+	 * private function initialize()
+	 *
+	 * Initializes the object
+	 *
+	 */
 	this.initialize = function() {}
 
+	/*
+	 * private function calculateAnimation()
+	 *
+	 * Calculates every step in the animation.
+	 * The steps are saved to this.positions
+	 *
+	 * @return array, the positions
+	 *
+	 */
 	this.calculateAnimation = function(){
 		this.positions = [];
 		xPos = false;
@@ -60,7 +97,6 @@ function preAnimate() {
 				yPos = true;
 			}
 
-
 			counter++;
 
 			// For safety precautions :)
@@ -80,6 +116,16 @@ function preAnimate() {
 
 		return this.positions;
 	}
+
+	/*
+	 * public function setStart()
+	 *
+	 * Sets the start position
+	 *
+	 * @param x (integer) the start x position
+	 * @param y (integer) the start y position
+	 *
+	 */
 	this.setStart = function( x, y ) {
 		this.startPosition = {
 			x: x,
@@ -90,6 +136,16 @@ function preAnimate() {
 			startY: y,
 		};
 	}
+
+	/*
+	 * public function setEnd()
+	 *
+	 * Sets the end position
+	 *
+	 * @param x (integer) the end x position
+	 * @param y (integer) the end y position
+	 *
+	 */
 	this.setEnd = function( x, y ) {
 		this.endPosition = {
 			x: x,
@@ -100,9 +156,29 @@ function preAnimate() {
 			endY: y
 		};
 	}
+
+	/*
+	 * public function setSpeed()
+	 *
+	 * Sets the animation speed position
+	 *
+	 * @param speed (integer) the animation speed, lower == faster
+	 *
+	 */
 	this.setSpeed = function( speed ) {
 		this.speed = speed;
 	}
+
+	/*
+	 * public function getPositions()
+	 *
+	 * Gets the complete animation path. If the calculatedPositions haven't
+	 * changed since last render, we return the cached positions, otherwise
+	 * we recalculate the whole sequence.
+	 *
+	 * @return array
+	 *
+	 */
 	this.getPositions = function() {
 		recalculate = false;
 		if( 
@@ -118,8 +194,10 @@ function preAnimate() {
 		return this.positions;
 	}
 
+	// Initialize the player
 	this.initialize();
 
+	// Return our outward facing interface.
 	return {
 		setStartPosition: this.setStart.bind( this ),
 		setEndPosition: this.setEnd.bind( this ),
