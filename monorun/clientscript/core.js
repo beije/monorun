@@ -25,11 +25,15 @@ var core = {
 		var oldPos = this.enemies[ this.enemies.length-1 ].getPositions();
 		var newPos = {};
 		for( var i = 0; i < this.enemies.length; i++ ) {
-			newPos = this.enemies[i].getPositions();
-			this.lineHandler.setStartPosition( oldPos.x+30, oldPos.y+30 );
-			this.lineHandler.setEndPosition( newPos.x+30, newPos.y+30 );
-			this.lineHandler.getLine();
-			oldPos = newPos;
+			var basePos = this.enemies[i].getPositions();
+			for( var n = 1; n < 4; n++ ) {
+				if( this.enemies[i+n] ) {
+					var endPos = this.enemies[i+n].getPositions();
+					this.lineHandler.setStartPosition( basePos.x+30, basePos.y+30 );
+					this.lineHandler.setEndPosition( endPos.x+30, endPos.y+30 );
+					this.lineHandler.getLine();
+				}
+			}
 		}
 
 	},
