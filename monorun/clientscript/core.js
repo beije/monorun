@@ -45,7 +45,7 @@ var core = {
 		this.startTime = new Date().getTime();
 		player = new Player( this.painter );
 
-		for( var i = 0; i < 6; i++ ) {
+		for( var i = 0; i < 1; i++ ) {
 			this.enemies.push( new roland( 'rolle'+i , this.painter ) );
 			this.enemies[i].setSpeed( parseInt( Math.random()*100 )+20 );
 		}
@@ -80,7 +80,7 @@ var core = {
 		this.endTime = new Date().getTime();
 		this.painter.stop();
 		console.log( 'Game time: '+ (this.endTime - this.startTime) );
-		this.showMessage( "Bummer, you've failed at life :(" );
+		this.showMessage( "Game ended" );
 	},
 	setupEvents: function() {
 		$(window).resize(
