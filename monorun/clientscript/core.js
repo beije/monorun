@@ -29,7 +29,6 @@ var core = {
 			this.lineHandler.setStartPosition( basePos.x+30, basePos.y+30 );
 			this.lineHandler.setEndPosition( newPos.x+30, newPos.y+30 );
 			this.lineHandler.getLine();
-			oldPos = basePos;
 		}
 
 	},
