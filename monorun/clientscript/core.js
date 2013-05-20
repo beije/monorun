@@ -52,9 +52,19 @@ var core = {
 			'preFrameRender'
 		);
 
+		setInterval(
+			this.appendRoland.bind( this ),
+			2000
+		);
+
 		//setTimeout( function() { enemies.render('assets/redcross.png', 2); },2000 )
 		//rolle = new roland( 'rolle', painterhandler );
 		
+	},
+	appendRoland: function() {
+		var index = this.enemies.length;
+		this.enemies.push( new roland( 'rolle'+index , this.painter ) );
+		this.enemies[index].setSpeed( parseInt( Math.random()*100 )+20 );
 	},
 	showMessage: function( msg ) {
 		$( '#message' ).show();
