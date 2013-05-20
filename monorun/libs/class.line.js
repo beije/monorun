@@ -1,4 +1,4 @@
-function Line() {
+function Line( canvas ) {
 	this.canvas = null;
 	this.context = null;
 	this.lineWidth = '2';
@@ -11,10 +11,15 @@ function Line() {
 		endY: 0
 	};
 
-	this.initialize = function() {
-		this.canvas = document.createElement( 'canvas' );
-		$( this.canvas ).attr( 'width', '1000px'  );
-		$( this.canvas ).attr( 'height', '1000px'  );
+	this.initialize = function( canvas ) {
+		if( !canvas ){
+			this.canvas = document.createElement( 'canvas' );
+			$( this.canvas ).attr( 'width', '1000px'  );
+			$( this.canvas ).attr( 'height', '1000px'  );
+		} else {
+			this.canvas = canvas;
+		}
+
 		this.context = this.canvas.getContext( '2d' );
 	};
 
@@ -33,9 +38,6 @@ function Line() {
 	};
 
 	this.getLine = function() {
-
-		this.context.clearRect( 0 , 0 , 10000 , 10000 );
-
 		this.context.beginPath();
 
 		this.context.moveTo( this.positions.startX, this.positions.startY );
@@ -55,13 +57,19 @@ function Line() {
 		this.lineColor = color;
 	}
 
-	this.initialize();
+	this.setCanvas = function( canvas ) {
+		this.canvas = canvas;
+		this.context = this.canvas.getContext( '2d' );
+	}
+
+	this.initialize( canvas );
 
 	return {
 		setStartPosition: this.setStartPosition.bind( this ),
 		setEndPosition: this.setEndPosition.bind( this ),
 		getLine: this.getLine.bind( this ),
 		setSize: this.setSize.bind( this ),
+		setCanvas: this.setCanvas.bind( this ),
 		setLineWidth: this.setLineWidth.bind( this ),
 		setLineColor: this.setLineColor.bind( this )
 	};

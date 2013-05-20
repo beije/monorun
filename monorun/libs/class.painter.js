@@ -18,6 +18,7 @@ function painter( canvas ) {
 	this.clearCanvas = false;         // Boolean, if the canvas should be cleard
 	this.raf = null;                  // Timer, requestAnimationFrame timer
 	this.currentRenderFrame = 0;      // Integer, current frame ID that is visible
+	this.preFrameCallbacks = [];      // Array, contains all the callbacks that should fire before frame is rendered
 	this.finishedFrameCallbacks = []; // Array, contains all the callbacks that should fire on frame finish
 	this.pixelCollider = null;        // collisionDetection object, detects collisions on the z-layer (Public object!)
 
@@ -75,6 +76,11 @@ function painter( canvas ) {
 		if( this.renderQueue.length > 0 ) {
 			this.clearcontext();
 			this.renderQueue.sort( this.orderByZindex );
+		}
+
+		// Run pre frame callbacks
+		for( var i = 0; i < this.preFrameCallbacks.length; i++ ) {
+			this.preFrameCallbacks[i].callback();
 		}
 
 		// Render out the queue
@@ -254,7 +260,7 @@ function painter( canvas ) {
 	 *
 	 * @param id (String), the unique id of the callback (so we can unregister it)
 	 * @param callback (function), the function that should fire on the event
-	 * @param type (string)(optional), the event type, currently only supports finishedFrame
+	 * @param type (string)(optional), the event type
 	 *
 	 * @return boolean
 	 *
@@ -271,6 +277,12 @@ function painter( canvas ) {
 		switch( type ) {
 			case 'finishedFrame':
 				this.finishedFrameCallbacks.push({
+					id: id,
+					callback: callback
+				});
+			break;
+			case 'preFrameRender':
+				this.preFrameCallbacks.push({
 					id: id,
 					callback: callback
 				});
@@ -305,6 +317,15 @@ function painter( canvas ) {
 					}
 				}
 				this.finishedFrameCallbacks = newArr;
+			break;
+			case 'preFrameRender':
+				newArr = array();
+				for( var i = 0; i < this.preFrameCallbacks.length; i++ ) {
+					if( this.preFrameCallbacks[i].id !== id ) {
+						newArr.push( this.preFrameCallbacks[i] );
+					}
+				}
+				this.preFrameCallbacks = newArr;
 			break;
 		}
 
