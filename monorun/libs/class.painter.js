@@ -74,6 +74,7 @@ function painter( canvas ) {
 		// Check if we should clear the context
 		if( this.renderQueue.length > 0 ) {
 			this.clearcontext();
+			this.renderQueue.sort( this.orderByZindex );
 		}
 
 		// Render out the queue
@@ -223,6 +224,16 @@ function painter( canvas ) {
 	this.start = function() {
 		this.main();
 	};
+
+	/*
+	 * private function orderByZindex()
+	 *
+	 * Order an array with objects on property z
+	 *
+	 */
+	this.orderByZindex = function(a,b) {
+		return ( a.z < b.z ? -1 : ( a.z > b.z ? 1 : 0 ) );
+	}
 
 	/*
 	 * public function getCurrentRenderFrame()

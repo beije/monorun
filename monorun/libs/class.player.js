@@ -48,11 +48,11 @@ function Player( painter ) {
 		var ctx = userImage.getContext( '2d' );
 
 		ctx.beginPath();
-		ctx.arc(25, 25, 15, 0, 2 * Math.PI, false);
-		ctx.fillStyle = '#fff';
+		ctx.arc( 25, 25, 15, 0, 2 * Math.PI, false );
+		ctx.fillStyle = '#161b1e';
 		ctx.fill();
-		ctx.lineWidth = 10;
-		ctx.strokeStyle = '#161b1d';
+		ctx.lineWidth = 12;
+		ctx.strokeStyle = '#fff';
 		ctx.stroke();
 
 		return userImage;

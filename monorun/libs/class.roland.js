@@ -94,8 +94,8 @@ function roland( id, painter ) {
 
 		var pixelMap = {
 			pixelMap: this.pixelMap,
-			width: 60,
-			height: 60,
+			width: 70,
+			height: 70,
 			x: this.currentPositions.x,
 			y: this.currentPositions.y
 		};
@@ -125,20 +125,20 @@ function roland( id, painter ) {
 		
 		// Render roland :)
 		this.canvas = document.createElement( 'canvas' );
-		//var ctx = fakeCanvas.getContext( '2d' );
-		/*
+		var ctx = this.canvas.getContext( '2d' );
+		
 		ctx.beginPath();
-		ctx.arc(30, 30, 25, 0, 2 * Math.PI, false);
-		ctx.fillStyle = '#0b0e0f';
+		ctx.arc(35, 35, 25, 0, 2 * Math.PI, false);
+		ctx.fillStyle = '#161b1e';
 		ctx.fill();
-		ctx.lineWidth = 5;
-		ctx.strokeStyle = '#ffffff';
+		ctx.lineWidth = 12;
+		ctx.strokeStyle = '#56c4db';
 		ctx.stroke();
 		//console.log( this.painter );
-		this.pixelMap = this.painter.pixelCollider.buildPixelMap( fakeCanvas, 3 );
-		this.rendered = fakeCanvas;
-		*/
-
+		this.pixelMap = this.painter.pixelCollider.buildPixelMap( this.canvas, 3 );
+		this.rendered = this.canvas;
+		
+/*
 		this.imageObj = new Image();
 
 		this.imageObj.onload = function() {
@@ -149,7 +149,7 @@ function roland( id, painter ) {
 		}.bind( this );
 
         this.imageObj.src = imageUrl;
-
+*/
 	}
 
 	/*
@@ -164,12 +164,29 @@ function roland( id, painter ) {
 	 	this.speed = speed;
 	 };
 
+
+	/*
+	 * public function getCurrentPositions()
+	 *
+	 * Gives the current position of this roland
+	 *
+	 * @return object {x:, y:}
+	 *
+	 */
+	 this.getCurrentPositions = function() {
+	 	return {
+	 		x: this.currentPositions.x,
+	 		y: this.currentPositions.y
+	 	};
+	 }
+
 	// Initialize the handler
 	this.initialize( id, painter );
 
 	// Return our outward facing interface.
 	return {
 		render: this.render.bind( this ),
-		setSpeed: this.setSpeed.bind( this )
+		setSpeed: this.setSpeed.bind( this ),
+		getPositions: this.getCurrentPositions.bind( this )
 	}
 }
