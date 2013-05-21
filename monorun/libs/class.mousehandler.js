@@ -31,11 +31,41 @@ function mousehandler( targetElement ) {
 
 	// Listeners that we bind to
 	// TODO: Implement touce listener
+	
 	this.movements = {
-		move: 'mousemove',
-		start: 'mousedown',
-		end: 'mouseup'
+		move: [
+			'mousemove',
+			'touchmove',
+			'MSPointerMove'
+		],
+		start: [
+			'mousedown',
+			'touchstart',
+			'MSPointerDown'
+		],
+		end: [
+			'mouseup',
+			'touchend',
+			'MSPointerUp'
+		]
 	};
+	
+	/* Window phone */
+	/*
+	this.movements = {
+		move: 'MSPointerMove',
+		start: 'MSPointerDown',
+		end: 'MSPointerUp'
+	};
+	*/
+	/* Normal touch devices */
+	/*
+	this.movements = {
+		move: 'touchmove',
+		start: 'touchstart',
+		end: 'touchend'
+	};
+	*/
 
 	/*
 	 * private function initialize()
@@ -55,18 +85,25 @@ function mousehandler( targetElement ) {
 	 *
 	 */
 	this.setupEvents = function() {
-		this.$element.bind( 
-			this.movements.move,
-			this.move.bind( this )
-		);
-		this.$element.bind( 
-			this.movements.start,
-			this.start.bind( this )
-		);
-		this.$element.bind( 
-			this.movements.end,
-			this.end.bind( this )
-		);
+
+		for( var i = 0; i < this.movements.move.length; i++ ) {
+			this.$element.bind( 
+				this.movements.move[i],
+				this.move.bind( this )
+			);
+		}
+		for( var i = 0; i < this.movements.start.length; i++ ) {
+			this.$element.bind( 
+				this.movements.start[i],
+				this.start.bind( this )
+			);
+		}
+		for( var i = 0; i < this.movements.end.length; i++ ) {
+			this.$element.bind( 
+				this.movements.end[i],
+				this.end.bind( this )
+			);
+		}
 	};
 
 	/*
@@ -78,10 +115,16 @@ function mousehandler( targetElement ) {
 	 */
 	this.move = function( e ) {
 		e = e || window.event;
+		e = e.originalEvent || e; // Damn it jquery.
 		e.preventDefault();
 
-		if( this.active ) {
+		// Windows phone / Mobile IE10
+		// Doesn't use "touches"
+		if( e.touches != undefined ) {
+			e = e.touches[0];
+		}
 
+		if( this.active ) {
 			this.positions = {
 				x: e.clientX,
 				y: e.clientY

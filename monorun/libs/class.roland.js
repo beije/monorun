@@ -9,7 +9,7 @@
  * 
  */
 
-function roland( id, painter ) {
+function roland( id, painter, pixelMap ) {
 	this.painter = null;                      // Painter object, The main painter object that renders to screen
 	this.rendered = null;                     // Object, rendered canvas object
 	this.calculatedPositions = [];            // Array, current precalculated animation path
@@ -19,7 +19,7 @@ function roland( id, painter ) {
 		y: 0
 	};
 	this.speed = 50;                          // Int, the speed of rolands animation, lower == faster
-
+	this.pixelMap                             // Object, the pixelMap of the rendered roland
 	this.id = parseInt( Math.random()*1000 ); // (String/integer), the unique default id of Roland
 	this.positionCounter = 0;                 // Int, current position in calculatedPositions
 
@@ -31,11 +31,17 @@ function roland( id, painter ) {
 	 *
 	 * @param id (String/integer) The unique id of this instance
 	 * @param painter (object) the main painter object
+	 * @param pixelMap (Optional)(pixelMap Object) Overrides the generated pixelmap (Performance increase for mobiles.)
 	 *
 	 */
-	this.initialize = function( id, painter ) {
+	this.initialize = function( id, painter, pixelMap ) {
 		this.id = id || this.id;
 		this.painter = painter;
+
+		if( pixelMap ) {
+			this.pixelMap = pixelMap;
+		}
+
 		this.preAnimator = new preAnimate();
 		this.render( 'assets/roland_60x60.png', 4);
 		this.setupEvents();
@@ -135,7 +141,9 @@ function roland( id, painter ) {
 		ctx.strokeStyle = '#56c4db';
 		ctx.stroke();
 		//console.log( this.painter );
-		this.pixelMap = this.painter.pixelCollider.buildPixelMap( this.canvas, 3 );
+		if( !this.pixelMap ){
+			this.pixelMap = this.painter.pixelCollider.buildPixelMap( this.canvas, 3 );
+		}
 		this.rendered = this.canvas;
 		
 /*
@@ -180,13 +188,26 @@ function roland( id, painter ) {
 	 	};
 	 }
 
+	/*
+	 * public function getPixelMap()
+	 *
+	 * Gets the genereated pixel map
+	 *
+	 * @return pixelmap object
+	 *
+	 */
+	 this.getPixelMap = function() {
+	 	return this.pixelMap;
+	 }
+
 	// Initialize the handler
-	this.initialize( id, painter );
+	this.initialize( id, painter, pixelMap );
 
 	// Return our outward facing interface.
 	return {
 		render: this.render.bind( this ),
 		setSpeed: this.setSpeed.bind( this ),
-		getPositions: this.getCurrentPositions.bind( this )
+		getPositions: this.getCurrentPositions.bind( this ),
+		getPixelMap: this.getPixelMap.bind( this )
 	}
 }

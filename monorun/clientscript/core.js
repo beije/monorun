@@ -61,8 +61,10 @@ var core = {
 		
 	},
 	appendRoland: function() {
+		//if( this.enemies.length > 5 ) return false;
 		var index = this.enemies.length;
-		this.enemies.push( new roland( 'rolle'+index , this.painter ) );
+		// Ugly hack with sending in a prerendered roland pixelmap
+		this.enemies.push( new roland( 'rolle'+index , this.painter, this.enemies[0].getPixelMap() ) );
 		this.enemies[index].setSpeed( parseInt( Math.random()*100 )+20 );
 	},
 	showMessage: function( msg ) {
@@ -81,10 +83,12 @@ var core = {
 		$(window).resize(
 			core.resizeCanvas.bind(this)
 		);
+
 		timer = setInterval(
 			this.updateTimer.bind( this ),
 			20
 		);
+
 	},
 	resizeCanvas: function() {
 		var w = $(document).width();
