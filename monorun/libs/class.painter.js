@@ -145,7 +145,11 @@ function painter( canvas ) {
 		this.currentRenderFrame = parseInt( Math.random()*1000 );
 
 		// Rebind the requestAnimationFrame
-		this.raf = requestAnimationFrame( this.main.bind( this ) );
+		if( requestAnimationFrame ){
+			this.raf = requestAnimationFrame( this.main.bind( this ) );
+		} else {
+			this.raf = setTimeout( this.main.bind( this ), 20 )
+		}
 	};
 
 	/*
@@ -215,9 +219,15 @@ function painter( canvas ) {
 	 *
 	 */
 	this.stop = function() {
+
 		if( this.raf ) {
-			cancelAnimationFrame( this.raf );
-			this.raf = null;
+			if( requestAnimationFrame ){
+				cancelAnimationFrame( this.raf );
+				this.raf = null;
+			} else {
+				clearInterval( this.raf );
+				this.raf = null;
+			}
 		}
 	};
 
