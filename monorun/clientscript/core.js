@@ -106,7 +106,7 @@ var core = {
 		$( '#game' ).attr( 'height', h + 'px'  );
 
 	},
-	calculateCanvasSize: function( debug ) {
+	calculateCanvasSize: function() {
 
 		var windowWidth = window.outerWidth;
 		var windowHeight = window.outerHeight;
@@ -121,24 +121,6 @@ var core = {
 		var availableScreenHeight = screen.availHeight;
 
 		var isRetina = false;
-		if( debug ){
-			alert(
-				'isMobile: ' + isRetina + ', ' +
-				'DPR: ' + ( window.devicePixelRatio ? window.devicePixelRatio : 'N/A' ) + ', ' +"\n\n"+
-
-				'windowWidth: ' + windowWidth + ', ' +
-				'windowHeight: ' + windowHeight + ', ' +"\n"+
-
-				'iWindowWidth: ' + iWindowWidth + ', ' +
-				'iWindowHeight: ' + iWindowHeight + ', ' +"\n"+
-
-				'screenWidth: ' + screenWidth + ', ' +
-				'screenHeight: ' + screenHeight + ', ' +"\n"+
-
-				'availableScreenWidth: ' + availableScreenWidth + ', ' +
-				'availableScreenHeight: ' + availableScreenHeight + ''
-			);
-		}
 
 		//
 		// DUCK TEST
@@ -157,7 +139,7 @@ var core = {
 				if( windowWidth < screenWidth && windowHeight < screenHeight ) {
 					
 					// If it looks like a duck, swims like a duck, and quacks like a duck, then it probably is a duck.
-					var isRetina = true;
+					isRetina = true;
 				}
 			}
 		}
