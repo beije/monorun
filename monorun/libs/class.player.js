@@ -31,7 +31,7 @@ function Player( painter ) {
 		this.painter = painter;
 		this.rendered = this.render();
 		this.pixelMap = painter.pixelCollider.buildPixelMap( this.rendered, 3 );
-		this.mouseHandler = new mousehandler( this.painter.getCanvasSelector() );
+		this.mouseHandler = new mousehandler( this.painter.getCanvasSelector(), ( core.screenData.isRetina ? core.screenData : false ) );
 		this.setupEvents();
 	}
 

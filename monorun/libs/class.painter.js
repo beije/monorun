@@ -71,7 +71,7 @@ function painter( canvas ) {
 	 *
 	 */
 	this.main = function() {
-		
+
 		// Check if we should clear the context
 		if( this.renderQueue.length > 0 ) {
 			this.clearcontext();
@@ -364,8 +364,8 @@ function painter( canvas ) {
 	 */
 	this.getCanvasSize = function() {
 		return {
-			width: this.$canvas.width(),
-			height: this.$canvas.height()
+			width: this.$canvas.attr( 'width' ).replace('px', ''),
+			height: this.$canvas.attr( 'height' ).replace('px', '')
 		}
 	};
 

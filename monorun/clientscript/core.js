@@ -7,19 +7,24 @@ var core = {
 	timer: null,
 	lineHandlers:[],
 	lineHandler:null,
+	screenData: {},
+
 	initialize: function() {
-		$( '#game' ).attr( 'width', $(document).width() + 'px'  );
-		$( '#game' ).attr( 'height', $(document).height() + 'px'  );
+
+		this.screenData = this.calculateCanvasSize();
+		console.log( this.screenData );
+		$( '#game' ).attr( 'width', this.screenData.width + 'px'  );
+		$( '#game' ).attr( 'height',this.screenData.height + 'px'  );
 		$( '#message' ).hide();
 		
 		this.painter = new painter( '#game' );
 		this.lineHandler = new Line($( '#game' )[0] );
 		this.lineHandler.setLineWidth( 10 );
 		this.lineHandler.setLineColor( 'rgba(87,197,219,0.1)' );
+		
 
 		this.setupEvents();
 		this.resizeCanvas();
-		console.log( this.painter )
 	},
 	connectingRoland: function() {
 		for( var i = 0; i < this.enemies.length; i = i + 2 ) {
@@ -91,9 +96,98 @@ var core = {
 
 	},
 	resizeCanvas: function() {
-		var w = $(document).width();
-		var h = $(document).height();
+
+		this.screenData = this.calculateCanvasSize();
+
+		var w = this.screenData.width;
+		var h = this.screenData.height;
+
 		$( '#game' ).attr( 'width', w + 'px'  );
 		$( '#game' ).attr( 'height', h + 'px'  );
+
+	},
+	calculateCanvasSize: function( debug ) {
+
+		var windowWidth = window.outerWidth;
+		var windowHeight = window.outerHeight;
+
+		var iWindowWidth = window.innerWidth;
+		var iWindowHeight = window.innerHeight;
+
+		var screenWidth = screen.width;
+		var screenHeight = screen.height;
+
+		var availableScreenWidth = screen.availWidth;
+		var availableScreenHeight = screen.availHeight;
+
+		var isRetina = false;
+		if( debug ){
+			alert(
+				'isMobile: ' + isRetina + ', ' +
+				'DPR: ' + ( window.devicePixelRatio ? window.devicePixelRatio : 'N/A' ) + ', ' +"\n\n"+
+
+				'windowWidth: ' + windowWidth + ', ' +
+				'windowHeight: ' + windowHeight + ', ' +"\n"+
+
+				'iWindowWidth: ' + iWindowWidth + ', ' +
+				'iWindowHeight: ' + iWindowHeight + ', ' +"\n"+
+
+				'screenWidth: ' + screenWidth + ', ' +
+				'screenHeight: ' + screenHeight + ', ' +"\n"+
+
+				'availableScreenWidth: ' + availableScreenWidth + ', ' +
+				'availableScreenHeight: ' + availableScreenHeight + ''
+			);
+		}
+
+		//
+		// DUCK TEST
+		// (Devices that lack window.devicePixelRatio like Windows Phone 8)
+		//
+
+		// Check if the browser has any extra stuff around it
+		// Mobiles don't have that stuff
+		if( windowWidth == iWindowWidth && windowHeight == iWindowHeight ) {
+			// Check if the complete screen is available
+			// Computers usually have taskbars, so the browser doesn't have full access
+			if( screenWidth == availableScreenWidth && screenHeight == availableScreenHeight ) {
+
+				// Check that the window and screen are not the same size
+				// and that the window is smaller than the screen
+				if( windowWidth < screenWidth && windowHeight < screenHeight ) {
+					
+					// If it looks like a duck, swims like a duck, and quacks like a duck, then it probably is a duck.
+					var isRetina = true;
+				}
+			}
+		}
+
+		//
+		// For other devices that have window.devicePixelRatio
+		//
+		if( window.devicePixelRatio ) {
+			if( window.devicePixelRatio > 1 ){
+				isRetina = true;
+				screenWidth = iWindowWidth * window.devicePixelRatio;
+				screenHeight = iWindowHeight * window.devicePixelRatio;
+			} else {
+				// Override duck test
+				isRetina = false;
+			}
+		}
+
+		if( isRetina ) {
+			return {
+				isRetina: isRetina,
+				width: screenWidth,
+				height: screenHeight
+			}
+		} else {
+			return {
+				isRetina: isRetina,
+				width: iWindowWidth,
+				height: iWindowHeight
+			}
+		}
 	}
 }

@@ -9,7 +9,7 @@
  * 
  */
 
-function mousehandler( targetElement ) {
+function mousehandler( targetElement, offset ) {
 
 	this.$element = null;	// The element which we bind the mouse to
 	this.active = false;    // If tracking is active
@@ -67,13 +67,20 @@ function mousehandler( targetElement ) {
 	};
 	*/
 
+	this.screenSize = false;
+
 	/*
 	 * private function initialize()
 	 *
 	 * Initializes the object
 	 *
 	 */
-	this.initialize = function( targetElement ) {
+	this.initialize = function( targetElement, offset ) {
+		if( offset ) {
+			this.screenSize = {};
+			this.screenSize.width = offset.width;
+			this.screenSize.height = offset.height;
+		}
 		this.$element = $( targetElement );
 		this.setupEvents();
 	}
@@ -131,7 +138,7 @@ function mousehandler( targetElement ) {
 			};
 
 			// Fire external callback on every move
-			this.callbacks.move( e.clientX, e.clientY );
+			this.callbacks.move( this.getPositionX(), this.getPositionY() );
 		}
 
 		return false;
@@ -195,6 +202,12 @@ function mousehandler( targetElement ) {
 	 *
 	 */
 	this.getPositionX = function() {
+		if( this.screenSize && this.screenSize.width ) {
+			var virtualWidth = this.$element.width();
+			var width = this.screenSize.width;
+
+			return ( this.positions.x / virtualWidth ) * width;
+		}
 		return this.positions.x;
 	}
 
@@ -207,11 +220,18 @@ function mousehandler( targetElement ) {
 	 *
 	 */
 	this.getPositionY = function() {
+		if( this.screenSize && this.screenSize.height ) {
+			var virtualHeight = this.$element.height();
+			var height = this.screenSize.height;
+
+			return ( this.positions.y / virtualHeight ) * height;
+		}
+
 		return this.positions.y;
 	}
 
 	// Initialize the handler
-	this.initialize( targetElement );
+	this.initialize( targetElement, offset );
 
 	// Return our outward facing interface.
 	return {
