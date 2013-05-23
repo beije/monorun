@@ -167,11 +167,15 @@ var core = {
 
 			// throw around the height and width if the orientation is
 			// landscape on the device.
+			// And only if height is larger than width. Windows Phone 8
+			// doesn't update the screen.width/height on re-orientation
 			if ( window.matchMedia("(orientation: landscape)").matches ) {
-				var newHeight = screenWidth;
-				var newWidth = screenHeight;
-				screenWidth = newWidth;
-				screenHeight = newHeight;
+				if( screenWidth < screenHeight ) {
+					var newHeight = screenWidth;
+					var newWidth = screenHeight;
+					screenWidth = newWidth;
+					screenHeight = newHeight;
+				}
 			}
 
 			return {
