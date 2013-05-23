@@ -14,11 +14,11 @@ function Player( painter ) {
 	this.rendered = null;      // Object, rendered canvas object
 	this.pixelMap = [];        // PixelMap object, The pixel map representation of this.rendered
 	this.painter = null;       // Painter object, The main painter object that renders to screen
+	this.screenData = null;    // Object, an object containing the screensize
 	this.position = {          // Object, current position of the player
 		x: 478,
 		y: 239
 	};
-
 	/*
 	 * private function initialize()
 	 *
@@ -40,7 +40,7 @@ function Player( painter ) {
 	 *
 	 * Renders our player image
 	 *
-	 * @param canvas-elemtn, The rendered canvas element
+	 * @param canvas-element, The rendered canvas element
 	 *
 	 */
 	this.render = function() {
@@ -128,12 +128,30 @@ function Player( painter ) {
 		this.painter.registerCallback( 'user', this.renderPlayer.bind(this) );
 	};
 
+
+	/*
+	 * public function setScreenData()
+	 *
+	 * Sets the screen size if the screen is retina so the mouse
+	 * handler can scale appropriately
+	 *
+	 * @param data (object), The screen object { width, height, isRetina }
+	 *
+	 */
+	this.setScreenData = function( data ) {
+		this.screenData = data;
+		if( this.screenData.isRetina ) {
+			this.mouseHandler.setScreenSize( core.screenData );
+		} 
+	}
+
 	// Initialize the player
 	this.initialize( painter );
 
 	// Return our outward facing interface.
 	return {
 		updatePositions: this.updatePositions.bind( this ),
-		renderPlayer: this.renderPlayer.bind( this )
+		renderPlayer: this.renderPlayer.bind( this ),
+		setScreenData: this.setScreenData.bind( this )
 	};
 }

@@ -1,6 +1,7 @@
 var core = {
 	player: null,
 	painter:null,
+	player:null,
 	enemies: [],
 	startTime: 0,
 	endTime: 0,
@@ -43,7 +44,7 @@ var core = {
 	},
 	start: function() {
 		this.startTime = new Date().getTime();
-		player = new Player( this.painter );
+		this.player = new Player( this.painter );
 
 		for( var i = 0; i < 1; i++ ) {
 			this.enemies.push( new roland( 'rolle'+i , this.painter ) );
@@ -98,6 +99,10 @@ var core = {
 	resizeCanvas: function() {
 
 		this.screenData = this.calculateCanvasSize();
+	
+		if( this.player ){
+			this.player.setScreenData( this.screenData );
+		}
 
 		var w = this.screenData.width;
 		var h = this.screenData.height;
@@ -159,6 +164,16 @@ var core = {
 		}
 
 		if( isRetina ) {
+
+			// throw around the height and width if the orientation is
+			// landscape on the device.
+			if ( window.matchMedia("(orientation: landscape)").matches ) {
+				var newHeight = screenWidth;
+				var newWidth = screenHeight;
+				screenWidth = newWidth;
+				screenHeight = newHeight;
+			}
+
 			return {
 				isRetina: isRetina,
 				width: screenWidth,

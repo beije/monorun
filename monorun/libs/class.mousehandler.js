@@ -77,9 +77,7 @@ function mousehandler( targetElement, offset ) {
 	 */
 	this.initialize = function( targetElement, offset ) {
 		if( offset ) {
-			this.screenSize = {};
-			this.screenSize.width = offset.width;
-			this.screenSize.height = offset.height;
+			this.setScreenSize( offset );
 		}
 		this.$element = $( targetElement );
 		this.setupEvents();
@@ -230,6 +228,21 @@ function mousehandler( targetElement, offset ) {
 		return this.positions.y;
 	}
 
+	/*
+	 * public function setScreenSize()
+	 *
+	 * Sets the screen size if the screen is retina so the mouse
+	 * handler can scale appropriately
+	 *
+	 * @param data (object), The screen object { width, height }
+	 *
+	 */
+	this.setScreenSize = function( data ) {
+		this.screenSize = {};
+		this.screenSize.width = data.width;
+		this.screenSize.height = data.height;
+	}
+
 	// Initialize the handler
 	this.initialize( targetElement, offset );
 
@@ -237,6 +250,7 @@ function mousehandler( targetElement, offset ) {
 	return {
 		x: this.getPositionX.bind( this ),
 		y: this.getPositionY.bind( this ),
-		setCallback: this.setCallback.bind( this )
+		setCallback: this.setCallback.bind( this ),
+		setScreenSize: this.setScreenSize.bind( this )
 	};
 }
