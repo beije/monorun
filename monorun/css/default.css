@@ -1,0 +1,236 @@
+/*==========================================================================
+
+	monorun.com
+	
+	Author:		Carlos Eriksson, Benjamin Horn
+	Project:	monorun.com | Codename Hypothermia
+	Repo:		
+	Version:	
+	
+	Created:	2013-05-18
+	Updated:	2013-05-23
+	
+	Usage:
+
+=======================
+	
+	TABLE OF CONTENT
+	
+	Normalize.css | By Nicolas Gallagher |git.io/normalize
+	
+    Add more stuff here
+
+========================================================================== */
+/*
+	Normalize.css | By Nicolas Gallagher |git.io/normalize
+=======================
+======================= */
+/*
+ * Needs to be scaled back to only include stuff that's used.
+ */
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}html,button,input,select,textarea{font-family:sans-serif;}a:focus{outline:thin dotted;}a:hover,a:active{outline:0;}h1{font-size:2em;margin:.67em 0;}h2{font-size:1.5em;margin:.83em 0;}h3{font-size:1.17em;margin:1em 0;}h4{font-size:1em;margin:1.33em 0;}h5{font-size:.83em;margin:1.67em 0;}h6{font-size:.75em;margin:2.33em 0;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}blockquote{margin:1em 40px;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}pre,code,kbd,samp{font-family:monospace, serif;_font-family:'courier new', monospace;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:none;}q:before,q:after{content:none;}small{font-size:75%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}dd{margin:0 0 0 40px;}menu,ol,ul{padding:0 0 0 40px;}nav ul,nav ol{list-style:none;list-style-image:none;}img{border:0;-ms-interpolation-mode:bicubic;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}legend{border:0;white-space:normal;margin-left:-7px;padding:0;}/* Form field edit starts here */button,input,select,textarea{font-size:inherit;font-family:inherit;line-height:inherit;vertical-align:middle;margin:0;}button,input{line-height:normal;}button,input[type=button],input[type=reset],input[type=submit]{cursor:pointer;-webkit-appearance:button;overflow:visible;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{height:13px;width:13px;padding:0;}input[type=search]{-webkit-appearance:textfield;}input[type=search]::-webkit-search-decoration,input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure,form{margin:0;}p,pre,dl,menu,ol,ul{margin:1em 0;}
+/*
+ * Make everything border-box because it's awesome
+ */
+*,
+*:before,
+*:after {
+ 	-webkit-box-sizing:	border-box;
+	-moz-box-sizing:	border-box;
+	box-sizing:			border-box;
+}
+/*
+ * Revise transitions. Don't do it on everything.
+ */
+*, *:before, *:after {
+-webkit-transition:	all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
+-moz-transition:	all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
+-ms-transition:		all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
+-o-transition:		all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
+transition:			all 333ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
+}
+/*
+ * .WOFF for most modern browsers. .SVG for Android.
+ * Character scope: a-z, A-Z, 0-9
+ */
+@font-face {
+    font-family: 'Museo300';
+    src: url('../fonts/museo300.woff') format('woff'),
+         url('../fonts/museo300.svg#Museo300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html, body {width:100%; height:100%;}
+html {display:table;}
+body {
+	font: 16px/1.618 'Consolas';
+	display:table-cell;
+	vertical-align:middle;
+	padding:1.618em;
+	color:#2B373B;
+	background: url(../img/top-left-corner.png) no-repeat left top,
+				url(../img/bottom-right-corner.png) no-repeat right bottom white;
+
+}
+h1, h2, h3 {
+	font:300 16px/1.618em 'Museo300',sans-serif;
+	text-transform: lowercase;
+}
+h1, h2, h3, h4, h5, h6 {margin:0 0 .75em 0;}
+h1 {font-size: 2em;}
+h2 {font-size:1.75em;}
+a, a:visited {
+	color:#57c5db;
+}
+a:hover, a:focus, a:active {
+	color:#161b1d;
+}
+section {
+	margin:0 auto;
+	text-align:center;
+	width:100%;
+	max-width:26em;
+}
+p {
+	margin:1.5em 0;
+	color:#2B373B;
+}
+small {
+	font-size:.75em;
+	color: #666;
+}
+.score {font-weight:700;}
+/*
+	Tables
+======================= */
+table {width:100%; font-size: inherit; margin:0 0 1.618em 0;}
+thead {font-weight:700; color:#57c5db;}
+td {width:33%; text-align: left; color:#666;}
+td:nth-child(2n) {text-align: center;}
+td:nth-child(3n) {text-align:right;}
+
+.highlight td {color:#20afdf;}
+
+
+/*
+	Form
+======================= */
+form {}
+form p {position: relative;}
+fieldset {
+	border:0;
+	padding:0;
+	margin:0;
+}
+input,
+label {
+	border:1px solid silver;
+	padding:.81em;
+	text-align: center;
+	width:70%;
+}
+input {
+	background: #f0f3f4;
+}
+
+label {
+	width:60%;
+	padding:.41em;
+	border:0;
+	position:absolute;
+	left:15%;
+	/*opacity:0;*/
+	background:#666;
+	color:white;
+	z-index:-1;
+}
+input:focus + label {
+	opacity:1;
+	-moz-transform:translateY(-100%);
+	-webkit-transform:translateY(-100%);
+	transform:translateY(-100%);
+}
+
+input:hover,
+input:focus,
+input:active {
+	background:white;
+}
+
+.btn,
+.btn:visited,
+button {
+	font:300 16px/1.618em 'Museo300',sans-serif;
+	display:inline-block;
+	padding:.41em 1.618em;
+	background: #57c5db;
+	color:white;
+	text-decoration: none;
+	border:0;
+}
+.btn:hover,
+.btn:focus,
+.btn:active,
+button:hover,
+button:focus,
+button:active {
+	background:#20afdf;
+	color:white;
+	cursor:pointer;
+}
+/*
+	Social
+======================= */
+.facebook, .twitter {background:#666;}
+.facebook:hover {background:#3a5897;}
+.twitter:hover {background:#28aae1;}
+
+
+/*
+	Game items
+======================= */
+#timer {
+	display:none;
+	color:#fff;
+	font-size:40px;
+	font-weight:bold;
+	display:block;
+	top:0;
+	left:0;
+	position:fixed;
+	z-index:2;
+}
+
+#game {
+	display:none;
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:#161b1e;
+	/* Windows phone no-scroll*/
+	-ms-touch-action: none;
+	z-index:1;
+}
+
+#message {
+	z-index:3;
+	display:none;
+	width:200px;
+	min-height:100px;
+	background: #57c5db;
+	line-height:1.5;
+	padding:20px 0 20px 0;
+	border:5px solid #fff;
+	text-align:center;
+	position:fixed;
+	color:#fff;
+	top:50%;
+	left:50%;
+	margin-left:-100px;
+	margin-top:-50px;
+	box-shadow:0px 0px 0px 10px #57c5db;
+}
