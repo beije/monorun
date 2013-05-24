@@ -153,6 +153,12 @@ function mousehandler( targetElement, offset ) {
 		e = e.originalEvent || e; // Damn it jquery.
 		e.preventDefault();
 		
+		// Windows phone / Mobile IE10
+		// Doesn't use "touches"
+		if( e.touches != undefined ) {
+			e = e.touches[0];
+		}
+		
 		// Update positions
 		this.positions = {
 			x: e.clientX,
