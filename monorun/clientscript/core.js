@@ -6,6 +6,7 @@ var core = {
 	startTime: 0,
 	endTime: 0,
 	timer: null,
+	rolandTimer: null,
 	lineHandlers:[],
 	lineHandler:null,
 	screenData: {},
@@ -69,7 +70,7 @@ var core = {
 			'preFrameRender'
 		);
 
-		setInterval(
+		this.rolandTimer = setInterval(
 			this.appendRoland.bind( this ),
 			2000
 		);
@@ -91,7 +92,8 @@ var core = {
 
 	},
 	end: function() {
-		clearInterval( timer );
+		clearInterval( this.rolandTimer );
+		clearInterval( this.timer );
 		this.endTime = new Date().getTime();
 		this.painter.stop();
 		console.log( 'Game time: '+ (this.endTime - this.startTime) );
@@ -102,7 +104,7 @@ var core = {
 			core.resizeCanvas.bind(this)
 		);
 
-		timer = setInterval(
+		this.timer = setInterval(
 			this.updateTimer.bind( this ),
 			20
 		);

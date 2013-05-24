@@ -100,8 +100,8 @@ function roland( id, painter, pixelMap ) {
 
 		var pixelMap = {
 			pixelMap: this.pixelMap,
-			width: 70,
-			height: 70,
+			width: this.size.width,
+			height: this.size.height,
 			x: this.currentPositions.x,
 			y: this.currentPositions.y
 		};
@@ -118,6 +118,11 @@ function roland( id, painter, pixelMap ) {
 		this.positionCounter++;
 	};
 
+	this.size = {
+		width: 60,
+		height: 60 
+	}
+
 	/*
 	 * public function render()
 	 *
@@ -128,13 +133,18 @@ function roland( id, painter, pixelMap ) {
 	 *
 	 */
 	this.render = function( imageUrl, resolution ) {
-		
+
+		if( Math.round( Math.random()*2 ) == 1 ) {
+			this.size.width = 72;
+			this.size.height = 72;
+		}
+
 		// Render roland :)
 		this.canvas = document.createElement( 'canvas' );
 		var ctx = this.canvas.getContext( '2d' );
-		
+		var radius = (this.size.width-12)/2;
 		ctx.beginPath();
-		ctx.arc(35, 35, 25, 0, 2 * Math.PI, false);
+		ctx.arc(this.size.width/2, this.size.height/2, radius, 0, 2 * Math.PI, false);
 		ctx.fillStyle = '#161b1e';
 		ctx.fill();
 		ctx.lineWidth = 12;

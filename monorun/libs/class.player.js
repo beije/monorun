@@ -48,12 +48,33 @@ function Player( painter ) {
 		var ctx = userImage.getContext( '2d' );
 
 		ctx.beginPath();
-		ctx.arc( 25, 25, 15, 0, 2 * Math.PI, false );
+		ctx.arc( 36, 36, 30, 0, 2 * Math.PI, false );
 		ctx.fillStyle = '#161b1e';
 		ctx.fill();
 		ctx.lineWidth = 12;
 		ctx.strokeStyle = '#fff';
 		ctx.stroke();
+		ctx.closePath();
+
+		ctx.beginPath();
+		ctx.moveTo(33,24);
+		ctx.lineTo(39,24);
+		ctx.lineTo(39,33);
+		ctx.lineTo(48,33);
+		ctx.lineTo(48,39);
+		ctx.lineTo(48,39);
+		ctx.lineTo(39,39);
+		ctx.lineTo(39,48);
+		ctx.lineTo(33,48);
+		ctx.lineTo(33,39);
+		ctx.lineTo(24,39);
+		ctx.lineTo(24,33);
+		ctx.lineTo(33,33);
+		ctx.lineTo(33,24);
+		ctx.fillStyle = '#ffffff';
+		ctx.fill();
+		ctx.closePath();
+
 
 		return userImage;
 	}
@@ -79,17 +100,17 @@ function Player( painter ) {
 	this.renderPlayer = function() {
 		var pixelMap = {
 			pixelMap: this.pixelMap,
-			width: 50,
-			height: 50,
-			x: this.position.x-25,
-			y: this.position.y-25
+			width: 72,
+			height: 72,
+			x: this.position.x-36,
+			y: this.position.y-36
 		};
 
 		this.painter.addToQueue( 
 			'user',                   // ID
 			this.rendered,            // Image
-			this.position.x-25,       // X position
-			this.position.y-25,       // Y position
+			this.position.x-36,       // X position
+			this.position.y-36,       // Y position
 			1,                        // z layer (collision layer) 
 			pixelMap,                 // Pixel map (for collision detection)
 			this.collision.bind(this) // Collision callback
