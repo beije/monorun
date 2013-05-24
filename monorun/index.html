@@ -1,28 +1,25 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 	<head>
-		<meta charset='utf-8'>
-		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'></meta>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Monorun!</title>
 
-<!--
-	Load .css quickly, it blocks page rendering.
--->
-<link type="text/css" rel="stylesheet" href="css/default.css"/>
+		<!--
+			Load .css quickly, it blocks page rendering.
+		-->
+		<link type="text/css" rel="stylesheet" href="css/default.css">
 
-<!--
-Disable user zoom on touch devices to prevent accidental pinch zoom when playing. js handles rescaling anyway.
--->
+		<!--
+			Disable user zoom on touch devices to prevent accidental pinch zoom when playing. js handles rescaling anyway.
+		-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-
-<!-- /apple-touch-icon.png for iDevices -->
-<link rel="icon" href="img/favicon.png">
-<!-- and /favicon.ico for IE10 -->
-<meta name="msapplication-TileColor" content="#56c5db">
-<meta name="msapplication-TileImage" content="img/tileicon.png">
-
+		<!-- /apple-touch-icon.png for iDevices -->
+		<link rel="icon" href="img/favicon.png">
+		<!-- and /favicon.ico for IE10 -->
+		<meta name="msapplication-TileColor" content="#56c5db">
+		<meta name="msapplication-TileImage" content="img/tileicon.png">
 	</head>
 	<body>
 		<section>
@@ -30,7 +27,7 @@ Disable user zoom on touch devices to prevent accidental pinch zoom when playing
 			RC: Embed with base64
 			-->
 			<p>
-				<img alt="" src="img/monorun-logo-128.png" />
+				<img alt="" src="img/monorun-logo-128.png">
 			</p>
 			<!--/Logo-->
 			<p>
@@ -50,18 +47,15 @@ Disable user zoom on touch devices to prevent accidental pinch zoom when playing
 		<span id="timer"></span>
 		<div id="message" class="message"></div>
 
-	</body>
-<!--
-	Load .js as late as possible. Block downloadsing other resources (incl. other js files)
-	Remember to minify before RC
-	Do we need the entire jQuery library? (82 Kb minified)
--->
+		<!--
+			Load .js as late as possible. Block downloadsing other resources (incl. other js files)
+			Remember to minify before RC
+		-->
+
 		<!-- Jquery -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-
 		<!-- Random functions -->
 		<script src="clientscript/common.js"></script>
-
 		<!-- Dependencies -->
 		<script src="libs/class.painter.js"></script>
 		<script src="libs/class.mousehandler.js"></script>
@@ -70,10 +64,9 @@ Disable user zoom on touch devices to prevent accidental pinch zoom when playing
 		<script src="libs/class.collisionDetection.js"></script>
 		<script src="libs/class.player.js"></script>
 		<script src="libs/class.line.js"></script>
-		
 		<!-- Core -->
 		<script src="clientscript/core.js"></script>
-
 		<!-- Main -->
 		<script src="clientscript/main.js"></script>
+	</body>
 </html>
