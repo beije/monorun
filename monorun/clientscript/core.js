@@ -15,7 +15,7 @@ var core = {
 	initialize: function() {
 
 		this.screenData = this.calculateCanvasSize();
-		console.log( this.screenData );
+
 		$( '#game' ).attr( 'width', this.screenData.width + 'px'  );
 		$( '#game' ).attr( 'height',this.screenData.height + 'px'  );
 		$( '#message' ).hide();
@@ -47,7 +47,7 @@ var core = {
 		// If user stands on the same position for over 100 milliseconds
 		// redirect a random roland to that location
 		if( this.latestPlayerPositionCheck == 0 ) {
-			this.latestPlayerPositionCheck = now;
+			this.latestPlayerPositionCheck = now+5000;
 		}
 		var currenPlayerPosition = this.player.getPlayerPosition();
 		if( currenPlayerPosition.x == this.playerLastPosition.x && currenPlayerPosition.y == this.playerLastPosition.y ) {
@@ -57,7 +57,9 @@ var core = {
 				this.latestPlayerPositionCheck = now;
 			}
 		} else {
-			this.latestPlayerPositionCheck = now;
+			if( this.latestPlayerPositionCheck < now ) {
+				this.latestPlayerPositionCheck = now;
+			}
 		}
 		this.playerLastPosition = currenPlayerPosition;
 
@@ -89,21 +91,17 @@ var core = {
 			this.connectingRoland.bind( this ),
 			'preFrameRender'
 		);
-
+		
 		this.rolandTimer = setInterval(
 			this.appendRoland.bind( this ),
 			2000
 		);
-
-		//setTimeout( function() { enemies.render('assets/redcross.png', 2); },2000 )
-		//rolle = new roland( 'rolle', painterhandler );
-		
 	},
 	appendRoland: function() {
 		//if( this.enemies.length > 5 ) return false;
 		var index = this.enemies.length;
 		// Ugly hack with sending in a prerendered roland pixelmap
-		this.enemies.push( new roland( 'rolle'+index , this.painter, this.enemies[0].getPixelMap() ) );
+		this.enemies.push( new roland( 'rolle'+index , this.painter, ( this.enemies.length != 0 ? this.enemies[0].getPixelMap() : false ) ) );
 		this.enemies[index].setSpeed( parseInt( Math.random()*100 )+20 );
 	},
 	showMessage: function( msg ) {
