@@ -16,28 +16,52 @@
 	
 	TABLE OF CONTENT
 	
-	Normalize.css | By Nicolas Gallagher |git.io/normalize
+	Normalize.css | By Nicolas Gallagher | git.io/normalize
 	
-    Add more stuff here
+    Super Globals
+    	Box-sizing, Selection, Transitions
+    Font-Face
+    Globals
+    Headers
+    Links
+    Tables
+    Form
+    Social
+
+    Press to play
+    Gameitems
+
+    Keyframes
 
 ========================================================================== */
 /*
 	Normalize.css | By Nicolas Gallagher |git.io/normalize
-=======================
+
 ======================= */
 /*
  * Needs to be scaled back to only include stuff that's used.
  */
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}html,button,input,select,textarea{font-family:sans-serif;}a:focus{outline:thin dotted;}a:hover,a:active{outline:0;}h1{font-size:2em;margin:.67em 0;}h2{font-size:1.5em;margin:.83em 0;}h3{font-size:1.17em;margin:1em 0;}h4{font-size:1em;margin:1.33em 0;}h5{font-size:.83em;margin:1.67em 0;}h6{font-size:.75em;margin:2.33em 0;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}blockquote{margin:1em 40px;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}pre,code,kbd,samp{font-family:monospace, serif;_font-family:'courier new', monospace;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:none;}q:before,q:after{content:none;}small{font-size:75%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}dd{margin:0 0 0 40px;}menu,ol,ul{padding:0 0 0 40px;}nav ul,nav ol{list-style:none;list-style-image:none;}img{border:0;-ms-interpolation-mode:bicubic;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}legend{border:0;white-space:normal;margin-left:-7px;padding:0;}/* Form field edit starts here */button,input,select,textarea{font-size:inherit;font-family:inherit;line-height:inherit;vertical-align:middle;margin:0;}button,input{line-height:normal;}button,input[type=button],input[type=reset],input[type=submit]{cursor:pointer;-webkit-appearance:button;overflow:visible;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{height:13px;width:13px;padding:0;}input[type=search]{-webkit-appearance:textfield;}input[type=search]::-webkit-search-decoration,input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure,form{margin:0;}p,pre,dl,menu,ol,ul{margin:1em 0;}
+
 /*
- * Make everything border-box because it's awesome
- */
+	Super Globals
+======================= */
 *,
 *:before,
 *:after {
  	-webkit-box-sizing:	border-box;
 	-moz-box-sizing:	border-box;
 	box-sizing:			border-box;
+}
+::-moz-selection {
+    background: #0a0e0f;
+    color:white;
+    text-shadow: none;
+}
+::selection {
+    background: #0a0e0f;
+    color:white;
+    text-shadow: none;
 }
 /*
  * Revise transitions. Don't do it on everything.
@@ -51,7 +75,7 @@ transition:			all 333ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
 }
 /*
  * .WOFF for most modern browsers. .SVG for Android.
- * Character scope: a-z, A-Z, 0-9
+ * Character scope: a-z, A-Z, 0-9. Limit scope to only used characters for RC
  */
 @font-face {
     font-family: 'Museo300';
@@ -62,7 +86,12 @@ transition:			all 333ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
 
 }
 
-html, body {width:100%; height:100%;}
+
+/*
+	Globals
+======================= */
+html,
+body {width:100%; height:100%;}
 html {display:table;}
 body {
 	font: 16px/1.618 'Consolas', Monaco, 'Courier New', Courier, monospace;
@@ -74,17 +103,31 @@ body {
 				url(../img/bottom-right-corner.png) no-repeat right bottom white;
 
 }
-h1, h2, h3 {
-	font:300 16px/1.618em 'Museo300',sans-serif;
+/*
+	Headers
+======================= */
+h1,
+h2,
+h3 {
+	font:300 1em/1.618 'Museo300',sans-serif;
 	text-transform: lowercase;
+	margin:0 0 .809em 0;
+	color:#2b373b;
 }
-h1, h2, h3, h4, h5, h6 {margin:0 0 .75em 0;}
-h1 {font-size: 2em;}
-h2 {font-size:1.75em;}
-a, a:visited {
+h1,
+h2 {font-size: 2em;}
+h3 {font-size:1.5em;}
+
+/*
+	Links
+======================= */
+a,
+a:visited {
 	color:#57c5db;
 }
-a:hover, a:focus, a:active {
+a:hover,
+a:focus,
+a:active {
 	color:#161b1d;
 }
 section {
@@ -94,14 +137,24 @@ section {
 	max-width:26em;
 }
 p {
-	margin:1.5em 0;
-	color:#2B373B;
+	margin:0 0 1.618em 0;
 }
 small {
 	font-size:.75em;
-	color: #666;
+	color: #666;}
+img {
+	vertical-align: middle;
 }
-.score {font-weight:700;}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1.618em auto;
+    padding: 0;
+}
+.score {font-size:1.5em; color:#56c5db;}
 /*
 	Tables
 ======================= */
@@ -117,7 +170,7 @@ td:nth-child(3n) {text-align:right;}
 /*
 	Form
 ======================= */
-form {}
+form {margin:3.36em 0 0 0;}
 form p {position: relative;}
 fieldset {
 	border:0;
@@ -127,7 +180,7 @@ fieldset {
 input,
 label {
 	border:1px solid silver;
-	padding:.81em;
+	padding:.809em;
 	text-align: center;
 	width:70%;
 }
@@ -136,14 +189,12 @@ input {
 }
 
 label {
-	width:60%;
-	padding:.41em;
+	width:100%;
+	padding:.4045em;
 	border:0;
 	position:absolute;
-	left:15%;
-	/*opacity:0;*/
-	background:#666;
-	color:white;
+	left:0;
+	opacity:0;
 	z-index:-1;
 }
 input:focus + label {
@@ -163,8 +214,9 @@ input:active {
 .btn:visited,
 button {
 	font:300 16px/1.618em 'Museo300',sans-serif;
+	text-transform: lowercase;
 	display:inline-block;
-	padding:.41em 1.618em;
+	padding:.4045em 1.618em;
 	background: #57c5db;
 	color:white;
 	text-decoration: none;
@@ -183,11 +235,20 @@ button:active {
 /*
 	Social
 ======================= */
-.facebook, .twitter {background:#666;}
+.facebook,
+.twitter {background:#666; text-transform: capitalize;}
 .facebook:hover {background:#3a5897;}
 .twitter:hover {background:#28aae1;}
 
-
+/*
+	Press to play
+======================= */
+.press-to-start {
+  -webkit-animation: fader 2500ms alternate infinite; /* Safari 4+ */
+  -moz-animation:    fader 2500ms alternate infinite; /* Fx 5+ */
+  -o-animation:      fader 2500ms alternate infinite; /* Opera 12+ */
+  animation:         fader 2500ms alternate infinite; /* IE 10+ */
+}
 /*
 	Game items
 ======================= */
@@ -211,7 +272,7 @@ button:active {
 	width:100%;
 	height:100%;
 	background:#161b1e;
-	/* Windows phone no-scroll*/
+	/* Windows phone no-scroll */
 	-ms-touch-action: none;
 	z-index:1;
 }
@@ -233,4 +294,24 @@ button:active {
 	margin-left:-100px;
 	margin-top:-50px;
 	box-shadow:0px 0px 0px 10px #57c5db;
+}
+
+/*
+	Keyframes
+======================= */
+@-webkit-keyframes fader {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes fader {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes fader {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes fader {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
