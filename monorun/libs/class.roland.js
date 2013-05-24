@@ -22,7 +22,10 @@ function roland( id, painter, pixelMap ) {
 	this.pixelMap                             // Object, the pixelMap of the rendered roland
 	this.id = parseInt( Math.random()*1000 ); // (String/integer), the unique default id of Roland
 	this.positionCounter = 0;                 // Int, current position in calculatedPositions
-
+	this.size = {                             // Object, size of roland
+		width: 60,
+		height: 60 
+	}
 
 	/*
 	 * private function initialize()
@@ -117,11 +120,6 @@ function roland( id, painter, pixelMap ) {
 
 		this.positionCounter++;
 	};
-
-	this.size = {
-		width: 60,
-		height: 60 
-	}
 
 	/*
 	 * public function render()
