@@ -172,6 +172,21 @@ function Player( painter ) {
 		} 
 	}
 
+	/*
+	 * public function getPlayerPosition()
+	 *
+	 * Returns player position
+	 *
+	 * @return object, player position
+	 *
+	 */
+	this.getPlayerPosition = function() {
+		return {
+			x: this.position.x,
+			y : this.position.y
+		};
+	}
+
 	// Initialize the player
 	this.initialize( painter );
 
@@ -179,6 +194,7 @@ function Player( painter ) {
 	return {
 		updatePositions: this.updatePositions.bind( this ),
 		renderPlayer: this.renderPlayer.bind( this ),
-		setScreenData: this.setScreenData.bind( this )
+		setScreenData: this.setScreenData.bind( this ),
+		getPlayerPosition: this.getPlayerPosition.bind( this )
 	};
 }

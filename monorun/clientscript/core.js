@@ -10,7 +10,8 @@ var core = {
 	lineHandlers:[],
 	lineHandler:null,
 	screenData: {},
-
+	playerLastPosition: {},
+	latestPlayerPositionCheck: 0,
 	initialize: function() {
 
 		this.screenData = this.calculateCanvasSize();
@@ -39,8 +40,28 @@ var core = {
 		}
 
 	},
+
 	updateTimer: function() {
 		var now = new Date().getTime();
+
+		// If user stands on the same position for over 100 milliseconds
+		// redirect a random roland to that location
+		if( this.latestPlayerPositionCheck == 0 ) {
+			this.latestPlayerPositionCheck = now;
+		}
+		var currenPlayerPosition = this.player.getPlayerPosition();
+		if( currenPlayerPosition.x == this.playerLastPosition.x && currenPlayerPosition.y == this.playerLastPosition.y ) {
+			if( ( now - this.latestPlayerPositionCheck ) > 500 ) {
+				// Redirect roland
+				this.enemies[ Math.round( Math.random()*(this.enemies.length-1) ) ].generateNewPosition( currenPlayerPosition.x, currenPlayerPosition.y );
+				this.latestPlayerPositionCheck = now;
+			}
+		} else {
+			this.latestPlayerPositionCheck = now;
+		}
+		this.playerLastPosition = currenPlayerPosition;
+
+
 		$('#timer')[0].innerHTML = (now - this.startTime) + ' ms';
 	},
 	start: function( startPosition ) {
@@ -57,7 +78,6 @@ var core = {
 		if( startPosition ) {
 			this.player.updatePositions( startPosition.x, startPosition.y );
 		}
-
 
 		for( var i = 0; i < 1; i++ ) {
 			this.enemies.push( new roland( 'rolle'+i , this.painter ) );
@@ -106,7 +126,7 @@ var core = {
 
 		this.timer = setInterval(
 			this.updateTimer.bind( this ),
-			20
+			200
 		);
 
 	},

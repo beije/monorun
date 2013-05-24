@@ -61,16 +61,19 @@ function roland( id, painter, pixelMap ) {
 	};
 
 	/*
-	 * private function generateNewPosition()
+	 * public function generateNewPosition()
+	 *
+	 * @param x (int)(optional) new end x position
+	 * @param y (int)(optional) new end y position
 	 *
 	 * Generates a new random animation path for this instance
 	 *
 	 */
-	this.generateNewPosition = function() {
+	this.generateNewPosition = function(x,y) {
 		this.positionCounter = 0;
 		var size = this.painter.getCanvasSize();
-		var newX = parseInt( Math.random() * size.width );
-		var newY = parseInt( Math.random() * size.height );
+		var newX = ( x !== undefined ? parseInt( x ) : parseInt( Math.random() * size.width ) );
+		var newY = ( y !== undefined ? parseInt( y ) : parseInt( Math.random() * size.height ) );
 
 		this.preAnimator.setStartPosition( this.currentPositions.x, this.currentPositions.y );
 		this.preAnimator.setEndPosition( newX, newY );
@@ -216,6 +219,7 @@ function roland( id, painter, pixelMap ) {
 		render: this.render.bind( this ),
 		setSpeed: this.setSpeed.bind( this ),
 		getPositions: this.getCurrentPositions.bind( this ),
-		getPixelMap: this.getPixelMap.bind( this )
+		getPixelMap: this.getPixelMap.bind( this ),
+		generateNewPosition: this.generateNewPosition.bind( this ),
 	}
 }
