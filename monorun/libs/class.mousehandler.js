@@ -150,10 +150,17 @@ function mousehandler( targetElement, offset ) {
 	 */
 	this.start = function( e ) {
 		e = e || window.event;
+		e = e.originalEvent || e; // Damn it jquery.
 		e.preventDefault();
+		
+		// Update positions
+		this.positions = {
+			x: e.clientX,
+			y: e.clientY
+		};
 
 		// Fire external callback
-		this.callbacks.start();
+		this.callbacks.start( this.getPositionX(), this.getPositionY() );
 		// Set stat to active
 		this.active = true;
 

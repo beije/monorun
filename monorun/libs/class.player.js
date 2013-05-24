@@ -118,9 +118,15 @@ function Player( painter ) {
 	 */	
 	this.setupEvents = function() {
 
-		// Set callback for mousehandler
+		// Set move callback for mousehandler
 		this.mouseHandler.setCallback(
 			'move', 
+			this.updatePositions.bind( this ) 
+		);
+
+		// Set click callback for mousehandler
+		this.mouseHandler.setCallback(
+			'start', 
 			this.updatePositions.bind( this ) 
 		);
 

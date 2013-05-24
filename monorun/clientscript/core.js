@@ -42,9 +42,21 @@ var core = {
 		var now = new Date().getTime();
 		$('#timer')[0].innerHTML = (now - this.startTime) + ' ms';
 	},
-	start: function() {
+	start: function( startPosition ) {
+
+		// Translate start position to canvas position
+		if( startPosition ) {
+			startPosition.x = ( startPosition.x / $( '#game' ).width() ) * this.screenData.width;
+			startPosition.y = ( startPosition.y / $( '#game' ).height() ) * this.screenData.height;
+		}
+
 		this.startTime = new Date().getTime();
 		this.player = new Player( this.painter );
+
+		if( startPosition ) {
+			this.player.updatePositions( startPosition.x, startPosition.y );
+		}
+
 
 		for( var i = 0; i < 1; i++ ) {
 			this.enemies.push( new roland( 'rolle'+i , this.painter ) );
