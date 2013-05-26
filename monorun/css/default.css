@@ -171,7 +171,7 @@ td:nth-child(3n) {text-align:right;}
 	Form
 ======================= */
 fieldset {border:0; padding:0; margin:0;}
-label {position: absolute; left:100%;}
+label {position: absolute; font:0/0 a;}
 input {
 	border:1px dotted transparent;
 	border-width: 0 0 1px 0;
