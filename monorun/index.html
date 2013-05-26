@@ -22,7 +22,11 @@
 		<meta name="msapplication-TileImage" content="img/tileicon.png">
 	</head>
 	<body>
-		<section>
+
+		<!--
+			Game / Start screen, shown by default
+		-->
+		<section id="start-screen">
 			<!--Logo
 			RC: Embed with base64
 			-->
@@ -41,6 +45,71 @@
 			<p><small>Monorun! is currently being developed by <a href="http://www.benjaminhorn.se/" target="_blank">Benjamin Horn</a> and designed by <a href="http://fiinixdesign.blogspot.com/" target="_blank">Carlos Eriksson</a>. The <a href="https://github.com/beije/monorun">source code for monorun!</a> is available from GitHub.</small>
 			</p>
 		</section>
+
+		<!--
+			High score screen, hidden by default
+		-->
+		<section id="high-score-screen">
+			<h1>High score</h1>
+			<table>
+				<thead>
+					<tr>
+						<td>rank</td>
+						<td>name</td>
+						<td>score</td>
+					</tr>
+				</thead>
+				<tbody class="high-score-results">
+					<tr>
+						<td>1st</td>
+						<td>zelda</td>
+						<td>00085</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+					<tr class="highlight">
+						<td>35th</td>
+						<td>reach</td>
+						<td>00001</td>
+					</tr>
+				</tbody>
+			</table>
+			<a href="#" class="btn" data-location="start-screen">Play again!</a>
+			<hr>
+			<h2>Share your high score on</h2>
+			<a href="#" class="btn facebook">Facebook</a>
+			<a href="#" class="btn twitter">Twitter</a>
+		</section>
+
+		<!--
+			Score submittal screen, hidden by default
+		-->
+		<section id="submit-score-screen">
+			<h1>Congratulations!</h1>
+
+			<p>You stayed positive for <span id="latest-run-score" class="score">134560</span> ms.</p>
+
+			<p>However, like everything in life, your high score will decay with time. Enjoy it while it lasts.</p>
+
+			<fieldset>
+				<p>
+					<input type="text" id="name" name="name" placeholder="Marty McFly"><label for="name">Your name</label>
+				</p>
+				<p>
+					<small>
+					You can post your high score anonymously by leaving the field as it is.
+					</small>
+				</p>
+				<p>
+					<a href="#" class="btn update-username">Submit high score!</a>
+				</p>
+			</fieldset>
+
+		</section>
+
 
 		<!-- Game elements -->
 		<canvas id="game" width="100%" width="100%"></canvas>
@@ -64,7 +133,9 @@
 		<script src="libs/class.collisionDetection.js"></script>
 		<script src="libs/class.player.js"></script>
 		<script src="libs/class.line.js"></script>
+		<script src="libs/class.apiInterface.js"></script>
 		<!-- Core -->
+		<script src="clientscript/interface.js"></script>
 		<script src="clientscript/core.js"></script>
 		<!-- Main -->
 		<script src="clientscript/main.js"></script>

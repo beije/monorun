@@ -1,7 +1,6 @@
 var core = {
 	player: null,
 	painter:null,
-	player:null,
 	enemies: [],
 	startTime: 0,
 	endTime: 0,
@@ -12,6 +11,7 @@ var core = {
 	screenData: {},
 	playerLastPosition: {},
 	latestPlayerPositionCheck: 0,
+	gameStarted: false,
 	initialize: function() {
 
 		this.screenData = this.calculateCanvasSize();
@@ -25,8 +25,6 @@ var core = {
 		this.lineHandler.setLineWidth( 10 );
 		this.lineHandler.setLineColor( 'rgba(87,197,219,0.1)' );
 		
-
-		this.setupEvents();
 		this.resizeCanvas();
 	},
 	connectingRoland: function() {
@@ -67,6 +65,7 @@ var core = {
 		$('#timer')[0].innerHTML = (now - this.startTime) + ' ms';
 	},
 	start: function( startPosition ) {
+		this.gameStarted = true;
 
 		// Translate start position to canvas position
 		if( startPosition ) {
@@ -92,10 +91,7 @@ var core = {
 			'preFrameRender'
 		);
 		
-		this.rolandTimer = setInterval(
-			this.appendRoland.bind( this ),
-			2000
-		);
+		this.setupEvents();
 	},
 	appendRoland: function() {
 		//if( this.enemies.length > 5 ) return false;
@@ -112,10 +108,23 @@ var core = {
 	end: function() {
 		clearInterval( this.rolandTimer );
 		clearInterval( this.timer );
+
+		this.gameStarted = false;
+		$( '#game' ).hide();
+		$( '#timer' ).hide();
+
+		//$( '#message' ).hide();
+
 		this.endTime = new Date().getTime();
 		this.painter.stop();
+		userInterface.postHighScore( (this.endTime - this.startTime) );
+		userInterface.showScreen( 'submit-score-screen' );
+		document.getElementById( 'latest-run-score' ).innerHTML = (this.endTime - this.startTime);
 		console.log( 'Game time: '+ (this.endTime - this.startTime) );
-		this.showMessage( "Game ended" );
+		this.enemies = [];
+		this.initialize();
+
+		//this.showMessage( "Game ended" );
 	},
 	setupEvents: function() {
 		$(window).resize(
@@ -127,6 +136,10 @@ var core = {
 			200
 		);
 
+		this.rolandTimer = setInterval(
+			this.appendRoland.bind( this ),
+			2000
+		);
 	},
 	resizeCanvas: function() {
 

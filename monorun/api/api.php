@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+// Check session
+if( !isset( $_SESSION['registered'] ) ) {
+	$_SESSION['registered'] = 1;
+	 $_SESSION['last_time_on_page'] = time();
+}
+$last_time_on_page = $_SESSION['last_time_on_page'];
+$_SESSION['last_time_on_page'] = time();
+
 // Include config file
 include( 'config.php' );
 
@@ -18,6 +28,9 @@ try {
 	// Show exceptions on error
 	$db_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+	// Always return rows as objects
+	$db_connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+
 	// Don't emulated prepared statements
 	$db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 } catch(PDOException $e) {
@@ -30,11 +43,26 @@ $do = ( isset( $_REQUEST['do'] ) ? $_REQUEST['do'] : 'get' );
 $return_data = array();
 $timenow = time();
 
+function findPosition( $score ) {
+	global $db_connection;
+	$statement = $db_connection->prepare( "SELECT id FROM highscore WHERE current_score > :score" );
+	$statement->execute( 
+		array( 
+			'score' => intval( $score )
+		)
+	);
+
+	return $statement->rowCount() + 1;
+}
+
 //
 // Main switch
 //
 switch( $do ) {
-
+	case 'register':
+		$return_data = true;
+	break;
+	
 	// Update a username if the correct id and secretkey is given
 	case 'update':
 
@@ -79,7 +107,8 @@ switch( $do ) {
 
 		// Set initial vars
 		$score = false;
-		$username = 'sfdsdfd';
+		$username = '';
+
 		// Generate a random secret key with md5
 		$secretkey = md5( rand( 0,1000000 ) . '_monorun_' . $timenow );
 
@@ -88,6 +117,16 @@ switch( $do ) {
 		}
 		if( isset( $_REQUEST['username'] ) ) {
 			$username = $_REQUEST['username'];
+		}
+
+		// Simple score spam protection, check that the 
+		// time between the last request and this request
+		// is larger than the score.
+		// Only protects agains simple url spam.
+		$timedifference = $timenow - $last_time_on_page;
+		if( $timedifference < ( $score / 1000 ) ) {
+			$return_data = false;
+			break;
 		}
 
 		// Check that there's a score
@@ -123,7 +162,8 @@ switch( $do ) {
 			// this score
 			$return_data = array(
 				'id' => $db_connection->lastInsertId(),
-				'secretkey' => $secretkey
+				'secretkey' => $secretkey,
+				'position' => findPosition( $score )
 			);
 		} else {
 			$return_data = false;
@@ -135,14 +175,15 @@ switch( $do ) {
 	case 'get':
 		try {
 			if( isset( $_REQUEST['id'] ) ) {
-				$statement = $db_connection->prepare( "SELECT * FROM highscore WHERE id = :id" );
+				$statement = $db_connection->prepare( "SELECT username, dateline, current_score as score FROM highscore WHERE id = :id" );
 				$statement->execute( array( 'id' => $_REQUEST['id'] ) );			
 			} else {
-				$statement = $db_connection->prepare( "SELECT * FROM highscore ORDER BY current_score DESC LIMIT 10" );
+				$statement = $db_connection->prepare( "SELECT username, dateline, current_score as score FROM highscore ORDER BY current_score DESC LIMIT 10" );
 				$statement->execute();
 			}
 
 			while($row = $statement->fetch()) {
+				$row->position = findPosition( $row->score );
 				$return_data[] = $row;
 			}
 
@@ -154,9 +195,9 @@ switch( $do ) {
 }
 
 // For debugging purpose, will be removed in final
-echo '<pre>';
-print_r($return_data);
-echo '</pre>';
+//echo '<pre>';
+//print_r($return_data);
+//echo '</pre>';
 
-//echo json_encode( $return_data );
+echo json_encode( $return_data );
 ?>
