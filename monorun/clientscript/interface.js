@@ -66,7 +66,10 @@ var userInterface = {
 	updateUsername: function( username ) {
 		if( !username ) {
 			username = document.getElementById('name').value;
-		} 
+		}
+
+		this.latestUserScore.username = username;
+
 		if( this.latestUserScore ) {
 			this.externalApi.updateScore(
 				this.latestUserScore.id,
@@ -100,10 +103,27 @@ var userInterface = {
 		resultsContainer.html('');
 		$( '#high-score-screen' ).show();
 
+		var currentScore = {
+			id: 0,
+			secretkey: 0,
+			position: -1
+		};
+
+
+		if( this.latestUserScore ) {
+			currentScore = this.latestUserScore;
+		}
+
+		var loopend = ( this.latestUserScore.position > 10 ? data.length - 2 : data.length );
+
 		//high-score-results
 		var fragment = document.createDocumentFragment();
-		for( var i = 0; i < data.length; i++ ) {
+		for( var i = 0; i < loopend; i++ ) {
 			var row = document.createElement('tr');
+
+			if( data[i].id == currentScore.id ) {
+				row.className = 'highlight';
+			}
 
 			var position = document.createElement( 'td' );
 			position.innerHTML = i+1;
@@ -119,6 +139,41 @@ var userInterface = {
 			row.appendChild( score );
 			fragment.appendChild( row );
 		}
+
+		if( loopend < data.length ) {
+			var emptyRow = document.createElement('tr');
+			var position = document.createElement( 'td' );
+			position.innerHTML = '...';
+			var userName = document.createElement( 'td' );
+			userName.innerHTML = '...';
+			var score = document.createElement( 'td' );
+			score.innerHTML = '...';
+
+			emptyRow.appendChild( position );
+			emptyRow.appendChild( userName );
+			emptyRow.appendChild( score );
+			fragment.appendChild( emptyRow );
+
+			var userRow = document.createElement('tr');
+			userRow.className = 'highlight';
+
+			var position = document.createElement( 'td' );
+			position.innerHTML = currentScore.position;
+
+			var userName = document.createElement( 'td' );
+			userName.innerHTML = ( currentScore.username ? currentScore.username : 'Abra kadabra!' );
+
+			var score = document.createElement( 'td' );
+			score.innerHTML = currentScore.score;
+
+			userRow.appendChild( position );
+			userRow.appendChild( userName );
+			userRow.appendChild( score );
+			fragment.appendChild( userRow );
+
+		}
+
+
 		resultsContainer[0].appendChild( fragment );
 	}
 };

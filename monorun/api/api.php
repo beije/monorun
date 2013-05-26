@@ -62,7 +62,7 @@ switch( $do ) {
 	case 'register':
 		$return_data = true;
 	break;
-	
+
 	// Update a username if the correct id and secretkey is given
 	case 'update':
 
@@ -163,7 +163,9 @@ switch( $do ) {
 			$return_data = array(
 				'id' => $db_connection->lastInsertId(),
 				'secretkey' => $secretkey,
-				'position' => findPosition( $score )
+				'position' => findPosition( $score ),
+				'score' => $score,
+				'username' => $username
 			);
 		} else {
 			$return_data = false;
@@ -175,10 +177,10 @@ switch( $do ) {
 	case 'get':
 		try {
 			if( isset( $_REQUEST['id'] ) ) {
-				$statement = $db_connection->prepare( "SELECT username, dateline, current_score as score FROM highscore WHERE id = :id" );
+				$statement = $db_connection->prepare( "SELECT id, username, dateline, current_score as score FROM highscore WHERE id = :id" );
 				$statement->execute( array( 'id' => $_REQUEST['id'] ) );			
 			} else {
-				$statement = $db_connection->prepare( "SELECT username, dateline, current_score as score FROM highscore ORDER BY current_score DESC LIMIT 10" );
+				$statement = $db_connection->prepare( "SELECT id, username, dateline, current_score as score FROM highscore ORDER BY current_score DESC LIMIT 10" );
 				$statement->execute();
 			}
 
