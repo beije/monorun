@@ -60,9 +60,6 @@ var core = {
 			}
 		}
 		this.playerLastPosition = currenPlayerPosition;
-
-
-		$('#timer')[0].innerHTML = (now - this.startTime) + ' ms';
 	},
 	start: function( startPosition ) {
 		this.gameStarted = true;
@@ -111,7 +108,6 @@ var core = {
 
 		this.gameStarted = false;
 		$( '#game' ).hide();
-		$( '#timer' ).hide();
 
 		//$( '#message' ).hide();
 

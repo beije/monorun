@@ -29,7 +29,7 @@
 	);
 	console.log( api );
 */
-
+	var clickPositions = {};
 	var startGame = function( e ) {
 		e = e || window.event;
 		var target = e.target; // Fetch click target
@@ -40,18 +40,30 @@
 			e.preventDefault();
 
 			if( !core.gameStarted ){
-
-				//core.gameStarted = true;
 				$('#game').show();
-				$('#timer').show();
 
-				var clickPositions = {
+				clickPositions = {
 					x: e.clientX,
 					y: e.clientY
 				};
-
-				core.initialize();
-				core.start( clickPositions );
+				$('#game').removeClass( 'normal' );
+				$('#game').css({
+					'display':'block',
+					'position':'fixed',
+					'top':clickPositions.y+'px',
+					'left':clickPositions.x+'px',
+					'width':0,
+					'height':0
+				});
+				setTimeout(function(){
+					$('#game').addClass( 'normal' );
+				},0);
+				setTimeout(function() {
+					console.log(clickPositions);
+					$('#game').removeAttr( 'style' );
+					core.initialize();
+					core.start( clickPositions );
+				},350);
 			}
 		}
 	};
