@@ -116,7 +116,6 @@ var core = {
 		userInterface.postHighScore( (this.endTime - this.startTime) );
 		userInterface.showScreen( 'submit-score-screen' );
 		document.getElementById( 'latest-run-score' ).innerHTML = (this.endTime - this.startTime);
-		console.log( 'Game time: '+ (this.endTime - this.startTime) );
 		this.enemies = [];
 		this.initialize();
 

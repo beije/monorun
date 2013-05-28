@@ -1,34 +1,20 @@
 (function( $ ) {
 	
-	/*
-	var api = new apiInterface();
+	userInterface.updateShareButtonUrls();
+	var scoreId = parseInt( document.location.hash.replace( '#', '' ) );
+	if( scoreId ) {
+		userInterface.externalApi.fetchHighscore(
+			scoreId,
+			function(resp){
+				if( resp && resp.length == 1 ){
+					userInterface.latestUserScore = resp[0];
+					userInterface.showScreen( 'high-score-screen' );
+					userInterface.updateShareButtonUrls();
+				}
+			}
+		);
+	}
 
-	api.registerPlayer(
-		function(resp){
-			console.log( 'Player registered: ', resp );
-		}
-	);
-
-	api.insertScore(
-		121,
-		'beije',
-		function(resp){
-			console.log( 'Saved score: ', resp );
-		}
-	);
-	api.fetchHighscores(
-		function(resp){
-			console.log( 'Highscore list: ', resp );
-		}
-	);
-	api.fetchHighscore(
-		15,
-		function(resp){
-			console.log( 'Highscore id 15: ', resp );
-		}
-	);
-	console.log( api );
-*/
 	var clickPositions = {};
 	var startGame = function( e ) {
 		e = e || window.event;
@@ -59,7 +45,6 @@
 					$('#game').addClass( 'normal' );
 				},0);
 				setTimeout(function() {
-					console.log(clickPositions);
 					$('#game').removeAttr( 'style' );
 					core.initialize();
 					core.start( clickPositions );

@@ -11,11 +11,7 @@ var userInterface = {
 		this.externalApi = new apiInterface();
 		this.setupEvents();
 
-		this.externalApi.registerPlayer(
-			function(resp){
-				console.log( 'Player registered against backend: ', resp );
-			}
-		);
+		this.externalApi.registerPlayer(function(resp){});
 
 	},
 	setupEvents: function() {
@@ -47,8 +43,6 @@ var userInterface = {
 				return false;
 			}.bind( this )
 		);
-
-		// Setup post highscore event
 	},
 	postHighScore: function( score ) {
 		this.externalApi.insertScore(
@@ -90,6 +84,7 @@ var userInterface = {
 			break;
 			case 'submit-score-screen':
 				$( '#submit-score-screen' ).show();
+				this.updateShareButtonUrls();
 			break;
 			case 'high-score-screen':
 				this.externalApi.fetchHighscores(
@@ -132,6 +127,8 @@ var userInterface = {
 		}
 
 		resultsContainer[0].appendChild( fragment );
+
+		this.updateShareButtonUrls();
 	},
 	createHighscoreRow: function( position, username, score, highlight ) {
 		var row = document.createElement('tr');
@@ -161,6 +158,16 @@ var userInterface = {
 		} else {
 			targetElement.textContent = msg;
 		}		
+	},
+	updateShareButtonUrls: function() {
+		var baseUrl = document.URL.split( '#' )[0];
+		var urlToScore = baseUrl + ( this.latestUserScore && this.latestUserScore.secretkey ? '#'+this.latestUserScore.id : '' );
+		var twitterUrl = "http://twitter.com/share?url=" + encodeURIComponent( urlToScore ) + "&text=" + encodeURIComponent( ( this.latestUserScore && this.latestUserScore.secretkey ? "I just played #monorun beat my score!" : 'Play #monorun!' ) );
+		// Using the deprecated sharer.php
+		var facebookUrl = "http://www.facebook.com/sharer.php?s=100&p[url]=" + encodeURIComponent( urlToScore ) + "&p[title]=" + encodeURIComponent( ( this.latestUserScore && this.latestUserScore.secretkey ? "I just played monorun beat my score!" : 'Play monorun!' ) );
+		
+		$( '.btn.twitter' ).attr( 'href', twitterUrl );
+		$( '.btn.facebook' ).attr( 'href', facebookUrl );
 	}
 };
 userInterface.initialize();
