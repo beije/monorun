@@ -118,63 +118,49 @@ var userInterface = {
 
 		//high-score-results
 		var fragment = document.createDocumentFragment();
-		for( var i = 0; i < loopend; i++ ) {
-			var row = document.createElement('tr');
-
-			if( data[i].id == currentScore.id ) {
-				row.className = 'highlight';
-			}
-
-			var position = document.createElement( 'td' );
-			position.innerHTML = i+1;
-
-			var userName = document.createElement( 'td' );
-			userName.innerHTML = data[i].username;
-
-			var score = document.createElement( 'td' );
-			score.innerHTML = data[i].score;
-
-			row.appendChild( position );
-			row.appendChild( userName );
-			row.appendChild( score );
+		for( var i = 0; i < loopend; i++ ) {			
+			var row = this.createHighscoreRow( i+1, data[i].username, data[i].score, ( data[i].id == currentScore.id ? true : false ) );
 			fragment.appendChild( row );
 		}
 
 		if( loopend < data.length ) {
-			var emptyRow = document.createElement('tr');
-			var position = document.createElement( 'td' );
-			position.innerHTML = '...';
-			var userName = document.createElement( 'td' );
-			userName.innerHTML = '...';
-			var score = document.createElement( 'td' );
-			score.innerHTML = '...';
-
-			emptyRow.appendChild( position );
-			emptyRow.appendChild( userName );
-			emptyRow.appendChild( score );
+			var emptyRow = this.createHighscoreRow( '...', '...', '...', false );
 			fragment.appendChild( emptyRow );
 
-			var userRow = document.createElement('tr');
-			userRow.className = 'highlight';
-
-			var position = document.createElement( 'td' );
-			position.innerHTML = currentScore.position;
-
-			var userName = document.createElement( 'td' );
-			userName.innerHTML = ( currentScore.username ? currentScore.username : 'Abra kadabra!' );
-
-			var score = document.createElement( 'td' );
-			score.innerHTML = currentScore.score;
-
-			userRow.appendChild( position );
-			userRow.appendChild( userName );
-			userRow.appendChild( score );
+			var userRow = this.createHighscoreRow( currentScore.position, ( currentScore.username ? currentScore.username : 'Abra kadabra!' ), currentScore.score, true );
 			fragment.appendChild( userRow );
-
 		}
 
-
 		resultsContainer[0].appendChild( fragment );
+	},
+	createHighscoreRow: function( position, username, score, highlight ) {
+		var row = document.createElement('tr');
+
+		if( highlight ) {
+			row.className = 'highlight';
+		}
+
+		var positionCell = document.createElement( 'td' );
+		this.setText( position, positionCell );
+
+		var userNameCell = document.createElement( 'td' );
+		this.setText(username, userNameCell );
+
+		var scoreCell = document.createElement( 'td' );
+		this.setText(score, scoreCell );
+
+		row.appendChild( positionCell );
+		row.appendChild( userNameCell );
+		row.appendChild( scoreCell );
+
+		return row;
+	},
+	setText: function(msg, targetElement ) {
+		if ( 'innerText' in targetElement ) {
+			targetElement.innerText = msg;
+		} else {
+			targetElement.textContent = msg;
+		}		
 	}
 };
 userInterface.initialize();

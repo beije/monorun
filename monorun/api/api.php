@@ -20,7 +20,7 @@ if( !isset( $config ) ) {
 try {
 	// Make the connection
 	$db_connection = new PDO (
-		"mysql:host=".$config['DB_HOST'].";dbname=".$config['DB_DATABASE'], 
+		"mysql:host=".$config['DB_HOST'].";dbname=".$config['DB_DATABASE'].';charset=utf8', 
 		$config['DB_USERNAME'], 
 		$config['DB_PASSWORD'] 
 	);
@@ -196,10 +196,6 @@ switch( $do ) {
 	break;
 }
 
-// For debugging purpose, will be removed in final
-//echo '<pre>';
-//print_r($return_data);
-//echo '</pre>';
-
+header( 'Content-type: application/json; charset=utf-8' );
 echo json_encode( $return_data );
 ?>
