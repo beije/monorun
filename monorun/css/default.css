@@ -66,7 +66,10 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 /*
  * Revise transitions. Don't do it on everything.
  */
-*, *:before, *:after {
+a,
+input,
+button,
+#game {
 -webkit-transition:	all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
 -moz-transition:	all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
 -ms-transition:		all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
@@ -160,7 +163,14 @@ hr {
 ======================= */
 table {width:100%; font-size: inherit; margin:0 0 1.618em 0;}
 thead {font-weight:700; color:#57c5db;}
-td {width:30%; text-align: left; color:#666;}
+td {
+	width: 30%;
+	text-align: left;
+	color: #666;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
 td:nth-child(2n) {width:40%; text-align: center;}
 td:nth-child(3n) {text-align:right;}
 
@@ -256,10 +266,14 @@ input:active {
 .twitter {
 	text-transform: none;
 }
-.facebook {background:#3a5897;}
-.twitter {background:#28aae1;}
+.facebook, .facebook:visited {background:#3a5897;}
+.twitter, .twitter:visited {background:#28aae1;}
 .facebook:hover,
-.twitter:hover {
+.facebook:focus,
+.facebook:active,
+.twitter:hover,
+.twitter:focus,
+.twitter:active {
 	background:#364649;
 }
 .count {
@@ -317,11 +331,6 @@ input:active {
 	/* Windows phone no-scroll */
 	-ms-touch-action: none;
 	z-index:1;
-	-webkit-transition: all 0.2s ease-in;
-	-moz-transition: all 0.2s ease-in;
-	-ms-transition: all 0.2s ease-in;
-	-o-transition: all 0.2s ease-in;
-	transition: all 0.2s ease-in;
 }
 #game.normal {
 	position:fixed;
