@@ -161,17 +161,27 @@ hr {
 /*
 	Tables
 ======================= */
-table {width:100%; font-size: inherit; margin:0 0 1.618em 0;}
-thead {font-weight:700; color:#57c5db;}
+table {
+	width:100%;
+	table-layout:fixed;
+	font-size: inherit;
+	margin:0 0 1.618em 0;
+}
+thead {
+	font-weight:700;
+	color:#57c5db;}
 td {
 	width: 30%;
 	text-align: left;
 	color: #666;
+}
+td:nth-child(2n) {
+	width:40%;
+	text-align: center;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-td:nth-child(2n) {width:40%; text-align: center;}
 td:nth-child(3n) {text-align:right;}
 
 .highlight td {color:#1faedf;}
