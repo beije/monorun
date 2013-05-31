@@ -68,13 +68,12 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
  */
 a,
 input,
-button,
 #game {
--webkit-transition:	all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
--moz-transition:	all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
--ms-transition:		all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
--o-transition:		all 777ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
-transition:			all 333ms cubic-bezier(0.777, 0.000, 0.000, 0.777);
+-webkit-transition:	background 333ms ease, border 333ms ease, color 333ms ease;
+-moz-transition:	background 333ms ease, border 333ms ease, color 333ms ease;
+-ms-transition:		background 333ms ease, border 333ms ease, color 333ms ease;
+-o-transition:		background 333ms ease, border 333ms ease, color 333ms ease;
+transition:			background 333ms ease, border 333ms ease, color 333ms ease;
 }
 /*
  * .WOFF for most modern browsers. .SVG for Android.
@@ -244,6 +243,10 @@ input:hover,
 input:focus,
 input:active {
 	border-color:#6c8892;
+	outline:none;
+}
+input:focus {
+	box-shadow: 2px 2px 0 #20AFDF;
 }
 
 .btn,
@@ -310,10 +313,14 @@ input:active {
 	Press to play
 ======================= */
 .fade-in-and-down {
-	-webkit-animation:	fadeInDown 1000ms 1000ms;
-	-moz-animation:		fadeInDown 1000ms 1000ms;
-	-o-animation:		fadeInDown 1000ms 1000ms;
-	animation:			fadeInDown 1000ms 1000ms;
+	position: relative;
+	opacity:0;
+	
+ 	-webkit-animation:	fadeInDown 1000ms ease 1500ms 1 normal forwards;
+	-moz-animation:		fadeInDown 1000ms ease 1500ms 1 normal forwards;
+	-ms-animation:		fadeInDown 1000ms ease 1500ms 1 normal forwards;
+	-o-animation:		fadeInDown 1000ms ease 1500ms 1 normal forwards;
+	animation:			fadeInDown 1000ms ease 1500ms 1 normal forwards; 
 }
 /*
 	Keyframes
@@ -336,6 +343,16 @@ input:active {
 	100%	{
 		opacity:1;
 		-moz-transform: translateY(0);
+	}
+}
+@-moz-keyframes fadeInDown {
+	0%		{
+		opacity:0;
+		-ms-transform: translateY(-1.5em);
+	}
+	100%	{
+		opacity:1;
+		-ms-transform: translateY(0);
 	}
 }
 @-o-keyframes fadeInDown {
@@ -365,7 +382,7 @@ input:active {
 	display:none;
 	position:fixed;
 	background:#161b1e;
-	border-radius:100%;
+	border-radius:50%;
 	/* Windows phone no-scroll */
 	-ms-touch-action: none;
 	z-index:1;
@@ -376,7 +393,8 @@ input:active {
 	top:0 !important;
 	left:0 !important;
 	width:100% !important;
-	height:100% !important;
+	height:0 !important;
+	padding-bottom:100% !important;
 	border-radius:0;
 }
 
@@ -402,4 +420,4 @@ input:active {
 /*
 	Screen sections
 ======================= */
-#submit-score-screen, #high-score-screen {display:none;}
+#submit-score-screen, #high-score-screen {}

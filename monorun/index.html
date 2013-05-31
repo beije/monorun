@@ -68,7 +68,7 @@
 				Like everything in life, your high score will decay with time. Enjoy it while it lasts.
 			</p>
 
-			<a href="#" class="btn fade-in-and-down">Stay positive again!</a>
+			<a href="#" class="btn fade-in-and-down" data-location="start-screen">Stay positive again!</a>
 
 			<hr>
 			<p>
@@ -91,8 +91,6 @@
 
 			<p>However, like everything in life, your high score will decay with time. Enjoy it while it lasts.</p>
 			
-			<form>
-			<fieldset>
 				<p>
 					<input type="text" id="name" name="name" placeholder="Marty McFly"><label for="name">Your name</label>
 				</p>
@@ -104,8 +102,6 @@
 				<p>
 					<a href="#" class="btn update-username">Claim high score!</a>
 				</p>
-			</fieldset>
-			</form>
 
 		</section>
 
@@ -138,5 +134,13 @@
 		<script src="clientscript/core.js"></script>
 		<!-- Main -->
 		<script src="clientscript/main.js"></script>
+
+		<!--[if IE]>
+		<script>
+			$(document).ready(function() {
+				$(".fade-in-and-down").css({"top":"-1.5em"}).delay(1500).animate({top:"0",opacity:"1"},1000);
+			});
+		</script>
+		<![endif]-->
 	</body>
 </html>
