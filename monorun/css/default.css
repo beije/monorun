@@ -158,6 +158,11 @@ hr {
     margin: 1.618em auto;
     padding: 0;
 }
+
+.score {
+	font-size:1.5em;
+	color: #57c5db;
+}
 /*
 	Tables
 ======================= */
@@ -193,12 +198,11 @@ td:nth-child(3n) {text-align:right;}
 fieldset {border:0; padding:0; margin:0;}
 label {position: absolute; font:0/0 a;}
 input {
-	border:1px dotted transparent;
-	border-width: 0 0 1px 0;
+	border:1px solid silver;
 	text-align: center;
 	/*background: #e8ebed;*/
 	color:#0a0e0f;
-	padding:0 0 .4045em 0;
+	padding:.4045em 1.618em;
 	margin:.4045em 0 0;
 }
 /*
@@ -305,30 +309,54 @@ input:active {
 /*
 	Press to play
 ======================= */
-.press-to-play {
-	-webkit-animation:	fader 2500ms alternate infinite;
-	-moz-animation:		fader 2500ms alternate infinite;
-	-o-animation:		fader 2500ms alternate infinite;
-	animation:			fader 2500ms alternate infinite;
+.fade-in-and-down {
+	-webkit-animation:	fadeInDown 1000ms 1000ms;
+	-moz-animation:		fadeInDown 1000ms 1000ms;
+	-o-animation:		fadeInDown 1000ms 1000ms;
+	animation:			fadeInDown 1000ms 1000ms;
 }
 /*
 	Keyframes
 ======================= */
-@-webkit-keyframes fader {
-	0%		{opacity:0;}
-	100%	{opacity:1;}
+@-webkit-keyframes fadeInDown {
+	0%		{
+		opacity:0;
+		-webkit-transform: translateY(-1.5em);
+	}
+	100%	{
+		opacity:1;
+		-webkit-transform: translateY(0);
+	}
 }
-@-moz-keyframes fader {
-	0%		{opacity:0;}
-	100%	{opacity:1;}
+@-moz-keyframes fadeInDown {
+	0%		{
+		opacity:0;
+		-moz-transform: translateY(-1.5em);
+	}
+	100%	{
+		opacity:1;
+		-moz-transform: translateY(0);
+	}
 }
-@-o-keyframes fader {
-	0%		{opacity:0;}
-	100%	{opacity:1;}
+@-o-keyframes fadeInDown {
+	0%		{
+		opacity:0;
+		-o-transform: translateY(-1.5em);
+	}
+	100%	{
+		opacity:1;
+		-o-transform: translateY(0);
+	}
 }
-@keyframes fader {
-	0%		{opacity:0;}
-	100%	{opacity:1;}
+@keyframes fadeInDown {
+	0%		{
+		opacity:0;
+		transform: translateY(-1.5em);
+	}
+	100%	{
+		opacity:1;
+		transform: translateY(0);
+	}
 }
 /*
 	Game items
@@ -374,5 +402,4 @@ input:active {
 /*
 	Screen sections
 ======================= */
-#submit-score-screen { display:none; }
-#high-score-screen { display:none; }
+#submit-score-screen, #high-score-screen {display:none;}
