@@ -8,7 +8,7 @@
 	Version:	
 	
 	Created:	2013-05-18
-	Updated:	2013-05-23
+	Updated:	2013-05-31
 	
 	Usage:
 
@@ -111,7 +111,7 @@ body {
 h1,
 h2,
 h3 {
-	font:300 1em/1.618 'Museo300',sans-serif;
+	font:300 1em/1.618 'Museo300',serif;
 	text-transform: lowercase;
 	margin:0 0 .809em 0;
 	color:#2b373b;
@@ -194,7 +194,6 @@ td:nth-child(3n) {text-align:right;}
 /*
 	Form
 ======================= */
-fieldset {border:0; padding:0; margin:0;}
 label {position: absolute; font:0/0 a;}
 input {
 	border:1px solid silver;
@@ -250,8 +249,7 @@ input:focus {
 }
 
 .btn,
-.btn:visited,
-.count {
+.btn:visited {
 	font:300 16px/1.618em 'Museo300',sans-serif;
 	text-transform: lowercase;
 	display:inline-block;
@@ -292,22 +290,6 @@ input:focus {
 .twitter:focus,
 .twitter:active {
 	background:#364649;
-}
-.count {
-	background:#e8ebed;
-	color:#2B373B;
-	position: relative;
-	margin:0 .809em .809em 0em;
-}
-.count:before {
-	content: " ";
-	display:block;
-	position: absolute;
-	top: .809em; left:-.7em;
-	border-top: .4045em solid transparent;
-	border-right: .809em solid #e8ebed;
-	border-bottom: .4045em solid transparent;
-
 }
 /*
 	Press to play
@@ -411,4 +393,4 @@ input:focus {
 /*
 	Screen sections
 ======================= */
-#submit-score-screen, #high-score-screen {}
+#submit-score-screen, #high-score-screen {display:none;}
