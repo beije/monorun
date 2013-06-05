@@ -114,7 +114,7 @@ var userInterface = {
 		//high-score-results
 		var fragment = document.createDocumentFragment();
 		for( var i = 0; i < loopend; i++ ) {			
-			var row = this.createHighscoreRow( i+1, data[i].username, data[i].score, ( data[i].id == currentScore.id ? true : false ) );
+			var row = this.createHighscoreRow( i+1, ( data[i].id == currentScore.id ? currentScore.username : data[i].username ), data[i].score, ( data[i].id == currentScore.id ? true : false ) );
 			fragment.appendChild( row );
 		}
 
