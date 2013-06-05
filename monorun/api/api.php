@@ -96,7 +96,7 @@ switch( $do ) {
 					'dateline' => $highscore->get_dateline(),
 					'score' => $highscore->get_current_score(),
 					'position' => $highscore->get_position(),
-					'secret_key' => $highscore->get_secret_key()
+					'secretkey' => $highscore->get_secret_key()
 				);
 			}
 		}
