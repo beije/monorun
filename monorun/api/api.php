@@ -1,5 +1,6 @@
 <?php
 session_start();
+include( 'class.highscore.php' );
 
 // Check session
 if( !isset( $_SESSION['registered'] ) ) {
@@ -70,35 +71,14 @@ switch( $do ) {
 		$id = ( isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : 0 );
 		$secretkey = ( isset( $_REQUEST['secretkey'] ) ? $_REQUEST['secretkey'] : '' );
 		$username = ( isset( $_REQUEST['username'] ) ? $_REQUEST['username'] : '' );
+		$return_data = false;
 
-		// Look for results
-		$statement = $db_connection->prepare( "SELECT * FROM highscore WHERE id = :id AND secretkey = :secretkey" );
-		$statement->execute( 
-			array( 
-				'id' => $id,
-				'secretkey' => $secretkey
-			)
-		);
+		$highscore = new Highscore( $id );
 
-		// Check if anything was returned
-		if( $statement->rowCount() == 1 ) {
-			// Update row with new username
-			$statement = $db_connection->prepare("
-				UPDATE highscore set
-					username = :username
-				WHERE
-					id = :id
-			");
-			$statement->execute( 
-				array( 
-					'id' => $id,
-					'username' => $username
-				)
-			);
-
-			$return_data = true;
-		} else {
-			$return_data = false;
+		if( $highscore->get_id() && $highscore->validate( $secretkey ) ) {
+			// Should be good
+			$highscore->set_username( $username );
+			$return_data = $highscore->save();
 		}
 	break;
 
@@ -108,9 +88,7 @@ switch( $do ) {
 		// Set initial vars
 		$score = false;
 		$username = '';
-
-		// Generate a random secret key with md5
-		$secretkey = md5( rand( 0,1000000 ) . '_monorun_' . $timenow );
+		$return_data = false;
 
 		if( isset( $_REQUEST['score'] ) ) {
 			$score = intval( $_REQUEST['score'] );
@@ -131,44 +109,24 @@ switch( $do ) {
 
 		// Check that there's a score
 		if( $score ) {
+			$highscore = new Highscore();
+			$highscore->set_username( $username );
+			$highscore->set_dateline( $timenow );
+			$highscore->set_original_score( $score );
+			$highscore->set_current_score( $score );
 
-			// Insert the score
-			$statement = $db_connection->prepare( trim( "
-				INSERT INTO highscore (
-					username, 
-					dateline, 
-					original_score, 
-					current_score,
-					secretkey
-				) VALUES (
-					:username,
-					:dateline,
-					:originalscore,
-					:currentscore,
-					:secretkey
-				)
-			") );
-			$statement->execute( 
-				array( 
-					'username' => $username,
-					'dateline' => $timenow,
-					'originalscore' => $score,
-					'currentscore' => $score,
-					'secretkey' => $secretkey
-				) 
-			);
-
-			// Return the score id and the generated secretkey for
-			// this score
-			$return_data = array(
-				'id' => $db_connection->lastInsertId(),
-				'secretkey' => $secretkey,
-				'position' => findPosition( $score ),
-				'score' => $score,
-				'username' => $username
-			);
-		} else {
-			$return_data = false;
+			if( $highscore->save() ) {
+				// Return the score id and the generated secretkey for
+				// this score
+				$return_data = array(
+					'id' => $highscore->get_id(),
+					'username' => $highscore->get_username(),
+					'dateline' => $highscore->get_dateline(),
+					'score' => $highscore->get_current_score(),
+					'position' => $highscore->get_position(),
+					'secretkey' => $highscore->get_secret_key()
+				);
+			}
 		}
 
 	break;
@@ -177,17 +135,29 @@ switch( $do ) {
 	case 'get':
 		try {
 			if( isset( $_REQUEST['id'] ) ) {
-				$statement = $db_connection->prepare( "SELECT id, username, dateline, current_score as score FROM highscore WHERE id = :id" );
+				$statement = $db_connection->prepare( "SELECT id FROM highscore WHERE id = :id" );
 				$statement->execute( array( 'id' => $_REQUEST['id'] ) );			
 			} else {
-				$statement = $db_connection->prepare( "SELECT id, username, dateline, current_score as score FROM highscore ORDER BY current_score DESC LIMIT 10" );
+				$statement = $db_connection->prepare( "SELECT id FROM highscore ORDER BY current_score DESC LIMIT 10" );
 				$statement->execute();
 			}
 
 			while($row = $statement->fetch()) {
-				$row->position = findPosition( $row->score );
-				$return_data[] = $row;
+				$highscore = new Highscore( $row->id );
+
+				$data = (Object) array(
+					'id' => $highscore->get_id(),
+					'username' => $highscore->get_username(),
+					'dateline' => $highscore->get_dateline(),
+					'score' => $highscore->get_current_score(),
+					'position' => $highscore->get_position()
+				);
+
+				$return_data[] = $data;
 			}
+
+
+
 
 		} catch(PDOException $e) {
 			echo 'ERROR: ' . $e->getMessage();
@@ -197,5 +167,5 @@ switch( $do ) {
 }
 
 header( 'Content-type: application/json; charset=utf-8' );
-echo json_encode( $return_data );
+echo json_encode( $return_data, JSON_PRETTY_PRINT );
 ?>
