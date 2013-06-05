@@ -1,0 +1,11 @@
+#
+# Add this to your crontab
+# fetch crontab every three hours
+# 0 */3 * * * wget http://harvest/monorun/monorun/api/cron.php  > /dev/null 2>&1
+#
+<FilesMatch "cron\.php$">
+    Order deny,allow
+    Deny from all
+    # Only allow the server itself to run the cron file
+    Allow from 127.0.0.1
+</FilesMatch>

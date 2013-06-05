@@ -20,9 +20,10 @@ CREATE TABLE IF NOT EXISTS `highscore` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
   `dateline` int(11) NOT NULL,
+  `last_cron_run` int(11) NOT NULL,
   `original_score` int(11) NOT NULL,
   `current_score` int(11) NOT NULL,
-  `secretkey` varchar(32) COLLATE utf8_swedish_ci NOT NULL,
+  `secret_key` varchar(32) COLLATE utf8_swedish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=16 ;
 

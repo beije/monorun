@@ -6,8 +6,10 @@ class highscore {
 	private $original_score = 0;
 	private $current_score = 0;
 	private $secret_key = '';
+	private $last_cron_run = 0;
 	private $position = -1;
 	private $db_connection = null;
+	private $seconds_til_half_life = 86400;
 
 	function __construct( $id = 0 ) {
 		global $db_connection;
@@ -25,7 +27,7 @@ class highscore {
 	private function load( $id ) {
 		$id = intval( $id );
 		
-		$statement = $this->db_connection->prepare( "SELECT id, username, dateline, current_score, original_score, secretkey FROM highscore WHERE id = :id LIMIT 0,1" );
+		$statement = $this->db_connection->prepare( "SELECT id, username, dateline, last_cron_run, current_score, original_score, secret_key FROM highscore WHERE id = :id LIMIT 0,1" );
 		$statement->execute( array( 'id' => $id ) );			 
 
 		if( $statement->rowCount() == 0 ) {
@@ -36,9 +38,11 @@ class highscore {
 			$this->id = $row->id;
 			$this->username = $row->username;
 			$this->dateline = $row->dateline;
+			$this->last_cron_run = $row->last_cron_run;
 			$this->original_score = $row->original_score;
 			$this->current_score = $row->current_score;
-			$this->secret_key = $row->secretkey;
+			$this->current_score = $row->current_score;
+			$this->secret_key = $row->secret_key;
 			$this->position = $this->find_position();
 		}
 
@@ -63,6 +67,21 @@ class highscore {
 		return false;
 	}
 
+	public function delete() {
+		if( !$this->id ) {
+			return false;
+		}
+
+		$statement = $this->db_connection->prepare( "DELETE FROM highscore WHERE id = :id" );
+		$statement->execute( 
+			array( 
+				'id' => intval( $this->id )
+			)
+		);
+
+		return true;
+	}
+
 	public function save() {
 		if( $this->id === 0 ) {
 			// Insert the score
@@ -70,24 +89,27 @@ class highscore {
 				INSERT INTO highscore (
 					username, 
 					dateline, 
+					last_cron_run, 
 					original_score, 
 					current_score,
-					secretkey
+					secret_key
 				) VALUES (
 					:username,
 					:dateline,
+					:last_cron_run,
 					:originalscore,
 					:currentscore,
-					:secretkey
+					:secret_key
 				)
 			")  );
 			$statement->execute( 
 				array( 
 					'username' => $this->username,
 					'dateline' => $this->dateline,
+					'last_cron_run' => $this->last_cron_run,
 					'originalscore' => $this->original_score,
 					'currentscore' => $this->current_score,
-					'secretkey' => $this->secret_key
+					'secret_key' => $this->secret_key
 				) 
 			);
 
@@ -100,9 +122,10 @@ class highscore {
 				UPDATE highscore set
 					username = :username,
 					dateline = :dateline,
+					last_cron_run = :last_cron_run,
 					original_score = :original_score,
 					current_score = :current_score,
-					secretkey = :secretkey
+					secret_key = :secret_key
 				WHERE
 					id = :id
 			");
@@ -111,12 +134,27 @@ class highscore {
 					'id' => $this->id,
 					'username' => $this->username,
 					'dateline' => $this->dateline,
+					'last_cron_run' => $this->last_cron_run,
 					'original_score' => $this->original_score,
 					'current_score' => $this->current_score,
-					'secretkey' => $this->secret_key,
+					'secret_key' => $this->secret_key,
 				)
 			);
 
+			return true;
+		}
+
+		return false;
+	}
+
+	public function split_half_life(){
+		$time_since_last_run = ( time() - $this->last_cron_run );
+		$time_units = $this->current_score / 1000;
+
+		if( $time_since_last_run > $this->seconds_til_half_life * $time_units ) {
+			$this->current_score = intval( $this->current_score / 2 );
+			$this->last_cron_run = time();
+		
 			return true;
 		}
 
@@ -131,6 +169,10 @@ class highscore {
 	}
 	public function set_dateline( $dateline ){
 		$this->dateline = $dateline;
+		return true;
+	}
+	public function set_last_cron_run( $last_cron_run ){
+		$this->last_cron_run = $last_cron_run;
 		return true;
 	}
 	public function set_original_score( $original_score ){
@@ -152,6 +194,9 @@ class highscore {
 	}
 	public function get_dateline(){
 		return $this->dateline;
+	}
+	public function get_last_cron_run(){
+		return $this->last_cron_run;
 	}
 	public function get_original_score(){
 		return $this->original_score;
