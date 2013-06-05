@@ -1,6 +1,7 @@
 <?php
 session_start();
-include( 'class.highscore.php' );
+require_once( 'db.php' );
+require_once( 'class.highscore.php' );
 
 // Check session
 if( !isset( $_SESSION['registered'] ) ) {
@@ -9,35 +10,6 @@ if( !isset( $_SESSION['registered'] ) ) {
 }
 $last_time_on_page = $_SESSION['last_time_on_page'];
 $_SESSION['last_time_on_page'] = time();
-
-// Include config file
-include( 'config.php' );
-
-if( !isset( $config ) ) {
-	die();
-}
-
-// Prepare connection to the database
-try {
-	// Make the connection
-	$db_connection = new PDO (
-		"mysql:host=".$config['DB_HOST'].";dbname=".$config['DB_DATABASE'].';charset=utf8', 
-		$config['DB_USERNAME'], 
-		$config['DB_PASSWORD'] 
-	);
-
-	// Show exceptions on error
-	$db_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-	// Always return rows as objects
-	$db_connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-
-	// Don't emulated prepared statements
-	$db_connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-} catch(PDOException $e) {
-    echo "ERROR: " . $e->getMessage();
-    die();
-}
 
 // Set initial vars
 $do = ( isset( $_REQUEST['do'] ) ? $_REQUEST['do'] : 'get' );
@@ -69,13 +41,13 @@ switch( $do ) {
 
 		// Set initial vars
 		$id = ( isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : 0 );
-		$secretkey = ( isset( $_REQUEST['secretkey'] ) ? $_REQUEST['secretkey'] : '' );
+		$secret_key = ( isset( $_REQUEST['secretkey'] ) ? $_REQUEST['secretkey'] : '' );
 		$username = ( isset( $_REQUEST['username'] ) ? $_REQUEST['username'] : '' );
 		$return_data = false;
 
 		$highscore = new Highscore( $id );
 
-		if( $highscore->get_id() && $highscore->validate( $secretkey ) ) {
+		if( $highscore->get_id() && $highscore->validate( $secret_key ) ) {
 			// Should be good
 			$highscore->set_username( $username );
 			$return_data = $highscore->save();
@@ -124,7 +96,7 @@ switch( $do ) {
 					'dateline' => $highscore->get_dateline(),
 					'score' => $highscore->get_current_score(),
 					'position' => $highscore->get_position(),
-					'secretkey' => $highscore->get_secret_key()
+					'secret_key' => $highscore->get_secret_key()
 				);
 			}
 		}
