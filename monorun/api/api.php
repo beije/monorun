@@ -139,5 +139,9 @@ switch( $do ) {
 }
 
 header( 'Content-type: application/json; charset=utf-8' );
-echo json_encode( $return_data, JSON_PRETTY_PRINT );
+if( defined( 'JSON_PRETTY_PRINT' ) ) {
+	echo json_encode( $return_data, JSON_PRETTY_PRINT );
+} else {
+	echo json_encode( $return_data );
+}
 ?>
