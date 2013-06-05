@@ -121,8 +121,11 @@
 
 		<!-- Jquery -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-		<!-- Random functions -->
-		<script src="clientscript/common.js"></script>
+
+		<!--[if IE]>
+		<script src="clientscript/ie-script.js"></script>
+		<![endif]-->
+
 		<!-- Dependencies -->
 		<script src="libs/class.painter.js"></script>
 		<script src="libs/class.mousehandler.js"></script>
@@ -137,13 +140,5 @@
 		<script src="clientscript/core.js"></script>
 		<!-- Main -->
 		<script src="clientscript/main.js"></script>
-
-		<!--[if IE]>
-		<script>
-			$(document).ready(function() {
-				$(".fade-in-and-down").css({"top":"-1.5em"}).delay(1500).animate({top:"0",opacity:"1"},1000);
-			});
-		</script>
-		<![endif]-->
 	</body>
 </html>
