@@ -1,4 +1,39 @@
 <?php
+/**
+ * api.php
+ *
+ * Main api file, interacts with the highscore class, the database
+ * and the front end.
+ *
+ * Should always return JSON encoded data.
+ *
+ * Usage:
+ *
+ * // Register user (only starts the session)
+ * // Returns true (always)
+ * api.php?do=register
+ *
+ * // Returns the top 10 leaderboard
+ * // Returns a json array with objects on success
+ * api.php
+ * api.php?do=get
+ *
+ * // Get a specific highscore
+ * // Returns a json object on success
+ * api.php?do=get
+ *
+ * // Inserts a score with user name Roland
+ * // Returns a json object on success
+ * api.php?do=put&username=Roland&score=123123
+ *
+ * // Updates a score's username
+ * // Returns true on success
+ * api.php?do=update&username=Roland&secretkey=Jaaw[...]e23eds
+ *
+ *
+ */
+
+
 session_start();
 require_once( 'db.php' );
 require_once( 'class.highscore.php' );
@@ -138,6 +173,7 @@ switch( $do ) {
 	break;
 }
 
+// Ouput data top browser
 header( 'Content-type: application/json; charset=utf-8' );
 if( defined( 'JSON_PRETTY_PRINT' ) ) {
 	echo json_encode( $return_data, JSON_PRETTY_PRINT );

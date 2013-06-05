@@ -1,4 +1,11 @@
 <?php
+/**
+ * db.php
+ *
+ * Sets up the db connection.
+ *
+ */
+
 // Include config file
 include( 'config.php' );
 
