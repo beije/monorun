@@ -115,6 +115,7 @@ var core = {
 			'preFrameRender'
 		);
 		
+		this.resizeCanvas();
 		this.setupEvents();
 	},
 	appendRoland: function() {

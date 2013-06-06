@@ -124,6 +124,16 @@ function Player( painter ) {
 	 *
 	 */
 	this.updatePositions = function(x,y) {
+		// Check out of negative bounds
+		x = ( x < 0 ? 0 : x );
+		y = ( y < 0 ? 0 : y );
+
+		// Check out of positive bounds
+		if( this.screenData ) {
+			x = ( x > this.screenData.width ? this.screenData.width : x );
+			y = ( y > this.screenData.height ? this.screenData.height : y );
+		}
+
 		this.position = {
 			x: x,
 			y: y
