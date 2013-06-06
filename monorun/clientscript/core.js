@@ -149,7 +149,7 @@ var core = {
 				$( '#game' ).removeClass( 'normal' ).addClass( 'gameover' );
 				setTimeout(function(){
 					$( '#game' ).removeAttr('class');
-				},1000);
+				},500);
 
 				// Reset engine
 				this.initialize();

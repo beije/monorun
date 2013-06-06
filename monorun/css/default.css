@@ -67,13 +67,49 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
  * Revise transitions. Don't do it on everything.
  */
 a,
-input,
+input {
+	-webkit-transition:	background 333ms ease,
+						border 333ms ease, color 333ms ease,
+						top 333ms ease,
+						left 333ms ease,
+						border-radius 333ms ease,
+						box-shadow 333ms ease;
+	-moz-transition:	background 333ms ease,
+						border 333ms ease, color 333ms ease,
+						top 333ms ease,
+						left 333ms ease,
+						border-radius 333ms ease,
+						box-shadow 333ms ease;
+	-ms-transition:		background 333ms ease,
+						border 333ms ease, color 333ms ease,
+						top 333ms ease,
+						left 333ms ease,
+						border-radius 333ms ease,
+						box-shadow 333ms ease;
+	-o-transition:		background 333ms ease,
+						border 333ms ease, color 333ms ease,
+						top 333ms ease,
+						left 333ms ease,
+						border-radius 333ms ease,
+						box-shadow 333ms ease;
+	transition:			background 333ms ease,
+						border 333ms ease, color 333ms ease,
+						top 333ms ease,
+						left 333ms ease,
+						border-radius 333ms ease,
+						box-shadow 333ms ease;
+}
 #game {
--webkit-transition:	background 333ms ease, border 333ms ease, color 333ms ease, width 333ms ease, height 333ms ease, top 333ms ease, left 333ms ease, border-radius 333ms ease;
--moz-transition:	background 333ms ease, border 333ms ease, color 333ms ease, width 333ms ease, height 333ms ease, top 333ms ease, left 333ms ease, border-radius 333ms ease;
--ms-transition:		background 333ms ease, border 333ms ease, color 333ms ease, width 333ms ease, height 333ms ease, top 333ms ease, left 333ms ease, border-radius 333ms ease;
--o-transition:		background 333ms ease, border 333ms ease, color 333ms ease, width 333ms ease, height 333ms ease, top 333ms ease, left 333ms ease, border-radius 333ms ease;
-transition:			background 333ms ease, border 333ms ease, color 333ms ease, width 333ms ease, height 333ms ease, top 333ms ease, left 333ms ease, border-radius 333ms ease;
+	-webkit-transition:	width 200ms ease,
+						height 200ms ease;
+	-moz-transition:	width 200ms ease,
+						height 200ms ease;
+	-ms-transition:		width 200ms ease,
+						height 200ms ease;
+	-o-transition:		width 200ms ease,
+						height 200ms ease;
+	transition:			width 200ms ease,
+						height 200ms ease;
 }
 /*
  * .WOFF for most modern browsers. .SVG for Android.
@@ -159,7 +195,7 @@ hr {
 }
 
 .score {
-	font-size:1.5em;
+	font-size:1.25em;
 	color: #57c5db;
 }
 /*
@@ -245,7 +281,8 @@ input:active {
 	outline:none;
 }
 input:focus {
-	box-shadow: 2px 2px 0 #20AFDF;
+	box-shadow:	2px 2px 0 #20AFDF,
+				-2px 2px 0 #20AFDF;
 }
 
 .btn,
@@ -364,7 +401,7 @@ input:focus {
 	display:none;
 	position:fixed;
 	background:#161b1e;
-	border-radius:100%;
+	/*border-radius:100%;*/
 	/* Windows phone no-scroll */
 	-ms-touch-action: none;
 	z-index:1;
@@ -376,7 +413,7 @@ input:focus {
 	left:0 !important;
 	width:100% !important;
 	height:100% !important;
-	border-radius:0;
+	border-radius:0 !important;
 }
 #game.gameover {
 	position:fixed;
@@ -385,7 +422,7 @@ input:focus {
 	left:50%;
 	width:0;
 	height:0;
-	border-radius:100%;
+	/*border-radius:100%;*/
 }
 
 /*
