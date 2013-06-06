@@ -12,6 +12,7 @@ var core = {
 	playerLastPosition: {},
 	latestPlayerPositionCheck: 0,
 	gameStarted: false,
+	gameEnded: true,
 	initialize: function() {
 
 		this.screenData = this.calculateCanvasSize();
@@ -24,8 +25,34 @@ var core = {
 		this.lineHandler = new Line($( '#game' )[0] );
 		this.lineHandler.setLineWidth( 10 );
 		this.lineHandler.setLineColor( 'rgba(87,197,219,0.1)' );
-		
+
+		this.setupVisibility();
 		this.resizeCanvas();
+	},
+	setupVisibility: function() {
+		var hidden, visibilityChange; 
+		if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+			hidden = "hidden";
+			visibilityChange = "visibilitychange";
+		} else if (typeof document.mozHidden !== "undefined") {
+			hidden = "mozHidden";
+			visibilityChange = "mozvisibilitychange";
+		} else if (typeof document.msHidden !== "undefined") {
+			hidden = "msHidden";
+			visibilityChange = "msvisibilitychange";
+		} else if (typeof document.webkitHidden !== "undefined") {
+			hidden = "webkitHidden";
+			visibilityChange = "webkitvisibilitychange";
+		}
+
+		$( document ).bind(
+			visibilityChange,
+			function() {
+				if( this.gameEnded == false ){
+					this.end();
+				}
+			}.bind(this)
+		);
 	},
 	connectingRoland: function() {
 		for( var i = 0; i < this.enemies.length; i = i + 2 ) {
@@ -63,7 +90,7 @@ var core = {
 	},
 	start: function( startPosition ) {
 		this.gameStarted = true;
-
+		this.gameEnded = false;
 		// Translate start position to canvas position
 		if( startPosition ) {
 			startPosition.x = ( startPosition.x / $( '#game' ).width() ) * this.screenData.width;
@@ -106,6 +133,7 @@ var core = {
 		clearInterval( this.rolandTimer );
 		clearInterval( this.timer );
 
+		this.gameEnded = true;
 		this.gameStarted = false;
 		$( '#game' ).hide();
 
