@@ -104,11 +104,6 @@ var core = {
 			this.player.updatePositions( startPosition.x, startPosition.y );
 		}
 
-		for( var i = 0; i < 1; i++ ) {
-			this.enemies.push( new roland( 'rolle'+i , this.painter ) );
-			this.enemies[i].setSpeed( parseInt( Math.random()*100 )+20 );
-		}
-
 		this.painter.registerCallback(
 			'connectingRoland', 
 			this.connectingRoland.bind( this ),
@@ -131,25 +126,37 @@ var core = {
 
 	},
 	end: function() {
+		this.painter.stop();
 		clearInterval( this.rolandTimer );
 		clearInterval( this.timer );
 
 		this.gameEnded = true;
 		this.gameStarted = false;
 
-		// Rough end game animation
-		$( '#game' ).removeClass( 'normal' ).addClass( 'gameover' );
-		setTimeout(function(){
-			$( '#game' ).removeAttr('class');
-		},1000);
-
 		this.endTime = new Date().getTime();
-		this.painter.stop();
 		userInterface.postHighScore( (this.endTime - this.startTime) );
-		userInterface.showScreen( 'submit-score-screen' );
+
 		document.getElementById( 'latest-run-score' ).innerHTML = (this.endTime - this.startTime);
 		this.enemies = [];
-		this.initialize();
+
+		// Freeze frame, and remove game after 2 seconds
+		setTimeout(
+			function(){
+				// Show game screen
+				userInterface.showScreen( 'submit-score-screen' );
+				
+				// Rough end game animation
+				$( '#game' ).removeClass( 'normal' ).addClass( 'gameover' );
+				setTimeout(function(){
+					$( '#game' ).removeAttr('class');
+				},1000);
+
+				// Reset engine
+				this.initialize();
+
+			}.bind(this),
+			1000
+		);
 	},
 	setupEvents: function() {
 		$(window).resize(
