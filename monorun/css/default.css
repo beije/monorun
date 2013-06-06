@@ -381,11 +381,11 @@ input:focus {
 #game.gameover {
 	position:fixed;
 	display:block;
-	top:0 !important;
-	left:0 !important;
-	width:0 !important;
-	height:0 !important;
-	border-radius:0;
+	top:50%;
+	left:50%;
+	width:0;
+	height:0;
+	border-radius:100%;
 }
 
 /*

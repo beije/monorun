@@ -135,9 +135,12 @@ var core = {
 
 		this.gameEnded = true;
 		this.gameStarted = false;
-		$( '#game' ).hide();
 
-		//$( '#message' ).hide();
+		// Rough end game animation
+		$( '#game' ).removeClass( 'normal' ).addClass( 'gameover' );
+		setTimeout(function(){
+			$( '#game' ).removeAttr('class');
+		},1000);
 
 		this.endTime = new Date().getTime();
 		this.painter.stop();
@@ -146,8 +149,6 @@ var core = {
 		document.getElementById( 'latest-run-score' ).innerHTML = (this.endTime - this.startTime);
 		this.enemies = [];
 		this.initialize();
-
-		//this.showMessage( "Game ended" );
 	},
 	setupEvents: function() {
 		$(window).resize(
