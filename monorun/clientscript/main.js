@@ -1,28 +1,13 @@
 (function( $ ) {
 	
-	userInterface.updateShareButtonUrls();
-	var scoreId = parseInt( document.location.hash.replace( '#', '' ) );
-	if( scoreId ) {
-		userInterface.externalApi.fetchHighscore(
-			scoreId,
-			function(resp){
-				if( resp && resp.length == 1 ){
-					userInterface.latestUserScore = resp[0];
-					userInterface.showScreen( 'high-score-screen' );
-					userInterface.updateShareButtonUrls();
-				}
-			}
-		);
-	}
-
 	var clickPositions = {};
 	var startGame = function( e ) {
 		e = e || window.event;
 		var target = e.target; // Fetch click target
 		e = e.originalEvent || e; // Damn it jquery.
 
-		// Check that target doesn't have a href
-		if( !target.href && userInterface.currentScreen == 'start-screen' ) {
+		// Check that the user is on the game screen
+		if( userInterface.currentScreen == 'start-screen' ) {
 			e.preventDefault();
 
 			if( !core.gameStarted ){
@@ -53,8 +38,28 @@
 		}
 	};
 
-	// Can't use touch events because then you wouldn't
-	// be able to scroll. 
-	$( document ).click( startGame );
+	$( document ).ready( function() {
+		// Update share buttons
+		userInterface.updateShareButtonUrls();
 
+		// Check if the user came in with an id to a highscore.
+		var scoreId = parseInt( document.location.hash.replace( '#', '' ) );
+		if( scoreId ) {
+			userInterface.externalApi.fetchHighscore(
+				scoreId,
+				function(resp){
+					if( resp && resp.length == 1 ){
+						userInterface.latestUserScore = resp[0];
+						userInterface.showScreen( 'high-score-screen' );
+						userInterface.updateShareButtonUrls();
+					}
+				}
+			);
+		}
+
+
+		// Can't use touch events because then you wouldn't
+		// be able to scroll. 
+		$( '.start-game' ).click( startGame );
+	}); 
 })( jQuery );
