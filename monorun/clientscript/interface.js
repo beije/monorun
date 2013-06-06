@@ -153,7 +153,11 @@ var userInterface = {
 		this.setText(username, userNameCell );
 
 		var scoreCell = document.createElement( 'td' );
-		this.setText(score, scoreCell );
+		if( parseInt( score ) == score ){
+			this.setText( parseInt( score/1000 ), scoreCell );
+		} else {
+			this.setText( score, scoreCell );
+		}
 
 		row.appendChild( positionCell );
 		row.appendChild( userNameCell );
