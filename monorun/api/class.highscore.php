@@ -24,7 +24,7 @@ class Highscore {
 	private $last_cron_run = 0;               // Int, The last time cron changed the score
 	private $position = -1;                   // Int, The current leadbord position
 	private $db_connection = null;            // PDO connection
-	private $seconds_til_half_life = 86400;   // Int, Seconds between the half life:ing
+	private $seconds_til_half_life = 3600;    // Int, Seconds between the half life:ing
 
 	/*
 	 * Constructor
