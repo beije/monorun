@@ -1,0 +1,5 @@
+# Rewrite analytics php to js
+<IfModule mod_rewrite.c> 
+	RewriteEngine On
+	RewriteRule ^analytics.js$ api/analytics.php
+</IfModule>

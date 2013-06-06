@@ -1,8 +1,8 @@
 <?php
 /**
- * db.php
+ * global.php
  *
- * Sets up the db connection.
+ * Sets up the db connection. Should be included with every php file.
  *
  */
 
@@ -21,6 +21,11 @@ try {
 		$config['DB_USERNAME'], 
 		$config['DB_PASSWORD'] 
 	);
+	// Unset database config-flags
+	unset( $config['DB_USERNAME'] );
+	unset( $config['DB_PASSWORD'] );
+	unset( $config['DB_DATABASE'] );
+	unset( $config['DB_HOST'] );
 
 	// Show exceptions on error
 	$db_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -35,7 +35,7 @@
 
 
 session_start();
-require_once( 'db.php' );
+require_once( 'global.php' );
 require_once( 'class.highscore.php' );
 
 // Check session

@@ -9,7 +9,7 @@
  *
  */
 
-require_once( 'db.php' );
+require_once( 'global.php' );
 require_once( 'class.highscore.php' );
 
 // Fetch all scores (Only id is needed)
