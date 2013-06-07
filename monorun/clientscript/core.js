@@ -137,6 +137,7 @@ var core = {
 		userInterface.postHighScore( (this.endTime - this.startTime) );
 
 		document.getElementById( 'latest-run-score' ).innerHTML = (this.endTime - this.startTime);
+		document.getElementById( 'latest-run-life' ).innerHTML = Math.round( (this.endTime - this.startTime) / 1000 );
 		this.enemies = [];
 
 		// Freeze frame, and remove game after 2 seconds
