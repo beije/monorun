@@ -228,7 +228,10 @@ class Highscore {
 	 *
 	 */
 	public function split_half_life(){
-		$time_since_last_run = ( time() - $this->last_cron_run );
+		// If cron has never run, check when the score was created instead.
+		$lastrun = ( $this->last_cron_run == 0 ? $this->dateline : $this->last_cron_run );
+		
+		$time_since_last_run = ( time() - $lastrun );
 		$time_units = $this->current_score / 1000;
 
 		if( $time_since_last_run > $this->seconds_til_half_life * $time_units ) {
