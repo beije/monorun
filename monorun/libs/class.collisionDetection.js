@@ -177,5 +177,5 @@ function collisionDetection() {
 	return {
 		hitTest: this.hitTest.bind( this ),
 		buildPixelMap: this.buildPixelMap.bind( this )
-	}
-}
+	};
+};

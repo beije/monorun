@@ -221,5 +221,5 @@ function roland( id, painter, pixelMap ) {
 		getPositions: this.getCurrentPositions.bind( this ),
 		getPixelMap: this.getPixelMap.bind( this ),
 		generateNewPosition: this.generateNewPosition.bind( this ),
-	}
-}
+	};
+};

@@ -384,4 +384,4 @@ function painter( canvas ) {
 		registerCallback: this.registerCallback.bind( this ),
 		unregisterCallback: this.unregisterCallback.bind( this )
 	};
-} 
+};

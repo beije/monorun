@@ -424,4 +424,6 @@ input:focus {
 /*
 	Screen sections
 ======================= */
-#submit-score-screen, #high-score-screen {}
+#submit-score-screen, #high-score-screen {
+	display:none;
+}

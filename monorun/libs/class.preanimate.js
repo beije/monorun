@@ -203,5 +203,5 @@ function preAnimate() {
 		setEndPosition: this.setEnd.bind( this ),
 		setSpeed: this.setSpeed.bind( this ),
 		getPositions: this.getPositions.bind( this )
-	}
-}
+	};
+};

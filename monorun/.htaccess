@@ -2,4 +2,5 @@
 <IfModule mod_rewrite.c> 
 	RewriteEngine On
 	RewriteRule ^analytics.js$ api/analytics.php
+	RewriteRule ^clientscript.js$ api/clientscript.php
 </IfModule>

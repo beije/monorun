@@ -70,4 +70,4 @@ function apiInterface() {
 		fetchHighscore: this.fetchHighscore.bind(this),
 		fetchHighscores: this.fetchHighscores.bind(this)
 	};
-}
+};

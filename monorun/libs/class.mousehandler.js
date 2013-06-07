@@ -266,4 +266,4 @@ function mousehandler( targetElement, offset ) {
 		setCallback: this.setCallback.bind( this ),
 		setScreenSize: this.setScreenSize.bind( this )
 	};
-}
+};

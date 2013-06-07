@@ -206,4 +206,4 @@ function Player( painter ) {
 		setScreenData: this.setScreenData.bind( this ),
 		getPlayerPosition: this.getPlayerPosition.bind( this )
 	};
-}
+};

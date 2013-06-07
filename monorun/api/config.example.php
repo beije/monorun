@@ -5,6 +5,7 @@
 		'DB_PASSWORD' => '',
 		'DB_DATABASE' => '',
 		'DB_HOST' => '',
-		'ANALYTICS' => ''
+		'ANALYTICS' => '',
+		'DEBUG' => false
 	);
 ?>

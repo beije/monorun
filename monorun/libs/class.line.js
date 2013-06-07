@@ -73,4 +73,4 @@ function Line( canvas ) {
 		setLineWidth: this.setLineWidth.bind( this ),
 		setLineColor: this.setLineColor.bind( this )
 	};
-}
+};
