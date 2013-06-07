@@ -154,7 +154,7 @@ var userInterface = {
 
 		var scoreCell = document.createElement( 'td' );
 		if( parseInt( score ) == score ){
-			this.setText( parseInt( score/1000 ), scoreCell );
+			this.setText( Math.round( score/1000 ), scoreCell );
 		} else {
 			this.setText( score, scoreCell );
 		}
