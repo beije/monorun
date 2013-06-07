@@ -28,7 +28,6 @@ header( 'Content-type: application/javascript; charset=utf-8' );
 // Check if there's a cached version, use that if it exists
 // the cache needs to be emptied on git pull though
 if( file_exists ( dirname(__FILE__) . '/../cache/clientscript-cache.js' ) && $config['DEBUG'] == false ){
-	echo 'alert("cache");';
 	readfile( dirname(__FILE__) . '/../cache/clientscript-cache.js' );
 	exit;
 }
