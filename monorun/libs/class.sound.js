@@ -51,7 +51,6 @@ function SoundHandler( url ) {
 		if( !this.soundObject.pause ) {
 			return false;
 		}
-		console.log( 'stopping sound' );
 		this.repeat = false;
 		this.soundObject.pause();
 		this.soundObject.currentTime = 0;
