@@ -13,6 +13,8 @@ var core = {
 	latestPlayerPositionCheck: 0,
 	gameStarted: false,
 	gameEnded: true,
+	rolandSpawn: null,
+	backgroundSound: null,
 	initialize: function() {
 
 		this.screenData = this.calculateCanvasSize();
@@ -25,6 +27,9 @@ var core = {
 		this.lineHandler = new Line($( '#game' )[0] );
 		this.lineHandler.setLineWidth( 10 );
 		this.lineHandler.setLineColor( 'rgba(87,197,219,0.1)' );
+
+		this.rolandSpawn = new SoundHandler( 'sound/sinus.mp3' );
+		this.backgroundSound = new SoundHandler( 'sound/emptiness.mp3' );
 
 		this.setupVisibility();
 		this.resizeCanvas();
@@ -91,6 +96,7 @@ var core = {
 	start: function( startPosition ) {
 		this.gameStarted = true;
 		this.gameEnded = false;
+		this.latestPlayerPositionCheck = 0;
 		// Translate start position to canvas position
 		if( startPosition ) {
 			startPosition.x = ( startPosition.x / $( '#game' ).width() ) * this.screenData.width;
@@ -109,7 +115,7 @@ var core = {
 			this.connectingRoland.bind( this ),
 			'preFrameRender'
 		);
-		
+		this.backgroundSound.play( true );
 		this.resizeCanvas();
 		this.setupEvents();
 	},
@@ -119,6 +125,7 @@ var core = {
 		// Ugly hack with sending in a prerendered roland pixelmap
 		this.enemies.push( new roland( 'rolle'+index , this.painter, ( this.enemies.length != 0 ? this.enemies[0].getPixelMap() : false ) ) );
 		this.enemies[index].setSpeed( parseInt( Math.random()*100 )+20 );
+		this.rolandSpawn.play();
 	},
 	showMessage: function( msg ) {
 		$( '#message' ).show();
@@ -127,6 +134,7 @@ var core = {
 	},
 	end: function() {
 		this.painter.stop();
+		this.backgroundSound.stop();
 		clearInterval( this.rolandTimer );
 		clearInterval( this.timer );
 
