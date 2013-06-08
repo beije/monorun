@@ -30,7 +30,10 @@ if( $statement->rowCount() != 0 ) {
 
 		// If the score is zero, remove the item.
 		if( $highscore->get_current_score() == 0 ) {
-			$highscore->delete();
+			// If somebody links to the highscore and
+			// it has been removed, the user will be
+			// none the wiser. This needs a fix.
+			// $highscore->delete();
 		}
 	}
 }
