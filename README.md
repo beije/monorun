@@ -1,6 +1,6 @@
 # Monorun! #
 
-A javascript (Canvas) game, still being developed and is considered to be in pre-alpha state, though the game does run, it doesn't have any implementation for the core game mechanics.
+A javascript (Canvas) game, built from scratch with some dependency to jQuery (selector fetching and events). The game has a small backend which stores high scores.
 
 ## Installation ##
 
@@ -10,12 +10,12 @@ There's a config file in `/monorun/api/config.example.php` copy this file to the
 
 The following options are available in the config
 
-* `DB_USERNAME` = *STRING*, The database username
-* `DB_PASSWORD` = *STRING*, The user's password
-* `DB_DATABASE` = *STRING*, The database name
-* `DB_HOST`     = *STRING*, The IP or hostname to the database
-* `ANALYTICS`   = *STRING*, if you have Google analytics or any other tracking script, add it here, it will be outputted by `/monorun/api/analytics.php`
-* `DEBUG`       = *BOOLEAN*, `false` if you want to use the generated JS cache file (`/monorun/api/clientscript.php`), `true` when you want to develop on the code
+* `DB_USERNAME` = `STRING`, The database username
+* `DB_PASSWORD` = `STRING`, The user's password
+* `DB_DATABASE` = `STRING`, The database name
+* `DB_HOST`     = `STRING`, The IP or hostname to the database
+* `ANALYTICS`   = `STRING`, if you have Google analytics or any other tracking script, add it here, it will be outputted by `/monorun/api/analytics.php`
+* `DEBUG`       = `BOOLEAN`, `false` if you want to use the generated JS cache file (`/monorun/api/clientscript.php`), `true` when you want to develop on the code
 
 To setup the high score you need to add this to your crontab, which will run the cron script every 10 minutes.
 
@@ -28,7 +28,13 @@ Monorun was developed on debian 7 with apache, php and mysql installed. The back
 * PHP 5.4 (PDO support for mysql)(or higher)
 * mod_rewrite
 
-The game h
+#### mysql ####
+
+There's a mysql dump file, `monorun/api/monorun.sql`, that you need to manually import.
+
+#### cache ####
+
+The game concatenates all the js files in `monorun/clientscript` and `monorun/libs` to one file, if the config flag `DEBUG` is set to false a file in cache should be generated `monorun/cache/clientscript-cache.js` and this file will be read instead of concatenating every page view. It's important to remove this file everytime you update the game from git, so it's regenerated with the latest javascript.
 
 ### Front end ###
 
