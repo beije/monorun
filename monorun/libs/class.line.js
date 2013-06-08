@@ -1,3 +1,14 @@
+/**
+ *
+ * @project        monorun
+ * @file           class.line.js
+ * @description    Draws lines between two points.
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
+
 function Line( canvas ) {
 	this.canvas = null;
 	this.context = null;

@@ -1,22 +1,39 @@
-var core = {
-	player: null,
-	painter:null,
-	enemies: [],
-	startTime: 0,
-	endTime: 0,
-	timer: null,
-	rolandTimer: null,
-	lineHandlers:[],
-	lineHandler:null,
-	screenData: {},
-	playerLastPosition: {},
-	latestPlayerPositionCheck: 0,
-	gameStarted: false,
-	gameEnded: true,
-	rolandSpawn: null,
-	backgroundSound: null,
-	initialize: function() {
+/**
+ *
+ * @project        monorun
+ * @file           core.js
+ * @description    Binds everything together
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
 
+var core = {
+	player: null,                   // Object, Player object created from class.player.js
+	painter:null,                   // Object, Painter object created from class.painter.js
+	enemies: [],                    // Array, Contains all the enemy objects (class.roland.js)
+	rolandSpawn: null,              // Object, Sound object creataed from class.sound.js
+	backgroundSound: null,          // Object, Sound object created from class.sound.js
+	startTime: 0,                   // Int, When the game started
+	endTime: 0,                     // Int, When the game ended
+	timer: null,                    // Timer, Checks the user's position every 200ms
+	rolandTimer: null,              // Timer, handles the spawning of the rolands every 2 seconds
+	lineHandler:null,               // Object, lineHandler object create from class.linehandler.js
+	screenData: {},                 // Object, contains data about the user's screen
+	playerLastPosition: {},         // Object, contains data about the last recorded user position
+	latestPlayerPositionCheck: 0,   // Int, When was the last time we checked the user's position
+	gameStarted: false,             // Boolean, true if game has started
+	gameEnded: true,                // Boolean, true if game has ended
+
+	/*
+	 * public function initialize()
+	 *
+	 * Initializes the core, registers all objects that can live
+	 * through out the complete session (for restarting game, see start() and end())
+	 *
+	 */
+	initialize: function() {
 		this.screenData = this.calculateCanvasSize();
 
 		$( '#game' ).attr( 'width', this.screenData.width + 'px'  );
@@ -29,11 +46,22 @@ var core = {
 		this.lineHandler.setLineColor( 'rgba(87,197,219,0.1)' );
 
 		this.rolandSpawn = new SoundHandler( 'sound/sinus.mp3' );
-		this.backgroundSound = new SoundHandler( 'sound/emptiness.mp3' );
+		
+		// Because of bad support of the looping of sound
+		// we're keeping this off
+		//this.backgroundSound = new SoundHandler( 'sound/emptiness.mp3' );
 
 		this.setupVisibility();
 		this.resizeCanvas();
 	},
+
+	/*
+	 * public function setupVisibility()
+	 *
+	 * Adds eventlisteners to visibility change, kills the game
+	 * if the game loses focus (Called once from initialize)
+	 *
+	 */
 	setupVisibility: function() {
 
 		// Copied from MDN
@@ -59,6 +87,15 @@ var core = {
 			}.bind(this)
 		);
 	},
+
+	/*
+	 * public function connectingRoland()
+	 *
+	 * Draws lines between rolands (in-pair) function
+	 * hi-jacks the painter object and draws the lines
+	 * before the "rendering"
+	 *
+	 */
 	connectingRoland: function() {
 		for( var i = 0; i < this.enemies.length; i = i + 2 ) {
 			if( !this.enemies[i+1] ) break;
@@ -71,6 +108,14 @@ var core = {
 
 	},
 
+	/*
+	 * public function updateTimer()
+	 *
+	 * Runs every 200ms, check the user position, if the
+	 * user stands still for too long (500ms) it redirects a 
+	 * random roland to the user position
+	 *
+	 */
 	updateTimer: function() {
 		var now = new Date().getTime();
 
@@ -93,6 +138,13 @@ var core = {
 		}
 		this.playerLastPosition = currenPlayerPosition;
 	},
+
+	/*
+	 * public function start()
+	 *
+	 * Starts the game
+	 *
+	 */
 	start: function( startPosition ) {
 		this.gameStarted = true;
 		this.gameEnded = false;
@@ -115,10 +167,17 @@ var core = {
 			this.connectingRoland.bind( this ),
 			'preFrameRender'
 		);
-		this.backgroundSound.play( true );
+		//this.backgroundSound.play( true );
 		this.resizeCanvas();
 		this.setupEvents();
 	},
+
+	/*
+	 * public function appendRoland()
+	 *
+	 * Spawns a roland to the playing field every 2 seconds
+	 *
+	 */
 	appendRoland: function() {
 		//if( this.enemies.length > 5 ) return false;
 		var index = this.enemies.length;
@@ -127,14 +186,17 @@ var core = {
 		this.enemies[index].setSpeed( parseInt( Math.random()*100 )+20 );
 		this.rolandSpawn.play();
 	},
-	showMessage: function( msg ) {
-		$( '#message' ).show();
-		$( '#message' ).html( msg );
 
-	},
+	/*
+	 * public function end()
+	 *
+	 * Ends the game, redirects to add high score screen
+	 * (is usually called from class.player.js)
+	 *
+	 */
 	end: function() {
 		this.painter.stop();
-		this.backgroundSound.stop();
+		//this.backgroundSound.stop();
 		clearInterval( this.rolandTimer );
 		clearInterval( this.timer );
 
@@ -167,6 +229,13 @@ var core = {
 			1000
 		);
 	},
+
+	/*
+	 * public function setupEvents()
+	 *
+	 * Sets up variouos events
+	 *
+	 */
 	setupEvents: function() {
 		$(window).resize(
 			core.resizeCanvas.bind(this)
@@ -182,6 +251,14 @@ var core = {
 			2000
 		);
 	},
+
+	/*
+	 * public function resizeCanvas()
+	 *
+	 * Makes the game device agnostic, any screen
+	 * should be able to render the game.
+	 *
+	 */
 	resizeCanvas: function() {
 
 		this.screenData = this.calculateCanvasSize();
@@ -197,6 +274,18 @@ var core = {
 		$( '#game' ).attr( 'height', h + 'px'  );
 
 	},
+
+	/*
+	 * public function calculateCanvasSize()
+	 *
+	 * Because monorun! uses the virtual viewport for the dom
+	 * tree, we get the wrong screen size. This function
+	 * tries to get the correct size so the game (canvas-tag)
+	 * can render in native resolution instead of virtual.
+	 *
+	 * @return object An object with the real sizes.
+	 *
+	 */
 	calculateCanvasSize: function() {
 
 		var windowWidth = window.outerWidth;

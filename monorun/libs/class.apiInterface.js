@@ -1,3 +1,15 @@
+/**
+ *
+ * @project        monorun
+ * @file           class.apiinterface.js
+ * @description    Handles communication with back end
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
+
+
 function apiInterface() {
 	this.data = {
 		'do': false,

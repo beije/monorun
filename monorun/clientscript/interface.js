@@ -1,19 +1,47 @@
+/**
+ *
+ * @project        monorun
+ * @file           interface.js
+ * @description    Shows the different screens and communicates
+ *                 with the backend through class.apiinterface.js
+ * @author         Benjamin Horn
+ * @version        -
+ * @link           http://www.monorun.com
+ * 
+ */
+
 var userInterface = {
-	screens: [
-		'start-screen',
-		'submit-score-screen',
-		'high-score-screen'
+	screens: [                        // Array, All the screens that are available
+		'start-screen',               // Start screen, only screen where you can start the game
+		'submit-score-screen',        // Submit screen, where the user can submit a high score
+		'high-score-screen'           // High score screen, where we can view the high score list
 	],
-	externalApi: null,
-	currentScreen: 'start-screen',
-	latestUserScore: null,
+	externalApi: null,                // Object, external api interface object, created from class.apiinterface.js
+	currentScreen: 'start-screen',    // String, the screen that is currently visible
+	latestUserScore: null,            // Object, the last object that the user has received from the back end after score submittal
+
+
+	/*
+	 * public function initialize()
+	 *
+	 * Prepares the object
+	 *
+	 */
 	initialize: function() {
 		this.externalApi = new apiInterface();
 		this.setupEvents();
 
+		// Register user for the backend
 		this.externalApi.registerPlayer(function(resp){});
 
 	},
+
+	/*
+	 * public function setupEvents()
+	 *
+	 * Sets up different events
+	 *
+	 */
 	setupEvents: function() {
 
 		// Setup click events for internal redirection
@@ -32,6 +60,9 @@ var userInterface = {
 			}
 		}
 
+		// High score submittal screen
+		// When user adds something in the input field,
+		// update the submit button
 		$( '#name' ).change(function( e ){
 			e = e || window.event;
 			if( this.value != '' ) {
@@ -53,6 +84,13 @@ var userInterface = {
 			}.bind( this )
 		);
 	},
+
+	/*
+	 * public function postHighscore()
+	 *
+	 * Post's a highscore to the back end
+	 *
+	 */
 	postHighScore: function( score ) {
 		this.externalApi.insertScore(
 			score,
@@ -66,6 +104,14 @@ var userInterface = {
 			}.bind( this )
 		);
 	},
+
+	/*
+	 * public function updateUsername()
+	 *
+	 * Updates the username of the last submitted
+	 * score.
+	 *
+	 */
 	updateUsername: function( username ) {
 		if( !username ) {
 			username = document.getElementById('name').value;
@@ -82,6 +128,15 @@ var userInterface = {
 			);
 		}
 	},
+
+	/*
+	 * public function showScreen()
+	 *
+	 * Switches screen modes.
+	 *
+	 * @param type (String) The screen we want to switch to
+	 *
+	 */
 	showScreen: function( type ) {
 		for( var i = 0; i < this.screens.length; i++ ) {
 			$( '#' + this.screens[i] ).hide();
@@ -102,6 +157,16 @@ var userInterface = {
 			break;
 		}
 	},
+
+	/*
+	 * public function updateHighscores()
+	 *
+	 * Updates the highscore list, highlights the last
+	 * submitted score.
+	 *
+	 * @param data (Array) The high score list from backend
+	 *
+	 */
 	updateHighScores: function( data ) {
 		var resultsContainer = $( '#high-score-screen' ).find( '.high-score-results' );
 		resultsContainer.html('');
@@ -139,6 +204,21 @@ var userInterface = {
 
 		this.updateShareButtonUrls();
 	},
+
+	/*
+	 * public function createHighscoreRow()
+	 *
+	 * Creates a <tr> element with the cell for a row in the
+	 * highscore
+	 *
+	 * @param position (Int) The position number in the table
+	 * @param username (String) The username
+	 * @param score (Int) The score that should be visible
+	 * @param highlight (Boolean)(optional) If this row should be highlighted
+	 *
+	 * @return DOM-object, the row
+	 *
+	 */
 	createHighscoreRow: function( position, username, score, highlight ) {
 		var row = document.createElement('tr');
 
@@ -165,6 +245,18 @@ var userInterface = {
 
 		return row;
 	},
+
+	/*
+	 * public function setText()
+	 *
+	 * Safely set's text in a DOM element
+	 *
+	 * @return msg (String) The message we want to set
+	 * @return tagetElement (DOM-object) The target element which should contain the message
+	 *
+	 * @return object An object with the real sizes.
+	 *
+	 */
 	setText: function(msg, targetElement ) {
 		if ( 'innerText' in targetElement ) {
 			targetElement.innerText = msg;
@@ -172,6 +264,15 @@ var userInterface = {
 			targetElement.textContent = msg;
 		}		
 	},
+
+	/*
+	 * public function updateShareButtonUrls()
+	 *
+	 * Updates the text and links on the facebook
+	 * and twitter share buttons depending on state.
+	 * (If the user has played or not.)
+	 *
+	 */
 	updateShareButtonUrls: function() {
 		var baseUrl = document.URL.split( '#' )[0];
 
@@ -186,4 +287,5 @@ var userInterface = {
 		$( '.btn.facebook' ).attr( 'href', facebookUrl );
 	}
 };
+// Initialize
 userInterface.initialize();

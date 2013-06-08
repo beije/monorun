@@ -1,5 +1,4 @@
 (function( $ ) {
-	
 	var clickPositions = {};
 	var startGame = function( e ) {
 		e = e || window.event;
