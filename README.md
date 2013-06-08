@@ -23,10 +23,7 @@ To setup the high score you need to add this to your crontab, which will run the
 
 ### Back end ###
 
-Monorun was developed on debian 7 with apache, php and mysql installed. The backend part needs the following versions of software
-
-* PHP 5.4 (PDO support for mysql)(or higher)
-* mod_rewrite
+Monorun is developed on a linux configuration that runs apache, php and mysql (So you'll need those). Apache will need to have the module `rewrite` enabled and PHP must be `PHP 5.10` or higher (Sinve we use `PDO` when connecting with the database).
 
 #### mysql ####
 
