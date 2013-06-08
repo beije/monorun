@@ -178,9 +178,9 @@ var userInterface = {
 		var urlToIcon = "http://dev.monorun.com/img/facebook-shareicon.png";
 
 		var urlToScore = baseUrl + ( this.latestUserScore && this.latestUserScore.secretkey ? '#'+this.latestUserScore.id : '' );
-		var twitterUrl = "http://twitter.com/share?url=" + encodeURIComponent( urlToScore ) + "&text=" + encodeURIComponent( ( this.latestUserScore && this.latestUserScore.secretkey ? "I just played #monorun beat my score!" : 'Visit monorun.com to play #monorun! How long can you stay positive?' ) );
+		var twitterUrl = "http://twitter.com/share?url=" + encodeURIComponent( urlToScore ) + "&text=" + encodeURIComponent( ( this.latestUserScore && this.latestUserScore.secretkey ? "Beat my high score before it decays! #monorun!" : ' How long can you stay positive? #monorun!' ) );
 		// Using the deprecated sharer.php
-		var facebookUrl = "http://www.facebook.com/sharer.php?s=100&p[url]=" + encodeURIComponent( urlToScore ) + "&p[images][0]=" + encodeURIComponent ( urlToIcon ) + "&p[title]=" + encodeURIComponent( ( this.latestUserScore && this.latestUserScore.secretkey ? "I just played monorun beat my score!" : 'Visit monorun.com to play monorun! How long can you stay positive?' ) );
+		var facebookUrl = "http://www.facebook.com/sharer.php?s=100&p[url]=" + encodeURIComponent( urlToScore ) + "&p[images][0]=" + encodeURIComponent ( urlToIcon ) + "&p[title]=" + encodeURIComponent( ( this.latestUserScore && this.latestUserScore.secretkey ? "Beat my high score before it decays! " : 'How long can you stay positive?' ) );
 		
 		$( '.btn.twitter' ).attr( 'href', twitterUrl );
 		$( '.btn.facebook' ).attr( 'href', facebookUrl );
