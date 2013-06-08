@@ -71,6 +71,14 @@ var userInterface = {
 				$( '.btn.update-username' ).html( 'View high score!' );
 			}
 		});
+		$( '#name' ).keyup(function( e ){
+			e = e || window.event;
+			if( this.value != '' ) {
+				$( '.btn.update-username' ).html( 'Claim high score!' );
+			} else {
+				$( '.btn.update-username' ).html( 'View high score!' );
+			}
+		});
 
 		$( '.btn.update-username' ).click(
 			function( e ) {
