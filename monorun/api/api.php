@@ -37,6 +37,7 @@
 session_start();
 require_once( 'global.php' );
 require_once( 'class.highscore.php' );
+require_once( 'class.unicornName.php' );
 
 // Check session
 if( !isset( $_SESSION['registered'] ) ) {
@@ -78,6 +79,13 @@ switch( $do ) {
 		$id = ( isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : 0 );
 		$secret_key = ( isset( $_REQUEST['secretkey'] ) ? $_REQUEST['secretkey'] : '' );
 		$username = ( isset( $_REQUEST['username'] ) ? $_REQUEST['username'] : '' );
+		$username = trim( $username );
+
+		// Check username, make it a unicorn name if empty
+		if( $username == '' || $username == 'false' || $username == false ){
+			$username = UnicornName::generateName();
+		}
+
 		$return_data = false;
 
 		$highscore = new Highscore( $id );
@@ -101,7 +109,12 @@ switch( $do ) {
 			$score = intval( $_REQUEST['score'] );
 		}
 		if( isset( $_REQUEST['username'] ) ) {
-			$username = $_REQUEST['username'];
+			$username = trim( $_REQUEST['username'] );
+		}
+
+		// Create unicorn name for user
+		if( $username == '' || $username == 'false' || $username == false ){
+			$username = UnicornName::generateName();
 		}
 
 		// Simple score spam protection, check that the 

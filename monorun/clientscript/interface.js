@@ -102,7 +102,7 @@ var userInterface = {
 	postHighScore: function( score ) {
 		this.externalApi.insertScore(
 			score,
-			'-',
+			' ', // Has to be a white space, otherwise it will be set as String 'false'
 			function( resp ){
 				if( resp ) {
 					this.latestUserScore = resp;
@@ -124,15 +124,26 @@ var userInterface = {
 		if( !username ) {
 			username = document.getElementById('name').value;
 		}
-
-		this.latestUserScore.username = username;
+		if( username != '' && username != false ) {
+			this.latestUserScore.username = username;
+		}
 
 		if( this.latestUserScore ) {
 			this.externalApi.updateScore(
 				this.latestUserScore.id,
 				this.latestUserScore.secretkey,
 				username,
-				function( resp ) { }
+				function( resp ) {
+					if( resp ) {
+						for( var i in resp ) {
+							if( this.latestUserScore[i] ) {
+								this.latestUserScore[i] = resp[i];
+							}
+						}
+					} else {
+						console.log( 'couldnt submit score' );
+					}
+				}.bind( this )
 			);
 		}
 	},
