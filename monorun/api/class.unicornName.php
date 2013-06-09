@@ -39,7 +39,23 @@
  */
 
 class UnicornName {
+
 	public static $firstnames = array(
+		'Koios',
+		'Kreios',
+		'Kronos',
+		'Hyperion',
+		'Iapetos',
+		'Mnemosyne',
+		'Oceanus',
+		'Phoebe',
+		'Rhea',
+		'Tethys',
+		'Theia',
+		'Themis'
+	);
+
+	public static $lastnames = array(
 		'Andromeda',
 		'Antlia',
 		'Apus',
@@ -128,21 +144,6 @@ class UnicornName {
 		'Virgo',
 		'Volans',
 		'Vulpecula'
-	);
-
-	public static $lastnames = array(
-		'Koios',
-		'Kreios',
-		'Kronos',
-		'Hyperion',
-		'Iapetos',
-		'Mnemosyne',
-		'Oceanus',
-		'Phoebe',
-		'Rhea',
-		'Tethys',
-		'Theia',
-		'Themis'
 	);
 
 	public static function generateName() {
