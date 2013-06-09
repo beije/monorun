@@ -92,8 +92,10 @@ function SoundHandler( url ) {
 		this.soundObject.currentTime = 0;
 	};
 
+	// Initialize the sound object
 	this.initialize( url );
 
+	// Return our outward facing interface.
 	return {
 		play:this.play.bind(this),
 		stop:this.stop.bind(this)

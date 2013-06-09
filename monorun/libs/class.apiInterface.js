@@ -140,6 +140,7 @@ function apiInterface() {
 	// Initialize the api interface
 	this.initialize();
 
+	// Return our outward facing interface.
 	return {
 		registerPlayer: this.registerPlayer.bind(this),
 		insertScore: this.insertScore.bind(this),

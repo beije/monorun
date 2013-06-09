@@ -1,7 +1,7 @@
 #
 # Add this to your crontab
-# fetch crontab every three hours
-# 0 */3 * * * wget http://harvest/monorun/monorun/api/cron.php  > /dev/null 2>&1
+# fetch crontab every one hours
+# 0 */1 * * * php [YOUR PATH!]monorun/api/cron.php  > /dev/null 2>&1
 #
 <FilesMatch "cron\.php$">
     Order deny,allow

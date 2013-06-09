@@ -216,7 +216,7 @@ var userInterface = {
 	/*
 	 * public function createHighscoreRow()
 	 *
-	 * Creates a <tr> element with the cell for a row in the
+	 * Creates a <tr> element with the cells for a row in the
 	 * highscore
 	 *
 	 * @param position (Int) The position number in the table

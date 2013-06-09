@@ -25,49 +25,27 @@ function mousehandler( targetElement, offset ) {
 		end: function() {}    // Fires at end of movement
 	}
 
-	// Mousemove / touchmove
-	// Mousedown / touchstart
-	// Mouseup / touchend
-
-	// Listeners that we bind to
-	// TODO: Implement touce listener
-	
+	// All the events we need to bind
 	this.movements = {
 		move: [
-			'mousemove',
-			'touchmove',
-			'MSPointerMove'
+			'mousemove',    // Desktop
+			'touchmove',    // Touch devices, android, iOS
+			'MSPointerMove' // Windows Phone
 		],
 		start: [
-			'mousedown',
-			'touchstart',
-			'MSPointerDown'
+			'mousedown',    // Desktop
+			'touchstart',   // Touch devices, android, iOS
+			'MSPointerDown' // Windows Phone
 		],
 		end: [
-			'mouseup',
-			'touchend',
-			'MSPointerUp'
+			'mouseup',      // Desktop
+			'touchend',     // Touch devices, android, iOS
+			'MSPointerUp'   // Windows Phone
 		]
 	};
 	
-	/* Window phone */
-	/*
-	this.movements = {
-		move: 'MSPointerMove',
-		start: 'MSPointerDown',
-		end: 'MSPointerUp'
-	};
-	*/
-	/* Normal touch devices */
-	/*
-	this.movements = {
-		move: 'touchmove',
-		start: 'touchstart',
-		end: 'touchend'
-	};
-	*/
 
-	this.screenSize = false;
+	this.screenSize = false; // Screen data
 
 	/*
 	 * private function initialize()
