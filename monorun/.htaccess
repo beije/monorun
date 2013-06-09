@@ -1,3 +1,6 @@
+# Custom error page.
+ErrorDocument 404 /fourohfour.html
+
 # Rewrite analytics php to js
 <IfModule mod_rewrite.c> 
 	RewriteEngine On
