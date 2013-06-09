@@ -4,20 +4,23 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>Monorun!</title>
+		<meta name="description" content="Monorun! is a minimalistic game about the transience of life. As the nucleus of an atom, it's your purpose to stay positive for as long as you can. Avoid those negative electrons.">
 		<!--
-			Load .css quickly, it blocks page rendering.
+			Load default.css | Includes normalize
 		-->
 		<link type="text/css" rel="stylesheet" href="css/default.css">
 		<!--
-			Load Google Analytics. We want it to load as fast as possible so we'll put it in the header, unlike all the other .js files.
+			Google Analytics
 		-->
 		<script src="analytics.js"></script>
 
 		<!--
-			Disable user zoom on touch devices to prevent accidental pinch zoom when playing. js handles rescaling anyway.
+			Disable user zoom. JS handles rescaling.
 		-->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<!-- iOS | Run web application in full-screen mode -->
+
+		<!-- iOS | Run in full-screen mode when set as web application -->
+
 		<meta name="apple-mobile-web-app-capable" content="yes" /> 
 
 		<!-- /apple-touch-icon.png for iDevices -->
@@ -32,13 +35,9 @@
 			Game / Start screen, shown by default
 		-->
 		<section id="start-screen">
-			<!--Logo
-			RC: Embed with base64
-			-->
 			<p>
 				<img alt="Monorun! Logo" src="img/monorun-logo-128.png" width="128" height="128">
 			</p>
-			<!--/Logo-->
 			<p>
 				Monorun! is a minimalistic game about the transience of life. As the nucleus of an atom, it's your purpose to stay positive for as long as you can. Avoid those negative electrons.
 			</p>
@@ -47,7 +46,7 @@
 
 				<hr>
 
-			<p><small>Monorun! is a game developed by <a href="http://www.benjaminhorn.se/" target="_blank">Benjamin Horn</a> and designed by <a href="http://fiinixdesign.blogspot.com/" target="_blank">Carlos Eriksson</a>. The <a href="https://github.com/beije/monorun">source code for monorun!</a> is available on GitHub.</small>
+			<p><small>Monorun! is a game developed by <a href="http://www.benjaminhorn.se/" target="_blank">Benjamin Horn</a> and designed by <a href="https://twitter.com/fiinixdesign" target="_blank">Carlos Eriksson</a>. The <a href="https://github.com/beije/monorun">source code for Monorun!</a> is available on GitHub.</small>
 			</p>
 			<p>
 				<a href="#" class="btn facebook" target="_blank">share</a><a href="#" class="btn twitter" target="_blank">tweet</a>
@@ -78,7 +77,7 @@
 			<hr>
 			<p>
 				<small>
-				Curious about what data we store? The <a href="https://github.com/beije/monorun">source code for monorun!</a> is available on GitHub.
+				Curious about what data we store? The <a href="https://github.com/beije/monorun">source code for Monorun!</a> is available on GitHub.
 				</small>
 			</p>
 			<p>
@@ -113,13 +112,6 @@
 
 		<!-- Game elements -->
 		<canvas id="game" width="100%"></canvas>
-		<span id="timer"></span>
-		<div id="message" class="message"></div>
-
-		<!--
-			Load .js as late as possible. Block downloading other resources (incl. other js files)
-			Remember to minify before RC
-		-->
 
 		<!-- Jquery -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>

@@ -8,7 +8,7 @@
 	Version:	
 	
 	Created:	2013-05-18
-	Updated:	2013-06-07
+	Updated:	2013-06-09
 	
 	Usage:
 
@@ -39,7 +39,7 @@
 
 ======================= */
 /*
- * Needs to be scaled back to only include stuff that's used.
+ * Customised for monorun!
  */
 section{display:block;}canvas{display:inline-block;}[hidden]{display:none;}html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}body{margin:0;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0;}img{border:0;}button,input{font-family:inherit;font-size:100%;line-height:normal;margin:0;}button{text-transform:none;}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],html input[disabled]{cursor:default;}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}
 
@@ -303,13 +303,6 @@ input:focus {
 	color:white;
 	cursor:pointer;
 }
-/*
-	State
-======================= */
-.is-saving {
-	background-image:url(../img/loading.gif);
-	background-repeat: no-repeat;
-	background-position: 92% 25%;}
 /*
 	Social
 ======================= */
