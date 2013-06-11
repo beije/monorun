@@ -66,7 +66,7 @@ var core = {
 
 		// Copied from MDN
 		// https://developer.mozilla.org/en-US/docs/Web/Guide/User_experience/Using_the_Page_Visibility_API#Example
-		var visibilityChange; 
+		var visibilityChange = false; 
 		if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
 			visibilityChange = "visibilitychange";
 		} else if (typeof document.mozHidden !== "undefined") {
@@ -75,6 +75,21 @@ var core = {
 			visibilityChange = "msvisibilitychange";
 		} else if (typeof document.webkitHidden !== "undefined") {
 			visibilityChange = "webkitvisibilitychange";
+		}
+
+		// No support for visibilitychange
+		// use window blur instead
+		if( !visibilityChange ) {
+			$( window ).bind(
+				'blur',
+				function(){
+					if( this.gameEnded == false ){
+						this.end();
+					}
+				}.bind( this )
+			);
+
+			return;
 		}
 
 		// If page loses visbility, end the game
