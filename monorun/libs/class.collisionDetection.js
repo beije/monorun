@@ -112,28 +112,30 @@ function collisionDetection() {
 	 *
 	 */
 	this.pixelHitTest = function( source, target ) {
-		for( var s = 0; s < source.pixelMap.data.length; s++ ) {
-			var sourcePixel = source.pixelMap.data[s];
-			var sourceArea = {
-				x: sourcePixel.x + source.x,
-				y: sourcePixel.y + source.y,
-				width: source.pixelMap.resolution,
-				height: source.pixelMap.resolution
-			};
-			for( var t = 0; t < target.pixelMap.data.length; t++ ) {
-				var targetPixel = target.pixelMap.data[t];
-				var targetArea = {
-					x: targetPixel.x + target.x,
-					y: targetPixel.y + target.y,
-					width: target.pixelMap.resolution,
-					height: target.pixelMap.resolution
-				};
 
-				if( this.boxHitTest( sourceArea, targetArea ) ) {
-					return true;
-				}
-			}
-		}
+
+            var top = parseInt( Math.max( source.y, target.y ) );
+            var bottom = parseInt( Math.min(source.y+source.height, target.y+target.height) );
+            var left = parseInt( Math.max(source.x, target.x) );
+            var right = parseInt( Math.min(source.x+source.width, target.x+target.width) );
+
+            for (var y = top; y < bottom; y++)
+            {
+                for (var x = left; x < right; x++)
+                {
+                	var pixel1 = source.pixelMap.data[parseInt( (x - source.x) + (y - source.y) * source.width ) ];
+                	var pixel2 = target.pixelMap.data[parseInt(  (x - target.x) + (y - target.y) * target.width ) ];
+                	
+                	if( !pixel1 || !pixel2 ) continue;
+
+                    if (pixel1.pixelData !== false && pixel2.pixelData !== false)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
 	}
 
 	/*
@@ -146,22 +148,26 @@ function collisionDetection() {
 	 *
 	 *
 	 * @param source (Object) The canvas object
-	 * @param resolution (int) The resolution of the map
+	 * @param resolution (int)(DEPRECATED!) The resolution of the map
 	 *
 	 * @return object, a pixelMap object
 	 *
 	 */
-	this.buildPixelMap = function( source, resolution ) {
-		var resolution = resolution || 1;
+	this.buildPixelMap = function( source ) {
+		var resolution = 1;
 		var ctx = source.getContext("2d");
 		var pixelMap = [];
 
 		for( var y = 0; y < source.width; y = y+resolution ) {
 			for( var x = 0; x < source.height; x = x+resolution ) {
 				var pixel = ctx.getImageData(x,y,resolution,resolution);
-				if( pixel.data[3] != 0 ) {
-					pixelMap.push( { x:x, y:y } );
+				var pixelData = pixel.data
+				if( pixel.data[3] == 0 ) {
+					pixelData = false;
 				}
+
+				pixelMap.push( { x:x, y:y, pixelData: pixelData } );
+				
 			}
 		}
 		return {
