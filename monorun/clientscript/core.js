@@ -194,10 +194,22 @@ var core = {
 	 *
 	 */
 	appendRoland: function() {
-		//if( this.enemies.length > 5 ) return false;
+
 		var index = this.enemies.length;
+
 		// Ugly hack with sending in a prerendered roland pixelmap
-		this.enemies.push( new roland( 'rolle'+index , this.painter, ( this.enemies.length != 0 ? this.enemies[0].getPixelMap() : false ) ) );
+		// but increases performance :)
+		var largeRoland = ( Math.round( Math.random()*2 ) == 1 ? true : false );
+		var preRenderedPixelMap = false;
+
+		for( var i = 0; i < this.enemies.length; i++ ) {
+			if( this.enemies[i].isLargeSize() == largeRoland ) {
+				preRenderedPixelMap = this.enemies[i].getPixelMap();
+				break;
+			}
+		}
+
+		this.enemies.push( new roland( 'rolle'+index , this.painter, largeRoland, preRenderedPixelMap ) );
 		this.enemies[index].setSpeed( parseInt( Math.random()*100 )+20 );
 		this.rolandSpawn.play();
 	},

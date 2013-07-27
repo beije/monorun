@@ -9,7 +9,7 @@
  * 
  */
 
-function roland( id, painter, pixelMap ) {
+function roland( id, painter, large, pixelMap ) {
 	this.painter = null;                      // Painter object, The main painter object that renders to screen
 	this.rendered = null;                     // Object, rendered canvas object
 	this.calculatedPositions = [];            // Array, current precalculated animation path
@@ -18,6 +18,7 @@ function roland( id, painter, pixelMap ) {
 		x: 0,
 		y: 0
 	};
+	this.isLarge = false;                     // Boolean, is this roland a large roland
 	this.speed = 50;                          // Int, the speed of rolands animation, lower == faster
 	this.pixelMap                             // Object, the pixelMap of the rendered roland
 	this.id = parseInt( Math.random()*1000 ); // (String/integer), the unique default id of Roland
@@ -34,12 +35,21 @@ function roland( id, painter, pixelMap ) {
 	 *
 	 * @param id (String/integer) The unique id of this instance
 	 * @param painter (object) the main painter object
+	 * @param large (Optional)(boolean) Sets roland to a larger size
 	 * @param pixelMap (Optional)(pixelMap Object) Overrides the generated pixelmap (Performance increase for mobiles.)
 	 *
 	 */
-	this.initialize = function( id, painter, pixelMap ) {
+	this.initialize = function( id, painter, large, pixelMap ) {
 		this.id = id || this.id;
 		this.painter = painter;
+
+		if( large ) {
+			this.isLarge = true;
+			this.size = {
+				width: 72,
+				height: 72 
+			}
+		}
 
 		if( pixelMap ) {
 			this.pixelMap = pixelMap;
@@ -135,11 +145,6 @@ function roland( id, painter, pixelMap ) {
 	 */
 	this.render = function( imageUrl, resolution ) {
 
-		if( Math.round( Math.random()*2 ) == 1 ) {
-			this.size.width = 72;
-			this.size.height = 72;
-		}
-
 		// Render roland :)
 		this.canvas = document.createElement( 'canvas' );
 		var ctx = this.canvas.getContext( '2d' );
@@ -211,8 +216,20 @@ function roland( id, painter, pixelMap ) {
 	 	return this.pixelMap;
 	 }
 
+	/*
+	 * public function isLargeSize()
+	 *
+	 * Gets the size of roland
+	 *
+	 * @return boolean large or small
+	 *
+	 */
+	 this.isLargeSize = function() {
+	 	return this.isLarge;
+	 }
+
 	// Initialize the handler
-	this.initialize( id, painter, pixelMap );
+	this.initialize( id, painter, large, pixelMap );
 
 	// Return our outward facing interface.
 	return {
@@ -221,5 +238,6 @@ function roland( id, painter, pixelMap ) {
 		getPositions: this.getCurrentPositions.bind( this ),
 		getPixelMap: this.getPixelMap.bind( this ),
 		generateNewPosition: this.generateNewPosition.bind( this ),
+		isLargeSize: this.isLargeSize.bind( this )
 	};
 };
