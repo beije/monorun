@@ -200,7 +200,7 @@ switch( $do ) {
 
 // Ouput data top browser
 header( 'Content-type: application/json; charset=utf-8' );
-if( defined( 'JSON_PRETTY_PRINT' ) ) {
+if( defined( 'JSON_PRETTY_PRINT' ) && isset( $_REQUEST['pretty'] ) ) {
 	echo json_encode( $return_data, JSON_PRETTY_PRINT );
 } else {
 	echo json_encode( $return_data );

@@ -295,31 +295,31 @@ class Highscore {
 	 * public function getters
 	 */
 	public function get_id(){
-		return $this->id;
+		return (int) $this->id;
 	}
 	public function get_source_id(){
-		return $this->sourceid;
+		return (int) $this->sourceid;
 	}
 	public function get_username(){
-		return $this->username;
+		return (string) $this->username;
 	}
 	public function get_dateline(){
-		return $this->dateline;
+		return (int) $this->dateline;
 	}
 	public function get_last_cron_run(){
-		return $this->last_cron_run;
+		return (int) $this->last_cron_run;
 	}
 	public function get_original_score(){
-		return $this->original_score;
+		return (int) $this->original_score;
 	}
 	public function get_current_score(){
-		return $this->current_score;
+		return (int) $this->current_score;
 	}
 	public function get_secret_key(){
-		return $this->secret_key;
+		return (string) $this->secret_key;
 	}
 	public function get_position(){
-		return $this->position;
+		return (int) $this->position;
 	}
 }
 
