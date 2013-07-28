@@ -265,6 +265,10 @@ class Highscore {
 	/*
 	 * public function setters
 	 */
+	public function set_source_id( $sourceid ){
+		$this->sourceid = intval( $sourceid );
+		return true;
+	}
 	public function set_username( $username ){
 		$this->username = $username;
 		return true;

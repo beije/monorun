@@ -107,12 +107,19 @@ switch( $do ) {
 		$score = false;
 		$username = '';
 		$return_data = false;
-
+		$source_id = 1;
 		if( isset( $_REQUEST['score'] ) ) {
 			$score = intval( $_REQUEST['score'] );
 		}
 		if( isset( $_REQUEST['username'] ) ) {
 			$username = trim( $_REQUEST['username'] );
+		}
+		if( isset( $_REQUEST['sourceid'] ) ) {
+			$source_id = intval( $_REQUEST['sourceid'] );
+			// 1 = Web, 2 = Android, 3 = Windows Phone
+			if( $source_id == 0 || $source_id > 3 ) {
+				$source_id = 1;
+			}
 		}
 
 		// Create unicorn name for user
@@ -133,6 +140,7 @@ switch( $do ) {
 		// Check that there's a score
 		if( $score ) {
 			$highscore = new Highscore();
+			$highscore->set_source_id( $source_id );
 			$highscore->set_username( $username );
 			$highscore->set_dateline( $timenow );
 			$highscore->set_original_score( $score );
@@ -143,6 +151,7 @@ switch( $do ) {
 				// this score
 				$return_data = array(
 					'id' => $highscore->get_id(),
+					'sourceid' => $highscore->get_source_id(),
 					'username' => $highscore->get_username(),
 					'dateline' => $highscore->get_dateline(),
 					'score' => $highscore->get_current_score(),
