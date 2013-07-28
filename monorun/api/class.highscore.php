@@ -16,6 +16,7 @@
  */
 class Highscore {
 	private $id = 0;                          // Int, The current score's database id
+	private $sourceid = 1;                    // Int, The highscore's source (1=web, 2=android, 3=windows phone)
 	private $username = '';                   // String, The current score's user name
 	private $dateline = 0;                    // Int, When the score was submitted
 	private $original_score = 0;              // Int, The original score when it was submitted
@@ -61,7 +62,7 @@ class Highscore {
 	private function load( $id ) {
 		$id = intval( $id );
 		
-		$statement = $this->db_connection->prepare( "SELECT id, username, dateline, last_cron_run, current_score, original_score, secret_key FROM highscore WHERE id = :id LIMIT 0,1" );
+		$statement = $this->db_connection->prepare( "SELECT id, sourceid, username, dateline, last_cron_run, current_score, original_score, secret_key FROM highscore WHERE id = :id LIMIT 0,1" );
 		$statement->execute( array( 'id' => $id ) );			 
 
 		if( $statement->rowCount() == 0 ) {
@@ -70,6 +71,7 @@ class Highscore {
 
 		while($row = $statement->fetch()) {
 			$this->id = $row->id;
+			$this->sourceid = $row->sourceid;
 			$this->username = $row->username;
 			$this->dateline = $row->dateline;
 			$this->last_cron_run = $row->last_cron_run;
@@ -158,6 +160,7 @@ class Highscore {
 			// Insert the score
 			$statement = $this->db_connection->prepare( trim( "
 				INSERT INTO highscore (
+					sourceid, 
 					username, 
 					dateline, 
 					last_cron_run, 
@@ -165,6 +168,7 @@ class Highscore {
 					current_score,
 					secret_key
 				) VALUES (
+					:sourceid,
 					:username,
 					:dateline,
 					:last_cron_run,
@@ -175,6 +179,7 @@ class Highscore {
 			")  );
 			$statement->execute( 
 				array( 
+					'sourceid' => $this->sourceid,
 					'username' => $this->username,
 					'dateline' => $this->dateline,
 					'last_cron_run' => $this->last_cron_run,
@@ -287,6 +292,9 @@ class Highscore {
 	 */
 	public function get_id(){
 		return $this->id;
+	}
+	public function get_source_id(){
+		return $this->sourceid;
 	}
 	public function get_username(){
 		return $this->username;
