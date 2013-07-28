@@ -35,6 +35,9 @@
 
 
 session_start();
+if( isset( $_REQUEST['playerid'] ) ) {
+	session_id( $_REQUEST['playerid'] );
+}
 require_once( 'global.php' );
 require_once( 'class.highscore.php' );
 require_once( 'class.unicornName.php' );
@@ -69,7 +72,7 @@ function findPosition( $score ) {
 //
 switch( $do ) {
 	case 'register':
-		$return_data = true;
+		$return_data = session_id();
 	break;
 
 	// Update a username if the correct id and secretkey is given
