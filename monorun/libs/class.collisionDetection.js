@@ -113,7 +113,6 @@ function collisionDetection() {
 	 */
 	this.pixelHitTest = function( source, target ) {
 
-
             var top = parseInt( Math.max( source.y, target.y ) );
             var bottom = parseInt( Math.min(source.y+source.height, target.y+target.height) );
             var left = parseInt( Math.max(source.x, target.x) );
@@ -123,12 +122,14 @@ function collisionDetection() {
             {
                 for (var x = left; x < right; x++)
                 {
-                	var pixel1 = source.pixelMap.data[parseInt( (x - source.x) + (y - source.y) * source.width ) ];
-                	var pixel2 = target.pixelMap.data[parseInt(  (x - target.x) + (y - target.y) * target.width ) ];
-                	
-                	if( !pixel1 || !pixel2 ) continue;
+                	var pixel1 = source.pixelMap.data[ (x - source.x) +"_"+ (y - source.y) ];
+                	var pixel2 = target.pixelMap.data[ (x - target.x) +"_"+ (y - target.y) ];
 
-                    if (pixel1.pixelData !== false && pixel2.pixelData !== false)
+                	if( !pixel1 || !pixel2 ) {
+                		continue;
+                	};
+                	
+                    if (pixel1.pixelData[3] == 255 && pixel2.pixelData[3] == 255)
                     {
                         return true;
                     }
@@ -158,15 +159,13 @@ function collisionDetection() {
 		var ctx = source.getContext("2d");
 		var pixelMap = [];
 
-		for( var y = 0; y < source.width; y = y+resolution ) {
-			for( var x = 0; x < source.height; x = x+resolution ) {
+		for( var y = 0; y < source.height; y++) {
+			for( var x = 0; x < source.width; x++ ) {
+				var dataRowColOffset = y+"_"+x;//((y * source.width) + x);
 				var pixel = ctx.getImageData(x,y,resolution,resolution);
-				var pixelData = pixel.data
-				if( pixel.data[3] == 0 ) {
-					pixelData = false;
-				}
+				var pixelData = pixel.data;
 
-				pixelMap.push( { x:x, y:y, pixelData: pixelData } );
+				pixelMap[dataRowColOffset] = { x:x, y:y, pixelData: pixelData };
 				
 			}
 		}

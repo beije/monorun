@@ -111,8 +111,8 @@ function roland( id, painter, large, pixelMap ) {
 			this.generateNewPosition()
 		}
 
-		this.currentPositions.x = this.calculatedPositions[this.positionCounter].x;
-		this.currentPositions.y = this.calculatedPositions[this.positionCounter].y;
+		this.currentPositions.x = Math.round( this.calculatedPositions[this.positionCounter].x );
+		this.currentPositions.y =  Math.round( this.calculatedPositions[this.positionCounter].y );
 
 		var pixelMap = {
 			pixelMap: this.pixelMap,
