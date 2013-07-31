@@ -33,11 +33,15 @@
  *
  */
 
-
+// We need to allow setting cookies from the $_REQUEST array
+// in order to be able to post highscores from devices which don't
+// support cookies. The alternative is to handle it ourselves.
+ini_set("session.use_only_cookies", "off");
+ini_set("session.use_only_cookies", "0");
+ini_set("session.use_only_cookies", 0);
+session_name("playerid");
 session_start();
-if( isset( $_REQUEST['playerid'] ) ) {
-	session_id( $_REQUEST['playerid'] );
-}
+
 require_once( 'global.php' );
 require_once( 'class.highscore.php' );
 require_once( 'class.unicornName.php' );
@@ -45,7 +49,7 @@ require_once( 'class.unicornName.php' );
 // Check session
 if( !isset( $_SESSION['registered'] ) ) {
 	$_SESSION['registered'] = 1;
-	 $_SESSION['last_time_on_page'] = time();
+	$_SESSION['last_time_on_page'] = time();
 }
 $last_time_on_page = $_SESSION['last_time_on_page'];
 $_SESSION['last_time_on_page'] = time();
@@ -131,8 +135,9 @@ switch( $do ) {
 		// time between the last request and this request
 		// is larger than the score.
 		// Only protects agains simple url spam.
+		session_destroy();
 		$timedifference = $timenow - $last_time_on_page;
-		if( $timedifference < ( $score / 1000 ) ) {
+		if( $timedifference < floor( $score / 1000 ) ) {
 			$return_data = false;
 			break;
 		}
@@ -158,6 +163,8 @@ switch( $do ) {
 					'position' => $highscore->get_position(),
 					'secretkey' => $highscore->get_secret_key()
 				);
+			} else {
+				$return_data = "Failed to save score";
 			}
 		}
 
