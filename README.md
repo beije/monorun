@@ -40,3 +40,16 @@ We've developed against all modern browsers and we've tested specifically agains
 ## Documentation ##
 
 Most of the code is documented inline.
+
+# Credits #
+
+Originally developed and designed by [Benjamin Horn](http://benjaminhorn.io) and [Carlos Eriksson](http://carloseriksson.com/).
+
+## Other versions ##
+
+Monorun has been ported to a couple of other platforms as well:
+
+* [monorun-libgdx - Java/libgdx - Johan Johansson](https://github.com/swemaniac/monorun-libgdx)
+* [monorun-sdl - C/SDL - Johnny Härtell](https://github.com/jhartell/monorun-sdl)
+* [monorun-for-windows-phone - C#/XNA - Benjamin Horn](https://github.com/beije/monorun-for-windows-phone)
+
